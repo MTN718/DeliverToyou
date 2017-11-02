@@ -1,0 +1,282 @@
+
+.cs-color,
+.wp-jobhunt .cs-listing-filters .select-location .pop i,
+.cs-fancy-menu ul li:hover a i, 
+.panel-group.default .panel i,
+.rich-editor-text a, .rich-text-editor a,
+.widget ul li a:hover,
+.rich-editor-text table a,
+.rich-editor-text p a,
+.active > a,
+.active > a:hover,
+.active > a:focus,
+.account-menu li.active a i,
+.employer-listing .company-info li i,
+.account-menu li.active a i,
+.search-btn label a,
+.login-section a,
+.cs-jobs-filter .panel-group .panel .panel-body ul li a.active i,
+.cs-jobs-filter .panel-group .panel .panel-body ul li:hover a:before,
+.cs-jobs-filter .panel-group .panel .panel-body ul li a:hover,
+.widget_nav_menu ul li a:hover,
+.widget-recentpost li a:hover,
+#inner-links > ul li a:hover,
+.cs-favorite-jobs .feature-jobs li .company-date-option .control a:hover,
+.scetion-title-alert span a:hover,
+.cs-ended-jobs .feature-jobs li .company-date-option .control a:hover,
+.inner-tabs ul li.active i,
+.inner-tabs ul li:hover i,
+.team-social-info .team-send-email a:hover,
+.portfolio-filter li a:hover,
+.resp-vtabs li.resp-tab-active,
+ul.hiring-list li .cs-text h3 a:hover,
+.cs-category ul li:hover:after,
+.cs-category ul li:hover a,
+ul.feature-jobs li h3 a:hover,
+ul.breadcrumb-nav li a:hover,
+ul.page-nav li a:hover,
+.job-detail ul li a:hover,
+ul.tag-list li a:hover,
+ul.more-jobs li a:hover,
+.cs-blog .post-option span a:hover,
+.blog-medium .blog-text .read-more,
+.cs-blog .post-option span:hover i,
+.cs-blog-detail .post-option span:hover i,
+.cs-blog .cs-author .cs-text a:hover,
+ul.managment-list li .list-holder .control a:hover,
+ul.packege-payment li .option:hover:after,
+.cs-blog.medium .cs-text h2 a:hover,
+#comment ul li .thumblist .cs-text a,
+.cs-candidate-detail .profile-nav li a.active,
+.price-packege .detail span i,
+.cs-ans-quest .panel-heading a:before,
+.cs-ans-quest .panel-heading a.collapsed:before,
+.account-menu li a:hover, .account-menu li a:hover i,
+.account-menu li.active a, .account-menu li.active a i,
+.blog-medium:hover h4 a,
+.comment-form > span a,
+.resumes-list button.close,
+.cs-login-dropdown ul li:hover a,
+.sitemap-links .site-maps-links ul li a:hover, 
+.cs-relevant-list .cs-text strong a:hover,
+.select-location .my-location i,
+.cs-jobs-filter .cs-fliters .accordion-heading a.accordion-toggle:after, 
+.widget-recent-blog ul li .cs-post-title a:hover,
+.recentblog_post li:hover .text h6 a,
+.cs-blog article:hover .cs-bloginfo-sec h3 a,
+.cs-portfolio-plain article:hover h5 a,
+.cs-blog .cs-tags ul li a:hover,
+.cs-post-pagination article:hover a i,
+.cs-post-options li a:hover,
+.cs-tags ul li:hover i,
+.cs-gallery.cs-loading:after,
+.widget.widget_recent_comments li a:hover,
+.widget_rss ul li:hover a,
+.option a:hover,
+.wish-list-dropdown ul.recruiter-list li a:hover,
+.cs-holder .cs-text h5 a:hover,
+.cs-jobs article .cs-text h5 a:hover,
+.jobs-listing.simple .list-options a:hover,
+footer#footer .back-to-top a,
+.cs-pricetable .cs-button:hover,
+.cs-candidate-list .cs-text .cs-post-title a:hover,
+.cs-blog .cs-categories a, .cs-blog-detail .cs-categories a,
+.page-sidebar .menu-candidates-container ul li a:hover:before,
+.cs-candidate-detail .profile-nav li a:hover,
+.cs-blog.blog-grid .read-more:before,
+.cs-blog.blog-grid .read-more,
+.cs-blog.blog-grid .post-option span.post-comment a:hover,
+.cs-post-title a:hover,
+.cs-gallry .modal-footer .btn, .cs-search-results a.cs-relevant-link, .widget-twitter ul li P a, .widget-twitter ul li .post-date i, .widget_pages ul li:hover a, .widget_meta li:hover a, .widget_archive ul li:hover a, .unauthorized h1 span, .post-comment > a, ul.breadcrumb-nav li a,
+.wp-jobhunt .pricetable-holder.advance .price-holder .cs-price span,
+.wp-jobhunt .pricetable-holder.classic.active .price-holder a,
+#footer .footer-nav li a:hover,
+.wp-jobhunt .cs-jobs-holder .jobs-listing .job-post .shortlist:hover, #footer .widget_categories ul li a:after, .wp-jobhunt .user-search ul.filter-list li a, .wp-jobhunt .cs-company-listing strong span, .wp-jobhunt .user-account .nav-tabs > li a:hover, 
+.wp-jobhunt .jobs-listing.modern .cs-text h3 a:hover,
+.wp-jobhunt .jobs-listing a:hover,
+.wp-jobhunt .jobs-detail-4 .company-info .cs-text strong a:hover,
+.wp-jobhunt .company-info .admin-contect li p a:hover,
+.wp-jobhunt .cs-company-jobs li .cs-text span a:hover,
+.wp-jobhunt .employer-contact-form form .cs-terms a:hover,
+.wp-jobhunt .company-info .btn-area a:hover,
+.woocommerce ul.products li.product a.added_to_cart,
+footer#footer.footer-v1 .cs-copyright-area a.cs-color, body footer#footer a.cs-color
+{
+color:#F7AE07 !important;
+}
+.cs-bgcolor,
+.wp-jobhunt .cs-employer-slide-listing [class*="col-lg"]:hover .cs-media figcaption, .wp-jobhunt .cs-employer-slide-listing [class*="col-md"]:hover .cs-media figcaption, .wp-jobhunt .cs-employer-slide-listing [class*="col-sm"]:hover .cs-media figcaption, .wp-jobhunt .cs-employer-slide-listing [class*="col-xs"]:hover .cs-media figcaption,
+.cs-fancy-menu ul li:hover:after,
+.widget.widget_search form label input[type="submit"],
+.chosen-container-multi .chosen-choices li.search-choice,
+.chosen-container .chosen-results li.highlighted,
+.widget .cs-button:hover,
+.select-location .slider-selection,
+.cs-selector-range .slider-selection,
+.cs-selector-range .slider-handle,
+ul.post-step li.active h3 a i,
+.cs-candidate-list .cs-button,
+.widget ul.social-media li a:hover,
+.cs-map-candidate span.gmaplock,
+.blog-large .read-more:hover,
+.cs-search-results .cs-categories a,
+.custom-listing input[type="radio"]:checked + label:before, .cs-copyright .back-to-top a i,
+.stay-save .slick-dots li.slick-active button,
+.cs-agent-filters ul li a:hover span, .cs-agent-filters .specialism_list li:hover span,
+.cs-agent-filters .checkbox label:hover:before, .cs-agent-filters .specialism_list li a:hover:before, 
+.cs-agent-filters .accordion-group ul li a:hover:before, .cs-agent-filters .accordion-group ul li a.active:before, 
+.cs-listing-filters ul li a:hover span, .cs-listing-filters .specialism_list li:hover span,
+.cs-listing-filters .checkbox label:hover:before, .cs-listing-filters .checkbox a:hover:before, .cs-listing-filters .accordion-group ul li a:hover:before,
+.widget_categories ul li:hover,
+.widget_tag_cloud .tagcloud a:hover, 
+.pagination > li > a.active, .pagination > li > a:hover, .cs-login-dropdown li:hover .logout-btn, .user-search ul.filter-list li a:hover,
+.cs_google_suggestions:hover, .cs_location_parent:hover, .cs_location_child:hover, .search-results .cs-search-area .btnsubmit, .cs-search-area .search-bar,.jobs-listing li .wish-list .shortlist,.slicknav_btn,
+.wp-jobhunt .employer-contact-form .submit-btn input[type="submit"], .wp-jobhunt .employer-contact-form .submit-btn input[type="button"],
+.wp-jobhunt .pricetable-holder.modren.active .price-holder .cs-price span,
+.wp-jobhunt .pricetable-holder.advance .price-holder a,
+.blog-modern .blog-text .cs-post-title:after,
+.wp-jobhunt .pricetable-holder.classic.active,
+.wp-jobhunt ul.cs-pricetable.fancy .pricetable-holder.active .price-holder a,
+.wp-jobhunt .cs-employer-slide-listing ul li:hover .cs-media figcaption, .cs-employer-offer-list:after,
+.skills-percentage-bar .skill-process > span, header#header.cs-transparent-header.cs-fancy-header .login > a, .cs-top-featured .cs-text .apply-btn:hover,
+.wp-jobhunt #header .nav.nav-tabs > li a:hover,
+.cs-blog.blog-grid.modern .read-more,
+.cs-job-featured .cs-job-accounts .apply-btn,
+.main-search.cs-jobsearch-modern.v1 .search-btn input[type="submit"],
+#footer .footer-v3 .cs-copyright .back-to-top a,
+.footer-v3 .widget ul.social-media li a:hover{
+background-color:#F7AE07 !important;
+}
+.csborder-color, 
+.rich-text-editor blockquote,
+a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active,
+.join-us a,
+.uplaod-btn,
+.cs-agent-filters .checkbox label:hover:before, .cs-agent-filters .specialism_list li a:hover:before, .cs-agent-filters .accordion-group ul li a:hover:before, .cs-agent-filters .accordion-group ul li a.active:before,
+.cs-listing-filters .checkbox label:hover:before, .cs-listing-filters .checkbox a:hover:before, .cs-listing-filters .accordion-group ul li a:hover:before,
+.cs-tabs.horizontal .nav-tabs > li.active:before, .cs-tabs.horizontal .nav-tabs > li:hover:before,
+.cs-tabs.vertical .nav-tabs > li.active:before, .cs-tabs.vertical .nav-tabs > li:hover:before,
+.csborder-hovercolor:hover,
+.job-info .btn-application:hover,
+ul.candidate-list li a:hover,
+ul.candidate-list li.active a,
+ul.post-step li.active h3 a i,
+ul.packege-payment li .option:hover,
+ul.select-card li a:hover,
+.account-menu li.active,
+.account-menu li:hover,
+.blog-large .read-more,
+.resumes-list button.close,
+.wp-jobhunt .resumes-list input.acc-submit[type="button"],
+.cs-blog-detail blockquote,
+.widget_tag_cloud .tagcloud a:hover,
+#footer .widget_nav_menu ul li a:after,
+ul.resumes-list li .cs-text .cs-posted span, ul.select-card li.active,
+.navigation ul ul li:hover > a, .navigation ul ul li > a:hover, .navigation ul ul li.active > a,
+.custom-listing input[type=radio]:checked + label:before, .pagination > li > a.active, .pagination > li > a:hover, .jobs-listing.modern .read-more::before, .continue-btn,
+.wp-jobhunt input.acc-submit.cs-section-update,
+.wp-jobhunt .pricetable-holder.modren.active,
+.wp-jobhunt .pricetable-holder.classic.active,
+.wp-jobhunt ul.cs-pricetable.fancy .pricetable-holder.active,
+.wp-jobhunt ul.cs-pricetable.fancy .pricetable-holder.active .price-holder a,
+.woocommerce ul.products li.product a.added_to_cart, header#header.cs-transparent-header.cs-fancy-header .login > a,
+.footer-v3 .widget ul.social-media li a:hover
+{
+border-color:#F7AE07 !important;
+}
+.wp-jobhunt .pricetable-holder.classic{
+border-top-color:#F7AE07 !important;
+}
+body,.main-section p, .mce-content-body p {
+font:Normal  13px/23px "Montserrat", sans-serif !important;letter-spacing: 0px !important;text-transform: none !important;color: #757575 !important;            }
+header .logo{
+margin-top:6px;
+margin-right:0px;
+margin-bottom:10px;
+margin-left:0px;
+}
+#header .navigation > ul > li > a, #header .navigation > ul > li{
+font:Normal  12px/19px "Montserrat", sans-serif !important;letter-spacing: 0px !important;text-transform: uppercase !important;            }
+h1, h1 a{
+font:700 Normal  24px/24px "Raleway", sans-serif !important;letter-spacing: 1px !important;text-transform: uppercase !important;color: #424242 !important;}
+h2, h2 a{
+font:700 Normal  22px/44px "Raleway", sans-serif !important;letter-spacing: 1px !important;text-transform: none !important;color: #424242 !important;            }
+h3, h3 a{ 
+font:700 Normal  20px/28px "Raleway", sans-serif !important;letter-spacing: 1px !important;text-transform: uppercase !important;color: #424242 !important;            }
+h4, h4 a{
+font:700 Normal  18px/18px "Raleway", sans-serif !important;letter-spacing: 1px !important;text-transform: uppercase !important;color: #424242 !important;            }
+h5, h5 a{
+font:700 Normal  16px/25px "Raleway", sans-serif !important;letter-spacing: 1px !important;text-transform: uppercase !important;color: #424242 !important;            }
+h6, h6 a{
+font:700 Normal  14px/20px "Raleway", sans-serif !important;letter-spacing: 1px !important;text-transform: uppercase !important;color: #424242 !important;            }
+.cs-element-title h2{
+font:700 Normal  20px/28px "Raleway", sans-serif !important;letter-spacing: 1px !important;text-transform: uppercase !important;            }
+.cs-post-title h3 a, .cs-post-title h2 a{
+font:700 Normal  16px/28px "Raleway", sans-serif !important;letter-spacing: 1px !important;text-transform: uppercase !important;            }
+.cs-page-title h1{
+font:700 Normal  30px/45px "Raleway", sans-serif !important;letter-spacing: 1px !important;text-transform: uppercase !important;color: #ffffff !important;            }
+.widget .widget-title h5{
+font:700 Normal  13px/19.5px "Raleway", sans-serif !important;letter-spacing: 1px !important;text-transform: uppercase !important;            }
+#footer .widget-title h5{ color: #ffffff !important;}
+#footer .widget-title h5{
+font:700 Normal  13px/16px "Raleway", sans-serif !important;letter-spacing: 1px !important;text-transform: uppercase !important;color: #000 !important;            }
+.dropdown-menu h6 a{color:#f2f2f2 !important;}
+.logo-section,#header,.main-head{background:#FDDC03 !important; 
+}
+.main-head{
+padding:20px !important;
+}
+.main-navbar,#main-header .btn-style1,.wrapper:before {background:#fff !important;}
+.navigation, #header.dark-header {background:#FDDC03 !important;}
+.dropdown-menu { background-color:#1f1f1f !important;}
+.navigation > ul > li > ul li > a {color:#bebebe !important;}
+.navigation > ul ul li > a:hover {color:#F7AE07 !important;}
+.navigation > ul > li:hover > a, 
+.navigation > ul > li.current-menu-ancestor > a, 
+.navigation > ul > li.current-menu-parent > a, 
+.navigation > ul > li.current_page_item > a, 
+.navigation > ul > li.current-menu-parent > ul.sub-dropdown > , 
+.navigation ul li ul.sub-dropdown li.current-menu-parent.current-menu-parent > a, 
+.navigation ul li ul.sub-dropdown li.current-menu-parent ul.sub-dropdown{
+color: !important;
+}
+.sub-dropdown:before {border-bottom:8px solid #F7AE07 !important;}
+.navigation > ul > li.parentIcon:hover > a:before { background-color:#F7AE07 !important; }
+.navigation > ul > li > a, #nav-icon2 i, #header.cs-transparent-header .search-bar i, #header.cs-transparent-header .join-us > a, header#header.cs-transparent-header .login > a, header#header.cs-transparent-header .wish-list a i { color:#555555 !important; }
+#header.cs-transparent-header .navicon, #header.cs-transparent-header .navicon::before, #header.cs-transparent-header .navicon::after{ background:#555555 !important; }
+#header.cs-transparent-header .join-us > a, header#header.cs-transparent-header .login > a { border-color:#555555 !important; background:none !important; }
+.cs-user,.cs-user-login { border-color:#F7AE07 !important; }
+.page-sidebar .widget-title h3, .page-sidebar .widget-title h4, .page-sidebar .widget-title h5, .page-sidebar .widget-title h6{
+color:#333333 !important;
+}            .section-sidebar .widget-title h3, .section-sidebar .widget-title h4, .section-sidebar .widget-title h5, .section-sidebar .widget-title h6{
+color:#333333 !important;
+}
+#header .top-bar {
+color:#999999 !important;
+}
+#header .top-bar a {
+color:#999999 !important;
+}
+#header .top-bar a:hover {
+color:#999999 !important;
+}
+#header .top-bar .social-media a:hover i {
+color:#999999 !important;
+}
+#header .top-bar .social-media a i {
+color:#999999 !important;
+}
+footer#footer p, footer#footer span, footer#footer .textwidget{color:#ffffff !important;}
+.footer-top, #footer .footer-v3 .cs-copyright {
+background-color:#FDDC03 !important;
+}
+.footer-links,.footer-links a{color:#8e9198 !important;}
+.footer-btm {background-color:#1e1f21 !important;}
+#footer  .copyrights{
+color:#8e9198 !important;
+}
+footer#footer a, .footer-nav li a  {
+color:#8e9198 !important;
+}            .footer-nav li::before  {
+background-color:#8e9198 !important;
+}            footer#footer .footer-links a.footer#footer .footer-link {color:#8e9198 !important;}

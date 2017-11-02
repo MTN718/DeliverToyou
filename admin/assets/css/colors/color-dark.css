@@ -1,0 +1,114 @@
+#sidebar{background-color: #FCDD11;} 
+
+/* Header */
+.navbar-inverse {background-color: #FCDD11;border-bottom: none} 
+.navbar-center {color:#000}
+.navbar-inverse .navbar-brand {background: url('../../img/logo_login.png') no-repeat center; background-size: cover; width: 110px; height: 40px;}
+.sidebar-toggle {color:#000;border-right:none} 
+.header-menu #notifications-header .glyph-icon {color:#000} 
+.header-menu #messages-header .glyph-icon {color:#000} 
+
+/* Sidebar */
+.sidebar-nav a {color:#F7AE07; font-weight:500;} 
+.sidebar-nav a:hover {color:#fff} 
+.sidebar-nav li.current a:hover i {color:#fff}
+.sidebar-nav li.current a{color: #000;background-color: #F7AE07;border-left:3px solid #00A2D9;} 
+.sidebar-nav li.current li.current a{color: #fff;font-weight:500;background-color: #16191F;border-left:3px solid #00A2D9;} 
+#sidebar ul.submenu a{background-color: #34383F} 
+.footer-widget {background-color: #2B2E33;border-top:none;} 
+.footer-widget a:hover i{color: #F7F7F7} 
+.footer-gradient {background: url('../../img/gradient.png') repeat-x;} 
+#sidebar-charts {border-bottom: 1px solid #3C3C3C}
+.sidebar-charts-inner{border-bottom: none;} 
+.sidebar-chart-title {color:#fff;opacity: 0.4;} 
+.sidebar-chart-number {color:#fff} 
+#sidebar-charts hr.divider, li.divider {background: -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, rgba(205, 205, 205, 0)), color-stop(50%, #4D4D4D), color-stop(100%, rgba(205, 205, 205, 0)));background: -webkit-linear-gradient(left, rgba(205, 205, 205, 0), #4D4D4D, rgba(205, 205, 205, 0));background: -moz-linear-gradient(left, rgba(205, 205, 205, 0), #4D4D4D, rgba(205, 205, 205, 0));background: -o-linear-gradient(left, rgba(205, 205, 205, 0),#4D4D4D, rgba(205, 205, 205, 0));background: linear-gradient(left, rgba(205, 205, 205, 0), #4D4D4D, rgba(205, 205, 205, 0))}
+.sidebar-footer .pull-left:hover {background-color:#373a41;} 
+
+
+
+.panel-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: white;         /* adjust as needed */
+}
+.panel-heading .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
+.filtr_btn{
+    margin-top: 2%;
+background-color: #f7ae07;
+text-align: center;
+width: 10%;
+color: white;
+}
+
+
+
+/*.btn{
+    background-color: #F7AE07;
+    border: none;
+    color: #fff;
+}
+.btn-primary:focus{
+    background-color: #F7AE07;
+    border: none;
+    color: #fff;
+}
+*/
+.dropbtn {
+    background-color: #F7AE07;
+    color: white;
+    padding: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 5px 5px;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1;}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.filter_form input{
+    border: none;
+    margin-bottom: 2%;
+
+}
+.colaps_btn{
+    border:none;
+    color: #fff;
+    background-color: #F7AE07;
+    width: 100%;
+    padding: 1%;
+border-radius: 5px;
+}
+
+

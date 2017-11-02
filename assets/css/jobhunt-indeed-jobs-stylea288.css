@@ -1,0 +1,12 @@
+#loading,
+#success_msg,
+#error_msg,
+#invalid_publisher_number{
+    display: none;
+}
+.jobhunt-indeed-jobs .import-indeed-jobs, .jobhunt-indeed-jobs #loading{
+    float: left !important;
+}
+.jobhunt-indeed-jobs #loading{
+    padding: 12px 0px 0px 15px;
+}

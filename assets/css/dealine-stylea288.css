@@ -1,0 +1,14 @@
+.application-deadline-date.closing, 
+.application-deadline-date.closing span {
+    color: #f06c19 !important;
+}
+.application-deadline-date.closing i{
+    background-color: #f06c19 !important;
+}
+.application-deadline-date.closed, 
+.application-deadline-date.closed span {
+    color: #e74c3c !important;
+}
+.application-deadline-date.closed i{
+    background-color: #e74c3c !important;
+}
