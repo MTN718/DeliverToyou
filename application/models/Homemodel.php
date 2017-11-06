@@ -10,19 +10,37 @@ Class Homemodel extends CI_Model
 
 //================================================== Get Model Data Method ========================================//
 
-    // Get Business data List
-    public function getbusinessdatalist()
+
+    public function getongoingRiderList($model_data)
     {  
         $this->db->select('*');
-        $this->db->from('business_type');
+        $this->db->from('group_order');
+        $this->db->join('group_order_conn', 'group_order_conn.group_order_id = group_order.group_order_id');
+        $this->db->join('order', 'order.order_id = group_order_conn.order_id');
+        $this->db->join('users', 'users.user_id = group_order.rider_id');
+        $this->db->where('order.vendor_id',$model_data['id']);
+        $this->db->group_by('group_order.group_order_id');
+        $this->db->where('order.order_status_id !=',4);
         return $this->db->get()->result();
     } 
 
-    // Get Business data List
-    public function getordertypedatalist()
+    public function getRiderOrderDataById($rider_id="")
     {  
         $this->db->select('*');
-        $this->db->from('order_type');
+        $this->db->from('users');
+        $this->db->join('group_order', 'group_order.rider_id = users.user_id','left');
+        $this->db->where('user_id',$rider_id);
+        return $this->db->get()->row();
+    } 
+
+    public function getOrderData($rider_id="")
+    {  
+        $this->db->select('*');
+        $this->db->from('order');
+        $this->db->join('group_order_conn', 'group_order_conn.order_id = order.order_id');
+        $this->db->join('group_order', 'group_order.group_order_id = group_order_conn.group_order_id');
+        $this->db->join('users', 'users.user_id = group_order.rider_id');
+        $this->db->where('group_order.rider_id',$rider_id);
         return $this->db->get()->result();
     } 
 
@@ -32,6 +50,7 @@ Class Homemodel extends CI_Model
 
         $this->db->select('*');
         $this->db->from('order');
+        $this->db->where('order_status_id',1);
         $this->db->where('vendor_id', $id);
         return $this->db->get()->result();
     } 
@@ -54,6 +73,7 @@ Class Homemodel extends CI_Model
         $this->db->from('order');
         $this->db->where('order_status_id',2);
         $this->db->join('users', 'users.user_id = order.vendor_id');
+        $this->db->join('group_order_conn', 'group_order_conn.order_id = order.order_id');
         $this->db->where('users.user_id', $id);
         return $this->db->get()->result();
     } 
@@ -64,8 +84,9 @@ Class Homemodel extends CI_Model
 
         $this->db->select('*');
         $this->db->from('order');
-        $this->db->where('order_status_id',5);
+        $this->db->where('order_status_id',4);
         $this->db->join('users', 'users.user_id = order.vendor_id');
+        $this->db->join('group_order_conn', 'group_order_conn.order_id = order.order_id');
         $this->db->where('users.user_id', $id);
         return $this->db->get()->result();
     } 
@@ -110,16 +131,7 @@ Class Homemodel extends CI_Model
             // Getting results
             $geocodeFromLatLong =  curl_exec($ch); // Getting jSON result string
 
-
-
-
-
             $output = json_decode($geocodeFromLatLong);
-
-
-        
-            print_r($output);
-            exit();
             
             $status = $output->status;
             //Get address from json data
@@ -136,20 +148,27 @@ Class Homemodel extends CI_Model
     }
 
     // update rder data
-    public function getRiderCustomerData($model_data)
+    public function getRiderOrderData($model_data)
     {
         $this->db->select('*');
-        $this->db->from('order_location');
-        $this->db->join('order', 'order.order_id = order_location.order_id');
-        $this->db->join('users', 'users.user_id = order_location.rider_id');
-        $this->db->join('user_order', 'user_order.order_id = order_location.order_id');
-        $this->db->where('order_location.order_location_id',$model_data['order_location_id']);
-        $location_data = $this->db->get()->row();
-        $address = $this->getAddress($location_data->latitude,$location_data->longitude);
+        $this->db->from('users');
+        $this->db->where('user_id',$model_data['user_id']);
+        $rider_data = $this->db->get()->row();
+        //$address = $this->getAddress($rider_data->latitude,$rider_data->longitude);
+
+
+        $this->db->select('*');
+        $this->db->from('order');
+        $this->db->join('group_order_conn', 'group_order_conn.order_id = order.order_id');
+        $this->db->join('group_order', 'group_order.group_order_id = group_order_conn.group_order_id');
+        $this->db->join('users', 'users.user_id = group_order.rider_id');
+        $this->db->where('group_order.rider_id',$model_data['user_id']);
+        $order_data = $this->db->get()->result();
 
         $riderInfo = array(
-            'location' => $location_data,
-            'address' => $address,
+            'rider' => $rider_data,
+            'order' => $order_data,
+            'address' => "null",
         );
 
         echo json_encode($riderInfo);
@@ -234,7 +253,7 @@ Class Homemodel extends CI_Model
 
         $this->db->select_sum('quantity');
         $this->db->from('order');
-        $this->db->where('order_status_id',5);
+        $this->db->where('order_status_id',4);
         $this->db->where('vendor_id', $vendorid);
         if($period != "Daliy") {  
             $this->db->where('pickup_date >=', $fromdate);
@@ -263,7 +282,7 @@ Class Homemodel extends CI_Model
 
         $this->db->select_sum('distance');
         $this->db->from('order');
-        $this->db->where('order_status_id',5);
+        $this->db->where('order_status_id',4);
         $this->db->where('vendor_id', $vendorid);
         if($period != "Daliy") {  
             $this->db->where('pickup_date >=', $fromdate);
@@ -321,7 +340,7 @@ Class Homemodel extends CI_Model
 
         $this->db->select_sum('amount');
         $this->db->from('order');
-        $this->db->where('order_status_id',5);
+        $this->db->where('order_status_id',4);
         $this->db->where('vendor_id', $vendorid);
         if($period != "Daliy") {  
             $this->db->where('pickup_date >=', $fromdate);
@@ -334,12 +353,12 @@ Class Homemodel extends CI_Model
     }
 
 
-    public function getriderlocationlist()
-    {  
-        $this->db->select('*');
-        $this->db->from('order_location');
-        return $this->db->get()->result();
-    }  
+    // public function getriderlocationlist()
+    // {  
+    //     $this->db->select('*');
+    //     $this->db->from('order_location');
+    //     return $this->db->get()->result();
+    // }  
 
 
 
@@ -388,12 +407,13 @@ Class Homemodel extends CI_Model
         $username = $model_data['username'];
         $email = $model_data['email'];
         $address = $model_data['address'];
+        $name = $model_data['name'];
         $temppassword = $model_data['password']; 
         $password = password_hash($temppassword, PASSWORD_BCRYPT);
 
-        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type_id`,`business_nature`)  VALUES('$username','$email','$password','$number','$user_type_id','$business_nature')";
+        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type`,`business_nature`,`address`,`name`)  VALUES('$username','$email','$password','$number','$user_type_id','$business_nature','$address','$name')";
         $result = $this->db->query($sql);
-        return $this->db->insert_id();
+        return true;
     }
 
     //   vendor registration 
@@ -406,12 +426,13 @@ Class Homemodel extends CI_Model
         $email = $model_data['email'];
         $address = $model_data['address'];
         $image = $model_data['image'];
+        $name = $model_data['name'];
         $temppassword = $model_data['password']; 
         $password = password_hash($temppassword, PASSWORD_BCRYPT);
 
-        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type_id`,`business_nature`,`image_url`)  VALUES('$username','$email','$password','$number','$user_type_id','$business_nature','$image')";
+        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type`,`business_nature`,`image_url`,`address`,`name`)  VALUES('$username','$email','$password','$number','$user_type_id','$business_nature','$image','$address','$name')";
         $result = $this->db->query($sql);
-        return $this->db->insert_id();
+        return true;
     }
 
     // public function for adding token
@@ -441,38 +462,29 @@ Class Homemodel extends CI_Model
         $dropofaddline2 = $model_data['dropofaddline2']; 
         $dropofpostcode = $model_data['dropofpostcode'];
         $dropofstate = $model_data['dropofstate'];
-        $deliverytime = $model_data['deliverytime'];
+        // $deliverytime = $model_data['deliverytime'];
         $dropcity = $model_data['dropcity'];
-        $quanity = $model_data['quanity'];
+        // $quanity = $model_data['quanity'];
         $ordertype = $model_data['ordertype']; 
         $pickupcity = $model_data['pickupcity'];
         $pickuptime = $model_data['pickuptime'];
         $pickupdate = $model_data['pickupdate']; 
         $dropoftime = $model_data['dropoftime'];
         $dropofdate = $model_data['dropofdate'];
-        $vendorid = $model_data['vendorid']; 
+        $vendorid = $model_data['vendorid'];
+        $ordername = $model_data['ordername']; 
+        $amount = $model_data['amount']; 
         $order_status_id = 1;
 
         if ($ordertype == "Backdated") {
-            $order_status_id = 5;
+            $order_status_id = 4;
         }
 
-        $sql = "INSERT INTO `order`(`order_no`,`pickup_address_1`,`pickup_address_2`,`pickup_city`,`pickup_state`,`pickup_zip`,`dropoff_address_line_1`,`dropoff_address_line_2`,`dropoff_city`,`dropoff_state`,`dropoff_zip`,`detail`,`instruction`,`quantity`,`dropoff_datetime`,`order_type_id`,`pickup_time`,`contact`,`pickup_date`,`dropoff_date`,`dropoff_time`,`order_status_id`,`vendor_id`,`customer_name`,`customer_contact`)  
-            VALUES('$orderno','$pickupaddline1','$pickupaddline2','$pickupcity','$pickupstate','$pickuppostcode','$dropofaddline1','$dropofaddline2','$dropcity','$dropofstate','$dropofpostcode','$details','$instruction','$quanity','$deliverytime','$ordertype','$pickuptime','$contact','$pickupdate','$dropofdate','$dropoftime','$order_status_id','$vendorid','$customername','$customercontact')";
+        $sql = "INSERT INTO `order`(`order_no`,`pickup_address_1`,`pickup_address_2`,`pickup_city`,`pickup_state`,`pickup_zip`,`dropoff_address_line_1`,`dropoff_address_line_2`,`dropoff_city`,`dropoff_state`,`dropoff_zip`,`detail`,`instruction`,`order_type`,`pickup_time`,`contact`,`pickup_date`,`dropoff_date`,`dropoff_time`,`order_status_id`,`vendor_id`,`customer_name`,`customer_contact`,`order_name`,`amount`)  
+            VALUES('$orderno','$pickupaddline1','$pickupaddline2','$pickupcity','$pickupstate','$pickuppostcode','$dropofaddline1','$dropofaddline2','$dropcity','$dropofstate','$dropofpostcode','$details','$instruction','$ordertype','$pickuptime','$contact','$pickupdate','$dropofdate','$dropoftime','$order_status_id','$vendorid','$customername','$customercontact','$ordername','$amount')";
         $result = $this->db->query($sql);
         return true;
 
-    }
-
-    //  Add vendor address 
-    public function addvendoraddress($model_data) 
-    {
-        $insert_id = $model_data['insert_id'];
-        $address = $model_data['address'];
-
-        $sql = "INSERT INTO address(`user_id`,`address_line_1`)  VALUES('$insert_id','$address')";
-        $result = $this->db->query($sql);
-        return true;
     }
 
 
@@ -552,9 +564,9 @@ Class Homemodel extends CI_Model
             $order_id = $values['A'];
             $order_no = $values['B'];
             $order_name = $values['C'];
-            $user_id = $values['D'];
+            $customer_contact = $values['D'];
             $vendor_id = $values['E'];
-            $order_type_id = $values['F'];
+            $order_type = $values['F'];
             $pickup_address_1 = $values['G'];
             $pickup_address_2 = $values['H'];
 
@@ -563,7 +575,7 @@ Class Homemodel extends CI_Model
             $pickup_zip = $values['K'];
             $pickup_date = $values['L'];
             $pickup_time = $values['M'];
-            $pickup_datetime = $values['N'];
+            $contact = $values['N'];
             $dropoff_address_line_1 = $values['O'];
             $dropoff_address_line_2 = $values['P'];
 
@@ -572,20 +584,17 @@ Class Homemodel extends CI_Model
             $dropoff_zip = $values['S'];
             $dropoff_date = $values['T'];
             $dropoff_time = $values['U'];
-            $dropoff_datetime = $values['V'];
+            $customer_name = $values['V'];
             $detail = $values['W'];
             $instruction = $values['X'];
 
             $distance = $values['Y'];
             $order_status_id = $values['Z'];
             $amount = $values['AA'];
-            $quantity = $values['AB'];
-            $contact = $values['AC'];
-            $customer_name = $values['AD'];
-            $customer_contact = $values['AE'];
 
-            $sql = "INSERT INTO `order`(`order_id`,`order_no`,`order_name`, `user_id`, `vendor_id`, `order_type_id`, `pickup_address_1`, `pickup_address_2`, `pickup_city`, `pickup_state`, `pickup_zip`,`pickup_date`,`pickup_time`,`pickup_datetime`, `dropoff_address_line_1`, `dropoff_address_line_2`, `dropoff_city`, `dropoff_state`, `dropoff_zip`, `dropoff_date`, `dropoff_time`, `dropoff_datetime`,`detail`,`instruction`,`distance`, `order_status_id`, `amount`, `quantity`, `contact`,`customer_name`,`customer_contact` ) 
-                            VALUES ('$order_id','$order_no','$order_name','$user_id','$vendor_id','$order_type_id','$pickup_address_1','$pickup_address_2','$pickup_city','$pickup_state','$pickup_zip','$pickup_date','$pickup_time','$pickup_datetime','$dropoff_address_line_1','$dropoff_address_line_2','$dropoff_city','$dropoff_state','$dropoff_zip','$dropoff_date','$dropoff_time','$dropoff_datetime','$detail','$instruction','$distance','$order_status_id','$amount','$quantity','$contact','$customer_name','$customer_contact') ";
+
+            $sql = "INSERT INTO `order`(`order_id`,`order_no`,`order_name`, `customer_contact`, `vendor_id`, `order_type`, `pickup_address_1`, `pickup_address_2`, `pickup_city`, `pickup_state`, `pickup_zip`,`pickup_date`,`pickup_time`,`contact`, `dropoff_address_line_1`, `dropoff_address_line_2`, `dropoff_city`, `dropoff_state`, `dropoff_zip`, `dropoff_date`, `dropoff_time`, `customer_name`,`detail`,`instruction`,`distance`, `order_status_id`, `amount` ) 
+                            VALUES ('$order_id','$order_no','$order_name','$customer_contact','$vendor_id','$order_type','$pickup_address_1','$pickup_address_2','$pickup_city','$pickup_state','$pickup_zip','$pickup_date','$pickup_time','$contact','$dropoff_address_line_1','$dropoff_address_line_2','$dropoff_city','$dropoff_state','$dropoff_zip','$dropoff_date','$dropoff_time','$customer_name','$detail','$instruction','$distance','$order_status_id','$amount') ";
             $result = $this->db->query($sql);
 
         }

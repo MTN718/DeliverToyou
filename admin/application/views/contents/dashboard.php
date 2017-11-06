@@ -16,10 +16,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($completelistondashborad as $completeliston) { ?> 
+                                    <?php foreach ($completelistondashborad as $completeliston) { 
+                                        $this->db->select('*');
+                                        $this->db->from('order');
+                                        $this->db->where('order_status_id',4);
+                                        $this->db->where('order.vendor_id',$completeliston->vendor_id);
+                                        $completeordercount = $this->db->get()->num_rows();
+                                        ?> 
                                         <tr>
                                             <td> <?php if (!empty($completeliston->username)) echo $completeliston->username; ?> </td>
-                                            <td> <?php if (!empty($completeliston->quantity)) echo $completeliston->quantity; ?> </td>
+                                            <td> <?php if (!empty($completeordercount)) echo $completeordercount; ?> </td>
                                         </tr>
                                     <?php } ?>         
                                 </tbody>
@@ -46,10 +52,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($ongoingorderlistondashborad as $ongoingorderlist) { ?> 
+                                    <?php foreach ($ongoingorderlistondashborad as $ongoingorderlist) { 
+                                        $this->db->select('*');
+                                        $this->db->from('order');
+                                        $this->db->where('order_status_id',2);
+                                        $this->db->where('order.vendor_id',$ongoingorderlist->vendor_id);
+                                        $ongoingordercount = $this->db->get()->num_rows();
+                                        ?> 
                                         <tr>
                                             <td> <?php if (!empty($ongoingorderlist->username)) echo $ongoingorderlist->username; ?> </td>
-                                            <td> <?php if (!empty($ongoingorderlist->quantity)) echo $ongoingorderlist->quantity; ?> </td>
+                                            <td> <?php if (!empty($ongoingordercount)) echo $ongoingordercount; ?> </td>
                                         </tr>
                                     <?php } ?> 
                                 </tbody>
@@ -76,10 +88,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($unassignorderlistondashborad as $unassignorderlist) { ?>        
+                                    <?php foreach ($unassignorderlistondashborad as $unassignorderlist) { 
+                                        $this->db->select('*');
+                                        $this->db->from('order');
+                                        $this->db->where('order_status_id',1);
+                                        $this->db->where('order.vendor_id',$unassignorderlist->vendor_id);
+                                        $unassignordercount = $this->db->get()->num_rows();
+                                        ?>        
                                         <tr>
                                             <td> <?php if (!empty($unassignorderlist->username)) echo $unassignorderlist->username; ?> </td>
-                                            <td> <?php if (!empty($unassignorderlist->quantity)) echo $unassignorderlist->quantity; ?> </td>
+                                            <td> <?php if (!empty($unassignordercount)) echo $unassignordercount; ?> </td>
                                         </tr>
                                     <?php } ?>            
                                 </tbody>
@@ -106,8 +124,8 @@
                                         <th>Location</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php foreach ($onlineriderlistondashborad as $onlineriderlist) { ?> 
+                                <tbody>   
+                                    <?php if(isset($onlineriderlistondashborad) and !empty($onlineriderlistondashborad)) foreach ($onlineriderlistondashborad as $onlineriderlist) { ?>
                                         <tr>
                                             <td> <?php if (!empty($onlineriderlist->username)) echo $onlineriderlist->username; ?> </td>
                                             <td> <?php if (!empty($onlineriderlist->username)) echo $onlineriderlist->username; ?> </td>
@@ -124,7 +142,7 @@
         <div class="col-lg-4 col-md-6">
             <div class="panel bd-0">
                 <div class="panel-heading no-bd bg-red">
-                    <h3 class="panel-title"><strong>Online</strong> Riders</h3>
+                    <h3 class="panel-title"><strong> Available </strong> Riders</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -137,10 +155,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($onlineriderlistondashborad as $onlineriderlist) { ?> 
+                                    <?php foreach ($avaliableriderlistondashborad as $avaliableriderlist) { 
+                                        $this->db->select('*');
+                                        $this->db->from('group_order');
+                                        $this->db->where('group_order.rider_id',$avaliableriderlist->user_id);
+                                        $this->db->join('group_order_conn', 'group_order_conn.group_order_id = group_order.group_order_id');
+                                        $this->db->join('order', 'order.order_id = group_order_conn.order_id');
+                                        $this->db->where('order_status_id',1);
+                                        $avaliableridername = $this->db->get()->row();
+                                        ?> 
                                         <tr>
-                                            <td> <?php if (!empty($onlineriderlist->username)) echo $onlineriderlist->username; ?> </td>
-                                            <td> <?php if (!empty($onlineriderlist->username)) echo $onlineriderlist->username; ?> </td>
+                                            <td> <?php if (!empty($avaliableridername->user_id)) echo $avaliableridername->user_id; ?> </td>
+                                            <td> <?php if (!empty($avaliableridername->username)) echo $avaliableridername->username; ?> </td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
@@ -167,10 +193,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($cancelorderlistondashborad as $cancelorderlist) { ?> 
+                                    <?php foreach ($cancelorderlistondashborad as $cancelorderlist) { 
+                                        $this->db->select('*');
+                                        $this->db->from('order');
+                                        $this->db->where('order_status_id',3);
+                                        $this->db->where('order.vendor_id',$cancelorderlist->vendor_id);
+                                        $cancelordercount = $this->db->get()->num_rows();
+                                        ?> 
                                         <tr>
                                             <td> <?php if (!empty($cancelorderlist->username)) echo $cancelorderlist->username; ?> </td>
-                                            <td> <?php if (!empty($cancelorderlist->quantity)) echo $cancelorderlist->quantity; ?> </td>
+                                            <td> <?php if (!empty($cancelordercount)) echo $cancelordercount; ?> </td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>

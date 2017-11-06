@@ -18,6 +18,7 @@
                                         <th>Rider Id</th>
                                         <th>Vendor Name</th>
                                         <th>Customer Name</th>
+                                        <th>Customer Contact</th>
                                         <th>Drop Off Location</th>
                                         <th>Details</th>
                                         <th>Pick Up Time</th>
@@ -31,25 +32,33 @@
                                      <?php foreach ($ongoingorderlist as $ongoingorder) { 
         
                                         $this->db->select('*');
-                                        $this->db->from('order_driver');                                      
-                                        $this->db->where('group_order_id',$ongoingorder->group_id);
+                                        $this->db->from('group_order');                                      
+                                        $this->db->where('group_order_id',$ongoingorder->group_order_id);
                                         $riderid = $this->db->get()->row(); 
+
+                                        $this->db->select('*');
+                                        $this->db->from('group_order_conn');                                      
+                                        $this->db->where('group_order_id',$ongoingorder->group_order_id);
+                                        $orderquantity = $this->db->get()->num_rows();
+
+
 
                                         ?>
                                         <tr>
                                            <!--  <td>  <a href="javascript:void(0);" class="open-ongoingtaskinfo" data-id="<?php echo $ongoingorder->order_id;?>" data-toggle="modal" data-target="#ongoing-task-info"> xxxx</a></td> -->
-                                            <td><a href="<?php echo base_url(); ?>index.php/admin/edit_ongoing_task?group_id=<?php echo $ongoingorder->group_id ?>" class="btn" > <?php if (!empty($ongoingorder->group_id)) echo $ongoingorder->group_id; ?> </a></td>
-                                            <td> <?php if (!empty($riderid->driver_id)) echo $riderid->driver_id; ?> </td>
+                                            <td><a href="<?php echo base_url(); ?>index.php/admin/edit_ongoing_task?group_order_id=<?php echo $ongoingorder->group_order_id ?>" class="btn" > <?php if (!empty($ongoingorder->group_order_id)) echo $ongoingorder->group_order_id; ?> </a></td>
+                                            <td> <?php if (!empty($riderid->rider_id)) echo $riderid->rider_id; ?> </td>
                                             <td> <?php if (!empty($ongoingorder->username)) echo $ongoingorder->username; ?> </td>
                                             <td> <?php if (!empty($ongoingorder->customer_name)) echo $ongoingorder->customer_name; ?> </td>
+                                            <td> <?php if (!empty($ongoingorder->customer_contact)) echo $ongoingorder->customer_contact; ?> </td>
                                             <td> <?php if (!empty($ongoingorder->dropoff_address_line_1)) echo $ongoingorder->dropoff_address_line_1; ?> </td>
                                             <td> <?php if (!empty($ongoingorder->detail)) echo $ongoingorder->detail; ?> </td>
                                               <td> <?php if (!empty($ongoingorder->pickup_time)) echo $ongoingorder->pickup_time; ?> </td>
                                             <td> <?php if (!empty($ongoingorder->instruction)) echo $ongoingorder->instruction; ?> </td>
-                                            <td> <?php if (!empty($ongoingorder->quantity)) echo $ongoingorder->quantity; ?> </td>
+                                            <td> <?php if (!empty($orderquantity)) echo $orderquantity; ?> </td>
                                             <td> XXX </td>
                                            <!--  <td><button class="btn btn-primary"><i class="fa fa-user" aria-hidden="true"></i></button></td> -->
-                                           <td> <a href="javascript:void(0)" class="btn btn-primary open-reassigntorider" data-id="<?php echo $ongoingorder->group_id;?>" data-toggle="modal" data-target="#assign-to-rider"><i class="fa fa-user" aria-hidden="true"></i></a> </td>
+                                           <td> <a href="javascript:void(0)" class="btn btn-primary open-reassigntorider" data-id="<?php echo $ongoingorder->group_order_id;?>" data-toggle="modal" data-target="#assign-to-rider"><i class="fa fa-user" aria-hidden="true"></i></a> </td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>

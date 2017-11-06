@@ -36,18 +36,12 @@
                                                     <div class="col-sm-7">
                                                         <select class="form-control" name="vendorandriderid" required="required">
                                                             <option value="">Select an Vendor / Rider </option>
-                                                            <?php  foreach ($vendorandriderdatalist as $vendorandriderdata) {
-
-                                                                if($vendorandriderdata->user_type_id == 'vendor' || $vendorandriderdata->user_type_id == 'rider')   
-                                                                   { ?>
+                                                            <?php  foreach ($vendorandriderdatalist as $vendorandriderdata) { ?>
                                                                 <option value="<?php if (!empty($vendorandriderdata->user_id)) echo $vendorandriderdata->user_id; ?>"> 
                                                                     <?php if (!empty($vendorandriderdata->username)) echo $vendorandriderdata->username; ?> 
-                                                                    ( <?php if (!empty($vendorandriderdata->user_type_id)) echo $vendorandriderdata->user_type_id; ?> )
+                                                                    ( <?php if (!empty($vendorandriderdata->user_type)) echo $vendorandriderdata->user_type; ?> )
                                                                 </option>
-                                                              <?php  } else {
-
-                                                                }
-                                                             } ?>    
+                                                              <?php } ?>    
                                                         </select>
                                                     </div>
                                                 </div>
@@ -63,17 +57,6 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                               <!--  <div class="form-group">
-                                                    <label class="col-sm-2 control-label"> Vendor/ Rider </label>
-                                                    <div class="col-md-7">
-                                                        <select class="form-control" name="">
-                                                            <option class="no-option">Select an Vendor/Rider</option>
-
-                                                            <option>C</option>
-
-                                                        </select>
-                                                    </div>
-                                                </div> -->
 
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label"> </label>

@@ -8,6 +8,7 @@
   <!-- <link rel="icon" href="<?php echo base_url('assets/images/logo.png'); ?>" type="image/png" sizes="16x16"> -->
   <!-- <title><?php echo $page_title; ?></title> -->
   <script src="https://code.jquery.com/jquery-1.11.1.min.js" integrity="sha256-VAvG3sHdS5LqTT+5A/aeq/bZGa/Uj04xKxY8KM/w9EE=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <?php
     /* getting this meta data from karyon_config.php file which is under application > config folder */

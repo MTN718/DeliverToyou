@@ -31,16 +31,25 @@
                                         <form id="form1" class="form-horizontal" action="<?php echo base_url(); ?>index.php/admin/addrider" method="post" enctype="multipart/form-data">
                                             <input type="hidden" name="id" value="<?php if (!empty($riderdata)) echo $riderdata->user_id; ?>">
                                             <input type="hidden" name="user_type_id" value="rider">
-                                            <input type="hidden" name="insert_id" value="">
                                     <?php } ?>        
 
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">Full Name <span class="asterisk">*</span></label>
+                                            <label class="col-sm-2 control-label"> User Name <span class="asterisk">*</span></label>
                                             <div class="col-sm-7">
                                                 <?php if (isset($riderdata->username)) { ?>
-                                                    <input type="text" placeholder="Full Name" name="username" class="form-control" value="<?php if (!empty($riderdata->username)) echo $riderdata->username; ?>">
+                                                    <input type="text" placeholder="User Name" name="username" class="form-control" value="<?php if (!empty($riderdata->username)) echo $riderdata->username; ?>">
                                                 <?php } else { ?>    
-                                                    <input type="text" placeholder="Full Name" name="username"  class="form-control" required/>
+                                                    <input type="text" placeholder="User Name" name="username"  class="form-control" required/>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                         <div class="form-group">
+                                            <label class="col-sm-2 control-label">Full Name <span class="asterisk">*</span></label>
+                                            <div class="col-sm-7">
+                                                <?php if (isset($riderdata->name)) { ?>
+                                                    <input type="text" placeholder="Full Name" name="name" class="form-control" value="<?php if (!empty($riderdata->name)) echo $riderdata->name; ?>">
+                                                <?php } else { ?>    
+                                                    <input type="text" placeholder="Full Name" name="name"  class="form-control" required/>
                                                 <?php } ?>
                                             </div>
                                         </div>
@@ -112,23 +121,12 @@
                                                 <input type="password"  class="cs-form-text cs-input form-control" id="newpassword" name="newpassword"  placeholder="Confrim Password" pattern="^\S{6,}$" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Please enter the same Password as above' : '');" required/>
                                             </div>
                                         </div>
-                                        <?php } ?>
-
-                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label"> Select Vendor  </label>
-                                            <div class="col-sm-7">
-                                               <select class="form-control" name="vendor" title="Select Vendor...">
-                                                    <?php foreach ($vendordatalist as $vendordata) { ?>
-                                                        <option value="<?php echo $vendordata->user_id; ?>" > <?php echo $vendordata->username; ?> </option>
-                                                    <?php } ?>      
-                                                </select>
-                                            </div>
-                                        </div>    
+                                        <?php } ?>    
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Address</label>
                                             <div class="col-sm-7">
                                             <?php if (isset($riderdata)) { ?>
-                                                    <textarea rows="4" class="form-control" name="address" placeholder="Address"><?php if (!empty($rideraddressdata->address_line_1)) echo $rideraddressdata->address_line_1; ?></textarea>
+                                                    <textarea rows="4" class="form-control" name="address" placeholder="Address"><?php if (!empty($riderdata->address)) echo $riderdata->address; ?></textarea>
                                                 <?php } else { ?>      
                                                      <textarea rows="4" class="form-control" name="address" placeholder="Address" required></textarea>
                                                 <?php } ?>  

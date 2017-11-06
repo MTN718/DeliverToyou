@@ -25,4 +25,6 @@
     <link href="<?php echo base_url('assets/plugins/metrojs/metrojs.css'); ?>" rel="stylesheet">
     <!-- END PAGE LEVEL STYLE -->
     <script src="<?php echo base_url('assets/plugins/modernizr/modernizr-2.6.2-respond-1.1.0.min.js'); ?>"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 </head>

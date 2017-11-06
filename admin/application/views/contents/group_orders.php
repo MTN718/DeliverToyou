@@ -19,10 +19,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                     <?php foreach ($orderdatalist as $orderdata) { ?>
+                                     <?php foreach ($orderdatalist as $orderdata) { 
+
+                                        $this->db->select('*');
+                                        $this->db->from('order');
+                                        $this->db->where('order_status_id',1);
+                                        $this->db->where('group_status','ungroup');
+                                        $this->db->where('vendor_id',$orderdata->vendor_id);
+                                        $orderquantity = $this->db->get()->num_rows();
+                                        ?>
                                         <tr>
                                             <td><a href="<?php echo base_url(); ?>index.php/admin/vendor_overview?vendor_id=<?php echo $orderdata->vendor_id ?>"> <?php if (!empty($orderdata->username)) echo $orderdata->username; ?> </a></td>
-                                            <td> <?php if (!empty($orderdata->quantity)) echo $orderdata->quantity; ?> </td>
+                                            <td> <?php if (!empty($orderquantity)) echo $orderquantity; ?> </td>
                                         </tr>
                                     <?php } ?>   
                                 </tbody>

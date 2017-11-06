@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 02, 2017 at 07:55 AM
+-- Generation Time: Nov 06, 2017 at 01:37 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -30,15 +30,16 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `group_order` (
   `group_order_id` int(11) NOT NULL,
-  `rider_id` int(11) NOT NULL
+  `rider_id` int(11) NOT NULL,
+  `group_order_status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `group_order`
 --
 
-INSERT INTO `group_order` (`group_order_id`, `rider_id`) VALUES
-(1, 10);
+INSERT INTO `group_order` (`group_order_id`, `rider_id`, `group_order_status`) VALUES
+(2, 10, '');
 
 -- --------------------------------------------------------
 
@@ -57,7 +58,9 @@ CREATE TABLE `group_order_conn` (
 --
 
 INSERT INTO `group_order_conn` (`group_order_conn_id`, `order_id`, `group_order_id`) VALUES
-(1, 11, 1);
+(1, 2, 2),
+(2, 3, 2),
+(3, 5, 2);
 
 -- --------------------------------------------------------
 
@@ -93,7 +96,7 @@ CREATE TABLE `order` (
   `amount` int(11) DEFAULT NULL,
   `customer_name` varchar(60) NOT NULL,
   `customer_contact` varchar(60) NOT NULL,
-  `group_status` int(11) NOT NULL DEFAULT '0'
+  `group_status` varchar(255) NOT NULL DEFAULT 'ungroup'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -101,17 +104,18 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`order_id`, `order_no`, `order_name`, `vendor_id`, `order_type`, `contact`, `pickup_address_1`, `pickup_address_2`, `pickup_city`, `pickup_state`, `pickup_zip`, `pickup_date`, `pickup_time`, `dropoff_address_line_1`, `dropoff_address_line_2`, `dropoff_city`, `dropoff_state`, `dropoff_zip`, `dropoff_date`, `dropoff_time`, `detail`, `instruction`, `distance`, `order_status_id`, `amount`, `customer_name`, `customer_contact`, `group_status`) VALUES
-(1, '1001', 'Abc', 4, 'Current', '98410', 'Satation', 'Vijay nagar', 'ratlam', 'Gj', 457993, '0000-00-00', '10:00:00', 'MIg', 'Mig', 'Nagpur', 'Gj', 457993, '0000-00-00', '00:00:00', 'heads', 'Glass', '32', 3, 0, 'demo', '235687', 0),
-(2, '1002', 'abc', 3, 'Current', '32109', 'Gangwal Station', 'geeta bhavan', 'dhar', 'Mp', 452002, '2017-10-12', '11:30:00', 'Lig', 'Lig', 'Bhopal', 'Gj', 489332, '2017-10-14', '00:00:00', 'toys', 'Nothing', '25', 4, 0, 'abc', '326596', 1),
-(3, '1003', 'abc', 3, 'Current', '568796', 'Mig', 'Lig', 'Indore', 'Mp', 452001, '2017-10-11', '11:30:00', 'Geeta', 'Stal pual', 'indoer', 'Mp', 452001, '2017-10-24', '00:00:00', 'Caps', 'Take Care', '', 4, 0, 'demo', '355874', 1),
-(4, '1004', 'abc', 4, 'Current', '124568125', 'Mig', 'Lig', 'Indore', 'Mp', 452001, '0000-00-00', '10:00:00', 'Geeta', 'Stal pual', 'indoer', 'Mp', 452001, '0000-00-00', '00:00:00', 'Caps', 'Take Care', '45', 1, 0, 'abc', '125878', 0),
-(5, '1005', 'abc', 3, 'Current', '245355', 'mig', 'mir', 'indore', 'mp', 452001, '2017-10-02', '11:30:00', 'lig', 'lig', 'indore', 'mp', 456987, '2017-10-15', '00:00:00', 'toys', 'Nothing', '23', 4, 20, 'demo', '235687', 1),
-(6, '1006', 'abc', 13, 'current', '5586', 'lig', 'lig', 'indore', 'mp', 55862, '0000-00-00', '12:00:00', 'mig', 'mig', 'indore', 'mp', 281247, '0000-00-00', '00:00:00', 'pack', 'no', '20', 1, 0, 'demo', '458791', 0),
-(7, '1007', 'abc', 11, 'current', '2385', 'lig', 'lig', 'indore', 'mp', 5865325, '0000-00-00', '01:00:00', 'mig', 'mig', 'ingor', 'mp', 525825, '0000-00-00', '00:00:00', 'Glass', 'Take Care', '10', 2, 0, 'demo', '215487', 1),
-(8, '1008', 'cfds', 11, 'current', '23568', 'lig', 'lig', 'indore', 'mp', 2548532, '2017-10-05', '01:00:00', 'hjnh', 'nhjnmihjk', 'jkm,hjun', 'mp', 2532, '2017-10-10', '00:00:00', 'Bottle', 'Take Care', '60', 2, 0, 'abc', '15487', 1),
-(9, '1009', 'abc', 11, 'current', '2385', 'lig', 'lig', 'indore', 'mp', 5865325, '2017-10-05', '01:00:00', 'mig', 'mig', 'ingor', 'mp', 525825, '2017-10-10', '00:00:00', 'Steel', 'Its Iron', '10', 1, 0, 'demo', '325984', 0),
-(10, '1010', 'cfds', 11, 'current', '23568', 'lig', 'lig', 'indore', 'mp', 2548532, '2017-10-05', '01:00:00', 'hjnh', 'nhjnmihjk', 'jkm,hjun', 'mp', 2532, '2017-10-10', '00:00:00', 'Plastic', 'Any Ways', '60', 1, 0, 'abc', '587412', 0),
-(11, '1023', 'Abc', 4, 'Backdated', '124568125', 'Mig', 'Mig', 'Indore', 'Mp', 452001, '0000-00-00', '09:00:00', 'Geeta', 'Stal pual', 'indoer', 'Mp', 452002, '0000-00-00', '10:00:00', 'Caps', 'Take Care', '28', 4, NULL, 'demo', '235687', 0);
+(1, '1001', 'Abc', 4, 'Current', '98410', 'Satation', 'Vijay nagar', 'ratlam', 'Gj', 457993, '0000-00-00', '10:00:00', 'MIg', 'Mig', 'Nagpur', 'Gj', 457993, '0000-00-00', '00:00:00', 'heads', 'Glass', '32', 1, 0, 'demo', '235687', 'ungroup'),
+(2, '1002', 'abc', 3, 'Current', '32109', 'Gangwal Station', 'geeta bhavan', 'dhar', 'Mp', 452002, '2017-10-12', '11:30:00', 'Lig', 'Lig', 'Bhopal', 'Gj', 489332, '2017-11-02', '00:00:00', 'toys', 'Nothing', '25', 3, 0, 'abc', '326596', 'group'),
+(3, '1003', 'abc', 3, 'Current', '568796', 'Mig', 'Lig', 'Indore', 'Mp', 452001, '2017-10-11', '11:30:00', 'Geeta', 'Stal pual', 'indoer', 'Mp', 452001, '2017-11-02', '00:00:00', 'Caps', 'Take Care', '', 3, 0, 'demo', '355874', 'group'),
+(4, '1004', 'abc', 4, 'Current', '124568125', 'Mig', 'Lig', 'Indore', 'Mp', 452001, '0000-00-00', '10:00:00', 'Geeta', 'Stal pual', 'indoer', 'Mp', 452001, '0000-00-00', '00:00:00', 'Caps', 'Take Care', '45', 1, 0, 'abc', '125878', 'ungroup'),
+(5, '1005', 'abc', 3, 'Current', '245355', 'mig', 'mir', 'indore', 'mp', 452001, '0000-00-00', '11:30:00', 'lig', 'lig', 'indore', 'mp', 456987, '0000-00-00', '00:00:00', 'toys', 'Nothing', '23', 4, 20, 'demo', '235687', 'group'),
+(6, '1006', 'abc', 13, 'current', '5586', 'lig', 'lig', 'indore', 'mp', 55862, '0000-00-00', '12:00:00', 'mig', 'mig', 'indore', 'mp', 281247, '0000-00-00', '00:00:00', 'pack', 'no', '20', 1, 0, 'demo', '458791', 'ungroup'),
+(7, '1007', 'abc', 11, 'current', '2385', 'lig', 'lig', 'indore', 'mp', 5865325, '0000-00-00', '01:00:00', 'mig', 'mig', 'ingor', 'mp', 525825, '0000-00-00', '00:00:00', 'Glass', 'Take Care', '10', 1, 0, 'demo', '215487', 'ungroup'),
+(8, '1008', 'cfds', 11, 'current', '23568', 'lig', 'lig', 'indore', 'mp', 2548532, '2017-10-05', '01:00:00', 'hjnh', 'nhjnmihjk', 'jkm,hjun', 'mp', 2532, '2017-10-10', '00:00:00', 'Bottle', 'Take Care', '60', 1, 0, 'abc', '15487', 'ungroup'),
+(9, '1009', 'abc', 11, 'current', '2385', 'lig', 'lig', 'indore', 'mp', 5865325, '2017-10-05', '01:00:00', 'mig', 'mig', 'ingor', 'mp', 525825, '2017-10-10', '00:00:00', 'Steel', 'Its Iron', '10', 1, 0, 'demo', '325984', 'ungroup'),
+(10, '1010', 'cfds', 11, 'current', '23568', 'lig', 'lig', 'indore', 'mp', 2548532, '2017-10-05', '01:00:00', 'hjnh', 'nhjnmihjk', 'jkm,hjun', 'mp', 2532, '2017-10-10', '00:00:00', 'Plastic', 'Any Ways', '60', 1, 0, 'abc', '587412', 'ungroup'),
+(11, '1023', 'Abc', 4, 'Backdated', '124568125', 'Mig', 'Mig', 'Indore', 'Mp', 452001, '2017-11-03', '09:00:00', 'Geeta', 'Stal pual', 'indoer', 'Mp', 452002, '0000-00-00', '10:00:00', 'Caps', 'Take Care', '28', 1, NULL, 'demo', '235687', 'ungroup'),
+(12, '2546', '', 15, 'Current', '546345', 'dfs', 'dfgg', 'vsfdv', 'sad', 543254, '2017-11-03', '04:00:00', 'sdasd', 'sda', 'asdas', 'asdas', 0, '2017-11-06', '09:00:00', 'sdaasd', 'drfg', '', 1, NULL, 'dsaasd', '12546', 'ungroup');
 
 -- --------------------------------------------------------
 
@@ -185,23 +189,25 @@ CREATE TABLE `users` (
   `address` longtext NOT NULL,
   `latitude` float NOT NULL,
   `longitude` float NOT NULL,
-  `status` int(11) NOT NULL
+  `login_status` int(20) NOT NULL,
+  `status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `password`, `name`, `email`, `mobile`, `business_nature`, `user_type`, `device_type`, `created_on`, `license_no`, `id_proof`, `id_no`, `emergency_contact_no`, `image_url`, `address`, `latitude`, `longitude`, `status`) VALUES
-(1, 'admin', '$2y$10$t9Tmijmw4ClRxEZpJB0uw.lHtV/H4WJqBBDO5rkmEqcTbpmWxYrxG', '', '', '', '', 'admin', '', '2017-10-11 04:53:26', '', '', '', 0, '', '', 0, 0, 0),
-(2, 'vendor', '$2y$10$guvYDG8WgPk00QUVdgSqsuOxcRlMBIbeb8yMc/uVYqLpgdfwY9gNy', '', 'vendor@gmail.com', '789', 'E', 'vendor', '', '2017-10-13 14:57:02', '', '', '', 0, '58c92cd52c00002500fee7af.jpg', '', 0, 0, 0),
-(3, 'demovendor', '$2y$10$QQkk3dUud7Wae6RkQNfVN.t8ArL01oyGVD1xYRjIN54lTtMjAyxQ.', '', 'saklechar@gmail.com', '23587456', 'A', 'vendor', '', '2017-10-24 10:51:15', '', '', '', 0, '', '', 0, 0, 0),
-(4, 'adminvendor', '$2y$10$pP1irLXF1sTOtQOQ5QF2Xu9PJfFaeo5S8Ro6ipG9i4eP0q.id7q3q', '', 'adminvendor@gmail.com', '123456', 'C', 'vendor', '', '2017-10-25 07:00:23', '', '', '', 0, '5459d03d62eb2ebffec75135d91014f24.jpg', '', 0, 0, 0),
-(9, 'adminrider', '$2y$10$cQ4yWC2lfBC6voEzxysxHeThV4uFtiao/hHwlSlD4X5Mu2GWdfjdC', '', 'club@gmail.com', '543254', '', 'rider', '', '2017-10-11 17:38:16', 'BD-5689*52', 'Ac-9856-47', '', 5420542, 'about-bg.jpg', '', 0, 0, 0),
-(10, 'subrider', '$2y$10$sWVzKp2XYpS2eI7hq/32z.yox3TaI1ftsCauAvoruogU0wMZf5kmO', '', 'sub@gmail.com', '54234', '', 'rider', '', '2017-10-11 17:40:52', 'BD-5689*52', 'Ac-9856-47', '', 543254, 'a01020_091d145abe494ff4b473fe092fd3db98.jpg', '', 0, 0, 0),
-(11, 'subvendor', '$2y$10$6.y17C1uKWUv/16SA/X69.7BwlYLVr0hw2GtJNkPPWUzetR.iNFg.', '', 'subvendor@gmail.com', '453654', 'D', 'vendor', '', '2017-10-11 18:11:36', '', '', '', 0, '0f20c705679813e2f4738b17851e5dfa.jpg', '', 0, 0, 0),
-(13, 'player', '$2y$10$UMnK3FP3lgXu3.9aJmqbguXI2SRCscwJYfGuaADgbucRlVRfY4sOK', '', 'player@gmail.com', '543675842', 'B', 'vendor', '', '2017-10-12 07:08:40', '', '', '', 0, '', '', 0, 0, 0),
-(14, 'checkdemo1', '$2y$10$uR54twhFP2cmUUId3Pn.MuaKO.6RdjQ8E49A3ob0xa6bUQ08ao6LG', '', 'fhfg', '45876', 'B', 'vendor', '', '2017-10-13 07:29:35', '', '', '', 0, '', '', 0, 0, 0);
+INSERT INTO `users` (`user_id`, `username`, `password`, `name`, `email`, `mobile`, `business_nature`, `user_type`, `device_type`, `created_on`, `license_no`, `id_proof`, `id_no`, `emergency_contact_no`, `image_url`, `address`, `latitude`, `longitude`, `login_status`, `status`) VALUES
+(1, 'admin', '$2y$10$t9Tmijmw4ClRxEZpJB0uw.lHtV/H4WJqBBDO5rkmEqcTbpmWxYrxG', 'admin', '', '', '', 'admin', '', '2017-11-06 08:40:46', '', '', '', 0, '', '', 0, 0, 0, '0'),
+(2, 'vendor', '$2y$10$OKF51pdcSdvCVjeuMBXkVOiJHJRCKP6w0YMOSWWXErX6oGuk4pmr.', 'dsfdsfds', 'vendor@gmail.com', '789', 'E', 'vendor', '', '2017-11-02 19:38:08', '', '', '', 0, '58c92cd52c00002500fee7af.jpg', 'gthfdv ', 0, 0, 0, '0'),
+(3, 'demovendor', '$2y$10$t9Tmijmw4ClRxEZpJB0uw.lHtV/H4WJqBBDO5rkmEqcTbpmWxYrxG', '', 'saklechar@gmail.com', '23587456', 'A', 'vendor', '', '2017-11-06 08:47:38', '', '', '', 0, '', '', 0, 0, 0, '0'),
+(4, 'adminvendor', '$2y$10$pP1irLXF1sTOtQOQ5QF2Xu9PJfFaeo5S8Ro6ipG9i4eP0q.id7q3q', '', 'adminvendor@gmail.com', '123456', 'C', 'vendor', '', '2017-10-25 07:00:23', '', '', '', 0, '5459d03d62eb2ebffec75135d91014f24.jpg', '', 0, 0, 0, '0'),
+(9, 'adminrider', '$2y$10$R8gpqjK/ns3ZArRP9B2oauwaX9MzBi7QlCWGm6nPt5HXeCzTsRlku', 'rider1', 'club@gmail.com', '543254', '', 'rider', '', '2017-11-05 09:58:59', 'BD-5689*52', 'Ac-9856-47', '', 5420542, 'about-bg.jpg', 'sadad', 1.51319, 23.1152, 0, '0'),
+(10, 'subrider', '$2y$10$6nbM.TBs0NCjjFbyr5UoAOqr5UhNMrWALDAVLGAAyFRzoxfBfeNEq', 'rider2', 'sub@gmail.com', '54234', '', 'rider', '', '2017-11-05 15:37:39', 'BD-5689*52', 'Ac-9856-47', '', 543254, 'a01020_091d145abe494ff4b473fe092fd3db98.jpg', 'dfsdsfff', 4.0588, 15.6885, 0, 'ontask'),
+(11, 'subvendor', '$2y$10$6.y17C1uKWUv/16SA/X69.7BwlYLVr0hw2GtJNkPPWUzetR.iNFg.', '', 'subvendor@gmail.com', '453654', 'D', 'vendor', '', '2017-10-11 18:11:36', '', '', '', 0, '0f20c705679813e2f4738b17851e5dfa.jpg', '', 0, 0, 0, '0'),
+(13, 'player', '$2y$10$UMnK3FP3lgXu3.9aJmqbguXI2SRCscwJYfGuaADgbucRlVRfY4sOK', '', 'player@gmail.com', '543675842', 'B', 'vendor', '', '2017-10-12 07:08:40', '', '', '', 0, '', '', 0, 0, 0, '0'),
+(14, 'checkdemo1', '$2y$10$uR54twhFP2cmUUId3Pn.MuaKO.6RdjQ8E49A3ob0xa6bUQ08ao6LG', '', 'fhfg', '45876', 'B', 'vendor', '', '2017-10-13 07:29:35', '', '', '', 0, '', '', 0, 0, 0, '0'),
+(15, 'testvendor', '$2y$10$YKiRz3mzs1FQdaeWEfr75uLJjV7SWHwrZVhGcPquHVuiENgMU4HKi', 'vendor', 'sub@gmail.com', '2569745', 'abc', 'vendor', '', '2017-11-02 06:53:48', '', '', '', 0, '', 'jdsfj dsfkfdf', 0, 0, 0, '0');
 
 --
 -- Indexes for dumped tables
@@ -248,16 +254,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `group_order`
+--
+ALTER TABLE `group_order`
+  MODIFY `group_order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `group_order_conn`
 --
 ALTER TABLE `group_order_conn`
-  MODIFY `group_order_conn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `group_order_conn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `order_proof`
@@ -275,7 +287,7 @@ ALTER TABLE `order_status`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

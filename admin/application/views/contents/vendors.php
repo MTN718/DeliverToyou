@@ -41,7 +41,7 @@
                                                     <td> <?php if (!empty($vendordata->email)) echo $vendordata->email; ?> </td>
                                                     <td> <?php if (!empty($vendordata->mobile)) echo $vendordata->mobile; ?> </td>
                                                     <td> <?php if (!empty($vendordata->business_nature)) echo $vendordata->business_nature; ?> </td>
-                                                    <td> <?php if (!empty($vendordata->address_line_1)) echo $vendordata->address_line_1; ?> </td>
+                                                    <td> <?php if (!empty($vendordata->address)) echo $vendordata->address; ?> </td>
                                                     <td class="text-center">
                                                         <a href="<?php echo base_url(); ?>index.php/admin/edit_vendor?vendor_id=<?php echo $vendordata->user_id ?>" class="edit btn btn-sm btn-default"><i class="fa fa-pencil"></i> Edit</a>
                                                         <a href="javascript:void(0)" class="btn btn-sm btn-default editable-col" col-index='1' data="0"><i class="fa fa-times-circle"></i> Remove</a>

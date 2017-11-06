@@ -97,7 +97,7 @@
                                             <td>  <?php if (!empty($vendororder->mobile)) echo $vendororder->mobile; ?> </td>
                                             <td>  <?php if (!empty($vendororder->order_no)) echo $vendororder->order_no; ?> </td>
                                             <td>  <?php if (!empty($vendororder->contact)) echo $vendororder->contact; ?> </td>
-                                            <td>  <?php if (!empty($vendororder->order_type_id)) echo $vendororder->order_type_id; ?> </td>
+                                            <td>  <?php if (!empty($vendororder->order_type)) echo $vendororder->order_type; ?> </td>
                                             <td>  <?php if (!empty($vendororder->pickup_address_1)) echo $vendororder->pickup_address_1; ?> </td>
                                             <td>  <?php if (!empty($vendororder->pickup_address_2)) echo $vendororder->pickup_address_2; ?> </td>
                                             <td>  <?php if (!empty($vendororder->pickup_zip)) echo $vendororder->pickup_zip; ?> </td>

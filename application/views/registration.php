@@ -149,10 +149,12 @@
 											<div class="input-info">
 												<div class="row">
 													<form method="post" action="<?php echo site_url();?>/home/vendorregistration" class="wp-user-form " enctype="multipart/form-data">
-													<input type="hidden" name="user_type_id" value="vendor">
-
+														<input type="hidden" name="user_type_id" value="vendor">
 														<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-															<input type="text" placeholder="Business Name" name="username"  class="form-control" required/>
+															<input type="text" placeholder="Username" name="username"  class="form-control" required/>
+														</div>
+														<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+															<input type="text" placeholder="Business Name" name="name"  class="form-control" required/>
 														</div>
 														<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
 															<input type="text"  class="cs-form-text cs-input form-control"  name="email" placeholder="Email" required/>
@@ -167,14 +169,7 @@
 															<input type="password"  class="cs-form-text cs-input form-control" id="newpassword" name="newpassword"  placeholder="Confrim Password" pattern="^\S{6,}$" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Please enter the same Password as above' : '');" required/> 
 														</div>
 														<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-															<div class="select-holder">
-																<select required data-placeholder="Please Select Nature of Business"  class="chosen-select form-control"  id="cs_candidate_specialisms53583" name="business_nature"  style="height:110px !important;">
-																	<?php foreach ($data['businessdatalist'] as $businessdata) { ?>
-																		<option value="<?php echo $businessdata->title; ?>"> <?php echo $businessdata->title; ?> </option>
-																	<?php } ?> 	
-
-																</select>
-															</div>
+															<input type="text" placeholder="Nature of Business" name="business_nature" class="form-control" required/>
 														</div>
 														<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
 													      <textarea rows="4" class="form-control" name="address" placeholder="Address"></textarea>

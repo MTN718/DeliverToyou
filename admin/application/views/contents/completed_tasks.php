@@ -18,6 +18,7 @@
                                         <th><strong> Group ID </strong></th>
                                         <th><strong> Order Name </strong> </th>
                                         <th><strong> Rider ID </strong></th>
+                                        <th><strong> Vendor Name </strong></th>
                                         <th><strong> PickUp Loc. </strong></th>
                                         <th><strong> Customer Name </strong></th>
                                         <th><strong> Customer Contact </strong></th>
@@ -27,33 +28,25 @@
                                         <th><strong> Proof OF Deliver </strong></th>
                                         <th><strong> Time Taken To Deliver </strong></th>
                                         <th><strong> Distance Travel (KM) </strong></th>
-                                      <!--   <th class="text-center"><strong>Actions</strong></th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($completetaskorderlist as $completetaskorder) { 
-
-                                        $this->db->select('*');
-                                        $this->db->from('user_order');                                      
-                                        $this->db->where('order_id',$completetaskorder->order_id);
-                                        $groupid = $this->db->get()->row();
-
-                                        ?>
+                                    <?php foreach ($completetaskorderlist as $completetaskorder) { ?>
                                         <tr>
                                             <td> <?php if (!empty($completetaskorder->order_id)) echo $completetaskorder->order_id; ?> </td>
-                                            <td> <?php if (!empty($groupid->group_id)) echo $groupid->group_id; ?> </td>
+                                            <td> <?php if (!empty($completetaskorder->group_order_id)) echo $completetaskorder->group_order_id; ?> </td>
                                             <td> <?php if (!empty($completetaskorder->order_name)) echo $completetaskorder->order_name; ?>  </td>
-                                            <td> <?php if (!empty($completetaskorder->user_id)) echo $completetaskorder->user_id; ?> </td>
+                                            <td> <?php if (!empty($completetaskorder->rider_id)) echo $completetaskorder->rider_id; ?> </td>
+                                            <td> <?php if (!empty($completetaskorder->username)) echo $completetaskorder->username; ?> </td>
                                             <td> <?php if (!empty($completetaskorder->pickup_address_1)) echo $completetaskorder->pickup_address_1; ?> </td>
                                             <td> <?php if (!empty($completetaskorder->customer_name)) echo $completetaskorder->customer_name; ?> </td>
                                             <td> <?php if (!empty($completetaskorder->customer_contact)) echo $completetaskorder->customer_contact; ?> </td>
                                             <td> <?php if (!empty($completetaskorder->dropoff_address_line_1)) echo $completetaskorder->dropoff_address_line_1; ?> </td>
-                                            <td> <?php if (!empty($completetaskorder->pickup_datetime)) echo $completetaskorder->pickup_datetime; ?> </td>
-                                            <td> <?php if (!empty($completetaskorder->dropoff_datetime)) echo $completetaskorder->dropoff_datetime; ?> </td>
+                                            <td> <?php if (!empty($completetaskorder->pickup_time)) echo $completetaskorder->pickup_time; ?> </td>
+                                            <td> <?php if (!empty($completetaskorder->dropoff_time)) echo $completetaskorder->dropoff_time; ?> </td>
                                             <td> xxx </td>
                                             <td> xxx </td>
                                             <td> <?php if (!empty($completetaskorder->distance)) echo $completetaskorder->distance; ?> </td>
-                                          <!--   <td class="text-center"><a href="#" class="view btn btn-sm btn-default"><i class="fa fa-search"></i> View</a></td> -->
                                         </tr>
                                     <?php } ?>
                                 </tbody>

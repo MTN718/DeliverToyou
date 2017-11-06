@@ -16,14 +16,14 @@ class Home extends MY_Controller
 	public function index()
 	{	
 		$this->mViewData['data'] = array(
-            'businessdatalist' => $this->homemodel->getbusinessdatalist(),
+        //    'businessdatalist' => $this->homemodel->getbusinessdatalist(),
             'period' => "",
          );
         $this->mPageTitle = 'Login';
 		$this->render('registration');
 	}
 
-    public function vendorDashboard($profile_tab = "home" )
+    public function vendorDashboard($profile_tab = "home",$rider_id="" )
     {   
          $this->is_logged_in();
         $userInfo = $this->session->userdata('login_data');
@@ -31,16 +31,35 @@ class Home extends MY_Controller
             'id' => $userInfo->user_id
         );
 
-        $this->mViewData['data'] = array(
-            'profile_tab' => $profile_tab,
-            'ordertypedatalist' => $this->homemodel->getordertypedatalist(),
-            'orderdatalist' => $this->homemodel->getorderdatalist($model_data),
-            'vendordatainfo' => $this->homemodel->getvendordatainfo($model_data),
-            'ongoingorderlist' => $this->homemodel->getongoingorderlist($model_data),
-            'completetaskorderlist' => $this->homemodel->getcompletetaskorderlist($model_data),
-            'riderlocationlist' => $this->homemodel->getriderlocationlist(),
-            'period' => "",
-        );
+        if(!empty($rider_id)) {  
+            $this->mViewData['data'] = array(
+                'profile_tab' => $profile_tab,
+                'rider_id' => $rider_id,
+                'ongoingRiderList' => $this->homemodel->getongoingRiderList($model_data),
+                'riderData' => $this->homemodel->getRiderOrderDataById($rider_id),
+                'orderData' => $this->homemodel->getOrderData($rider_id),
+                'orderdatalist' => $this->homemodel->getorderdatalist($model_data),
+                'vendordatainfo' => $this->homemodel->getvendordatainfo($model_data),
+                'ongoingorderlist' => $this->homemodel->getongoingorderlist($model_data),
+                'completetaskorderlist' => $this->homemodel->getcompletetaskorderlist($model_data),
+                'period' => "",
+            );                
+        } else {
+            $this->mViewData['data'] = array(
+                'profile_tab' => $profile_tab,
+                'rider_id' => $rider_id,
+                'ongoingRiderList' => $this->homemodel->getongoingRiderList($model_data),
+                'riderData' => "",
+                'orderData' => array(),
+                'orderdatalist' => $this->homemodel->getorderdatalist($model_data),
+                'vendordatainfo' => $this->homemodel->getvendordatainfo($model_data),
+                'ongoingorderlist' => $this->homemodel->getongoingorderlist($model_data),
+                'completetaskorderlist' => $this->homemodel->getcompletetaskorderlist($model_data),
+                'period' => "",
+            ); 
+        }
+
+        
         $this->mPageTitle = 'VENDORDASHBOARD';
         $this->render('vendor_dashboard');
     }
@@ -150,12 +169,9 @@ class Home extends MY_Controller
                 'number' => $this->input->post('number'),
                 'business_nature' => $this->input->post('business_nature'),
                 'address' => $this->input->post('address'),
+                'name' => $this->input->post('name'),
             );
-            $insert_id = $this->homemodel->vendorregistrationwithoutimgInfo($model_data);
-            $model_data['insert_id'] = $insert_id;
-
-            $this->homemodel->addvendoraddress($model_data);
-
+            $this->homemodel->vendorregistrationwithoutimgInfo($model_data);
             $this->session->set_flashdata('success_msg', 'Vendor Registration Successful...');
             redirect('home');
         } else {
@@ -168,13 +184,10 @@ class Home extends MY_Controller
                 'number' => $this->input->post('number'),
                 'business_nature' => $this->input->post('business_nature'),
                 'address' => $this->input->post('address'),
+                'name' => $this->input->post('name'),
                 'image' => $data1['upload_data']['file_name'],
             );
-            $insert_id = $this->homemodel->vendorregistrationimage($model_data);
-            $model_data['insert_id'] = $insert_id;
-
-            $this->homemodel->addvendoraddress($model_data);
-
+            $this->homemodel->vendorregistrationimage($model_data);
             $this->session->set_flashdata('success_msg', 'Vendor Registration Successful...');
             redirect('home');
         }
@@ -200,15 +213,17 @@ class Home extends MY_Controller
             'dropofaddline2' => $this->input->post('dropofaddline2'),
             'dropofpostcode' => $this->input->post('dropofpostcode'),
             'dropofstate' => $this->input->post('dropofstate'),
-            'deliverytime' => $this->input->post('deliverytime'),
+            // 'deliverytime' => $this->input->post('deliverytime'),
             'pickupcity' => $this->input->post('pickupcity'), 
             'dropcity' => $this->input->post('dropcity'),
-            'quanity' => $this->input->post('quanity'),
+            // 'quanity' => $this->input->post('quanity'),
             'ordertype' => $this->input->post('ordertype'), 
             'pickuptime' => $this->input->post('pickuptime'), 
             'pickupdate' => $this->input->post('pickupdate'),
             'dropoftime' => $this->input->post('dropoftime'), 
             'dropofdate' => $this->input->post('dropofdate'), 
+            'ordername' => $this->input->post('ordername'), 
+            'amount' => $this->input->post('amount'), 
         );
 
         $this->homemodel->addorder($model_data); 
@@ -323,12 +338,12 @@ class Home extends MY_Controller
       
         $this->mViewData['data'] = array(            
 
-            'ordertypedatalist' => $this->homemodel->getordertypedatalist(),
+            // 'ordertypedatalist' => $this->homemodel->getordertypedatalist(),
             'orderdatalist' => $this->homemodel->getorderdatalist($model_data),
             'vendordatainfo' => $this->homemodel->getvendordatainfo($model_data),
             'ongoingorderlist' => $this->homemodel->getongoingorderlist($model_data),
             'completetaskorderlist' => $this->homemodel->getcompletetaskorderlist($model_data),
-            'riderlocationlist' => $this->homemodel->getriderlocationlist(),
+            // 'riderlocationlist' => $this->homemodel->getriderlocationlist(),
 
 
             'profile_tab' => $profile_tab,
@@ -352,12 +367,12 @@ class Home extends MY_Controller
         $this->render('vendor_dashboard');       
     }    
 
-    public function getRiderCustomerData()
+    public function getRiderOrderData()
     {
         $model_data = array(
-            'order_location_id' => $_POST['id'],
+            'user_id' => $_POST['id'],
         );
-        $this->homemodel->getRiderCustomerData($model_data);
+        $this->homemodel->getRiderOrderData($model_data);
     }
       
 

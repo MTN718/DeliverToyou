@@ -21,19 +21,30 @@ class Admin extends CI_Controller {
 		$this->load->view('contents/login');
 	}
 
-	public function home()
+	public function home($status="",$id="")
 	{
 		$this->checklogin();
-		$data['riderlocationlist'] = $this->adminmodel->getriderlocationlist();
+		if(!empty($id)) {
+			$riderData = $this->adminmodel->getriderdataById($id);
+			$data['address'] = $this->adminmodel->getAddress($riderData->latitude,$riderData->longitude);
+		} else {
+			$riderData = "";
+			$data['address'] = "";
+		}
+		$data['status'] = $status;
+		$data['riderlist'] = $this->adminmodel->getriderdatalist();
+		$data['riderData'] = $riderData;
+		$data['rider_id'] = $id;
 		$data['pageName'] = "HOME";
 		$this->load->view('content_handler', $data);
 	}
 
 
-	public function maplocation()
+	public function maplocation($status="")
 	{
 		$this->checklogin();
 		$data['pageName'] = "MAPLOCATION";
+		$data['status'] = $status;
 		$this->load->view('map_content_handler', $data);
 	}
 
@@ -47,7 +58,8 @@ class Admin extends CI_Controller {
 		$data['ongoingorderlistondashborad'] = $this->adminmodel->getongoingorderlistondashborad();
 		$data['unassignorderlistondashborad'] = $this->adminmodel->getunassignorderlistondashborad();
 		$data['cancelorderlistondashborad'] = $this->adminmodel->getcancelorderlistondashborad();
-		$data['onlineriderlistondashborad'] = $this->adminmodel->getonlineriderlistondashborad();
+		$data['avaliableriderlistondashborad'] = $this->adminmodel->getavaliableriderlistondashborad();
+	//	$data['onlineriderlistondashborad'] = $this->adminmodel->getonlineriderlistondashborad();
 		$this->load->view('content_handler', $data);
 	}
 
@@ -145,7 +157,7 @@ class Admin extends CI_Controller {
 		$this->checklogin();
 		$data['riderdata'] = $this->adminmodel->getriderdata($model_data);
 		$data['vendordatalist'] = $this->adminmodel->getvendordatalist($model_data);
-		$data['rideraddressdata'] = $this->adminmodel->getrideraddressdata($model_data);
+	//	$data['rideraddressdata'] = $this->adminmodel->getrideraddressdata($model_data);
 		$data['pageName'] = "EIDTRIDERS";
 		$this->load->view('content_handler', $data);
 	}
@@ -157,8 +169,8 @@ class Admin extends CI_Controller {
         );
 		$this->checklogin();
 		$data['vendordata'] = $this->adminmodel->getvendordata($model_data);
-		$data['businessdatalist'] = $this->adminmodel->getbusinessdatalist($model_data);
-		$data['vendoraddressdata'] = $this->adminmodel->getvendoraddressdata($model_data);
+	//	$data['businessdatalist'] = $this->adminmodel->getbusinessdatalist($model_data);
+	//	$data['vendoraddressdata'] = $this->adminmodel->getvendoraddressdata($model_data);
 		$data['pageName'] = "EIDTVENDOR";
 		$this->load->view('content_handler', $data);
 	}
@@ -167,7 +179,7 @@ class Admin extends CI_Controller {
 	public function edit_ongoing_task()
 	{
 		$model_data = array(
-            'id'=> $this->input->get('group_id'),
+            'id'=> $this->input->get('group_order_id'),
         );
 		$this->checklogin();
 		$data['ongoingorderlistsindividual'] = $this->adminmodel->getongoingorderlistsindividual($model_data);
@@ -178,7 +190,7 @@ class Admin extends CI_Controller {
 	public function edit_task_list()
 	{
 		$model_data = array(
-            'id'=> $this->input->get('group_id'),
+            'id'=> $this->input->get('group_order_id'),
         );
 		$this->checklogin();
 		$data['taskorderlistsindividual'] = $this->adminmodel->gettaskorderlistsindividual($model_data);
@@ -186,13 +198,13 @@ class Admin extends CI_Controller {
 		$this->load->view('content_handler', $data);
 	}
 
-	public function getRiderCustomerData()
+	public function getMapRiderData()
 	{
 		$model_data = array(
-            'order_location_id' => $_POST['id'],
+            'user_id' => $_POST['id'],
         );
 		$this->checklogin();
-		$this->adminmodel->getRiderCustomerData($model_data);
+		$this->adminmodel->getMapRiderData($model_data);
 	}
 	
 	
@@ -254,19 +266,16 @@ class Admin extends CI_Controller {
         if (!$this->upload->do_upload('image')) {
              $model_data = array(
 	            'id' => $this->input->post('id'),
-	            'user_type_id' => $this->input->post('user_type_id'),
+	            'user_type' => $this->input->post('user_type_id'),
 	            'username' => $this->input->post('username'),
 	            'email' => $this->input->post('email'),
 	            'password' => $this->input->post('password'),
 	            'number' => $this->input->post('number'),
 	            'business_nature' => $this->input->post('business_nature'),
 	            'address' => $this->input->post('address'),
+	            'businessname' => $this->input->post('businessname'),
             );
-            $insert_id = $this->adminmodel->addvendorwithoutimgInfo($model_data);
-            $model_data['insert_id'] = $insert_id;
-
-            $this->adminmodel->addvendoraddress($model_data);
-
+            $this->adminmodel->addvendorwithoutimgInfo($model_data);
             $this->session->set_flashdata('success_msg', 'Vendor Added Successfully...');
             redirect('admin/edit_vendor');
         } else {
@@ -280,13 +289,10 @@ class Admin extends CI_Controller {
 	            'number' => $this->input->post('number'),
 	            'business_nature' => $this->input->post('business_nature'),
 	            'address' => $this->input->post('address'),
+	            'businessname' => $this->input->post('businessname'),
                 'image' => $data1['upload_data']['file_name'],
             );
-            $insert_id = $this->adminmodel->addvendorimage($model_data);
-            $model_data['insert_id'] = $insert_id;
-
-            $this->adminmodel->addvendoraddress($model_data);
-
+            $this->adminmodel->addvendorimage($model_data);
             $this->session->set_flashdata('success_msg', 'Vendor Added Successfully...');
             redirect('admin/edit_vendor');
         }
@@ -314,17 +320,10 @@ class Admin extends CI_Controller {
 	            'number' => $this->input->post('number'),
 	            'emergency_contact_no' => $this->input->post('emergency_contact_no'),
 	            'password' => $this->input->post('password'),
-	            'vendor' => $this->input->post('vendor'),
 	            'address' => $this->input->post('address'),
-	            'insert_id' => $this->input->post('insert_id'),
+	            'name' => $this->input->post('name'),
             );
-
-            $insert_id = $this->adminmodel->addriderwithoutimgInfo($model_data);
-            $model_data['insert_id'] = $insert_id;
-
-            $this->adminmodel->addrideraddress($model_data);
-            $this->adminmodel->addridertovendor($model_data);
-
+            $this->adminmodel->addriderwithoutimgInfo($model_data);
             $this->session->set_flashdata('success_msg', 'Rider Added Successfully...');
             redirect('admin/edit_riders');
         } else {
@@ -339,17 +338,11 @@ class Admin extends CI_Controller {
 	            'number' => $this->input->post('number'),
 	            'emergency_contact_no' => $this->input->post('emergency_contact_no'),
 	            'password' => $this->input->post('password'),
-	            'vendor' => $this->input->post('vendor'),
+	            'name' => $this->input->post('name'),
 	            'address' => $this->input->post('address'),
                 'image' => $data1['upload_data']['file_name'],
-                'insert_id' => $this->input->post('insert_id'),
             );
-            $insert_id = $this->adminmodel->addriderimage($model_data);
-            $model_data['insert_id'] = $insert_id;
-
-            $this->adminmodel->addrideraddress($model_data);
-            $this->adminmodel->addridertovendor($model_data);
-
+            $this->adminmodel->addriderimage($model_data);
             $this->session->set_flashdata('success_msg', 'Rider Added Successfully...');
             redirect('admin/edit_riders');
         }
@@ -413,9 +406,10 @@ class Admin extends CI_Controller {
 	            'number' => $this->input->post('number'),
 	            'business_nature' => $this->input->post('business_nature'),
 	            'address' => $this->input->post('address'),
+	            'businessname' => $this->input->post('businessname'),
             );
             $this->adminmodel->updatevendorInfowithoutimgInfo($model_data);
-            $this->session->set_flashdata('success_msg', 'Vendor Added Successfully...');
+            $this->session->set_flashdata('success_msg', 'Vendor update Info Successfully...');
             redirect('admin/edit_vendor?vendor_id=' . $model_data['id'], 'refresh');
         } else {
             $data1 = array('upload_data' => $this->upload->data());
@@ -428,10 +422,11 @@ class Admin extends CI_Controller {
 	            'number' => $this->input->post('number'),
 	            'business_nature' => $this->input->post('business_nature'),
 	            'address' => $this->input->post('address'),
+	            'businessname' => $this->input->post('businessname'),
                 'image' => $data1['upload_data']['file_name'],
             );
             $this->adminmodel->updatevendorInfoimage($model_data);
-            $this->session->set_flashdata('success_msg', 'Vendor Added Successfully...');
+            $this->session->set_flashdata('success_msg', 'Vendor update Info Successfully...');
             redirect('admin/edit_vendor?vendor_id=' . $model_data['id'], 'refresh');
         }
     }
@@ -457,11 +452,11 @@ class Admin extends CI_Controller {
 	            'number' => $this->input->post('number'),
 	            'emergency_contact_no' => $this->input->post('emergency_contact_no'),
 	            'password' => $this->input->post('password'),
-	            'vendor' => $this->input->post('vendor'),
+	            'name' => $this->input->post('name'),
 	            'address' => $this->input->post('address'),
             );
             $this->adminmodel->updateriderInfowithoutimgInfo($model_data);
-            $this->session->set_flashdata('success_msg', 'Vendor Added Successfully...');
+            $this->session->set_flashdata('success_msg', 'Rider Update Info Successfully...');
             redirect('admin/edit_riders?rider_id=' . $model_data['id'], 'refresh');
         } else {
             $data1 = array('upload_data' => $this->upload->data());
@@ -475,12 +470,12 @@ class Admin extends CI_Controller {
 	            'number' => $this->input->post('number'),
 	            'emergency_contact_no' => $this->input->post('emergency_contact_no'),
 	            'password' => $this->input->post('password'),
-	            'vendor' => $this->input->post('vendor'),
+	            'name' => $this->input->post('name'),
 	            'address' => $this->input->post('address'),
                 'image' => $data1['upload_data']['file_name'],
             );
             $this->adminmodel->updateriderInfoimage($model_data);
-            $this->session->set_flashdata('success_msg', 'Vendor Added Successfully...');
+            $this->session->set_flashdata('success_msg', 'Rider Update Info Successfully...');
             redirect('admin/edit_riders?rider_id=' . $model_data['id'], 'refresh');
         }
     }
@@ -489,22 +484,23 @@ class Admin extends CI_Controller {
     {
     	$model_data = array(
         	'order_id' => $this->input->get('order_id'),
-        	'group_id' => $this->input->get('group_id'),
+        	'group_order_id' => $this->input->get('group_order_id'),
         );
-
     	$this->adminmodel->cancelongoingtaskorder($model_data);
-    	redirect('admin/edit_ongoing_task?group_id=' . $model_data['group_id'], 'refresh'); 
+    	redirect('admin/edit_ongoing_task?group_order_id=' . $model_data['group_order_id'], 'refresh'); 
     }
 
     public function reassignorder()
     {
     	$model_data = array(
         	'order_id' => $this->input->get('order_id'),
-        	'group_id' => $this->input->get('group_id'),
+        	'group_order_id' => $this->input->get('group_order_id'),
         );
+        print_r($model_data);
+        exit();
 
     	$this->adminmodel->reassignorder($model_data);
-    	redirect('admin/edit_ongoing_task?group_id=' . $model_data['group_id'], 'refresh'); 
+    	redirect('admin/edit_ongoing_task?group_order_id=' . $model_data['group_order_id'], 'refresh'); 
     }
 
     public function create_group()
@@ -513,15 +509,18 @@ class Admin extends CI_Controller {
         	'order_id' => $this->input->post('group'),
         	'vendor_id' => $this->input->post('vendor_id'),
         );
+    	$insert_id = $this->adminmodel->create_group($model_data);
+    	$model_data['group_id'] = $insert_id;
 
-    	$this->adminmodel->create_group($model_data);
+    	$this->adminmodel->create_group_data($model_data);
+
     	redirect('admin/vendor_overview?vendor_id=' . $model_data['vendor_id'], 'refresh'); 
     }
 
     public function ungroup()
     {
     	$model_data = array(
-        	'group_id' => $this->input->get('group_id'),
+        	'group_id' => $this->input->get('group_order_id'),
             // 'order_id' => $this->input->post('order_id'),
         );
 
@@ -533,11 +532,12 @@ class Admin extends CI_Controller {
     {
     	$model_data = array(
         	'order_id' => $this->input->get('order_id'),
-        	'group_id' => $this->input->get('group_id'),
+        	'group_order_id' => $this->input->get('group_order_id'),
+        	'id'=> $this->input->get('group_order_id'),
         );
-
+        $data['taskorderlistsindividual'] = $this->adminmodel->gettaskorderlistsindividual($model_data);
     	$this->adminmodel->canceltaskorder($model_data);
-    	redirect('admin/edit_task_list?group_id=' . $model_data['group_id'], 'refresh'); 
+    	redirect('admin/edit_task_list?group_order_id=' . $model_data['group_order_id'], 'refresh'); 
     }
 
 
@@ -579,19 +579,12 @@ class Admin extends CI_Controller {
         //check type of selected vendor ot driver
         $model_data['selected_type'] = $this->adminmodel->getTypeOfUser($model_data['vendorandriderid']);
 
-
-
-
-
         if (!empty($model_data['period'])) {	
         	$data['riderreport']  = $this->adminmodel->vendorandriderreportbyperiod($model_data);
 		}	
         else {	
         	$data['riderreport']  = $this->adminmodel->vendorandriderreport($model_data);
 		}
-
-
-
 
         if (!empty($data['riderreport'])) {	
 	        $data['profile_tab'] = 'viewreport';

@@ -25,15 +25,18 @@
                                     <?php foreach ($manageorderdatalist as $orderdata) { 
                                         $this->db->select('*');
                                         $this->db->from('order');
+                                        $this->db->where('pickup_time',$orderdata->pickup_time);
+                                        $this->db->where('order_status_id',1);
+                                        $this->db->where('group_status','ungroup');
                                         $this->db->where('vendor_id',$orderdata->vendor_id);
                                         $ordercount = $this->db->get()->num_rows();
                                         ?>
                                         <tr>
                                             <td> <?php if (!empty($orderdata->username)) echo $orderdata->username; ?> </td>
-                                            <td> <?php if (!empty($orderdata->pickup_datetime)) echo $orderdata->pickup_datetime; ?> </td>
+                                            <td> <?php if (!empty($orderdata->pickup_time)) echo $orderdata->pickup_time; ?> </td>
                                             <td> <?php if (!empty($ordercount)) echo $ordercount; ?> </td>
                                             <td class="text-center"><a href="<?php echo site_url('admin/group_orders'); ?>" class="btn ">Manage</a></td>
-                                            <td> <?php if (!empty($orderdata->order_type_id)) echo $orderdata->order_type_id; ?> </td>
+                                            <td> <?php if (!empty($orderdata->order_type)) echo $orderdata->order_type; ?> </td>
                                         </tr>
                                     <?php } ?>       
                                 </tbody>

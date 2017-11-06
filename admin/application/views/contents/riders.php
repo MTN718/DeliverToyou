@@ -20,6 +20,8 @@
                             <table id="products-table" class="table table-tools table-hover">
                                 <thead>
                                     <tr>
+                                        <th><strong> Username </strong> </th>
+                                        <th><strong> Rider Id </strong> </th>
                                         <th><strong> Full Name </strong> </th>
                                         <th><strong> Id Proof </strong> </th>
                                         <th><strong> Email </strong> </th>
@@ -33,10 +35,12 @@
                                     <?php foreach ($riderdatalist as $riderdata) { ?>
                                         <tr data-row-id="<?php echo $riderdata->user_id;?>"  id="riderAction<?php echo $riderdata->user_id;?>">
                                             <td> <?php if (!empty($riderdata->username)) echo $riderdata->username; ?> </td>
+                                            <td> <?php if (!empty($riderdata->user_id)) echo $riderdata->user_id; ?> </td>
+                                            <td> <?php if (!empty($riderdata->name)) echo $riderdata->name; ?> </td>
                                             <td> <?php if (!empty($riderdata->id_proof)) echo $riderdata->id_proof; ?> </td>
                                             <td> <?php if (!empty($riderdata->email)) echo $riderdata->email; ?> </td>
                                             <td> <?php if (!empty($riderdata->license_no)) echo $riderdata->license_no; ?> </td>
-                                            <td> <?php if (!empty($riderdata->address_line_1)) echo $riderdata->address_line_1; ?> </td>
+                                            <td> <?php if (!empty($riderdata->address)) echo $riderdata->address; ?> </td>
                                             <td> <?php if (!empty($riderdata->emergency_contact_no)) echo $riderdata->emergency_contact_no; ?> </td>
                                             <td class="text-center">
                                                 <a href="<?php echo base_url(); ?>index.php/admin/edit_riders?rider_id=<?php echo $riderdata->user_id ?>" class="edit btn btn-sm btn-default"><i class="fa fa-pencil"></i> Edit</a>

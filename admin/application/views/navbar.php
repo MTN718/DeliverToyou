@@ -20,8 +20,7 @@
                 <ul class="nav navbar-nav pull-right header-menu">
                     <li class="dropdown" id="user-header">
                         <a href="#" class="dropdown-toggle c-white" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                            <img src="<?php echo base_url();?>/assets/img/avatars/avatar2.png" alt="user avatar" width="30" class="p-r-5">
-                            <span class="username">Bob Nilson</span>
+                            <span class="username"><?php echo $_SESSION['admin_data']->username; ?></span>
                             <i class="fa fa-angle-down p-r-10"></i>
                         </a>
                         <ul class="dropdown-menu">

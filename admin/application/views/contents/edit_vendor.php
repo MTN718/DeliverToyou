@@ -1,4 +1,4 @@
-<!-- BEGIN MAIN CONTENT -->
+<!--BEGIN MAIN CONTENT -->
 <div id="main-content">
     <div class="page-title">
         <i class="icon-custom-left"></i>
@@ -31,12 +31,22 @@
                                         <input type="hidden" name="user_type_id" value="vendor">
                                 <?php } ?>        
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">Business Name <span class="asterisk">*</span></label>
+                                            <label class="col-sm-2 control-label"> Username <span class="asterisk">*</span></label>
                                             <div class="col-sm-7">
                                                 <?php if (isset($vendordata->username)) { ?>
-                                                    <input type="text" placeholder="Business Name" name="username" class="form-control" value="<?php if (!empty($vendordata->username)) echo $vendordata->username; ?>">
+                                                    <input type="text" placeholder="Username" name="username" class="form-control" value="<?php if (!empty($vendordata->username)) echo $vendordata->username; ?>">
                                                 <?php } else { ?>    
-                                                    <input type="text" placeholder="Business Name" name="username"  class="form-control" required/>
+                                                    <input type="text" placeholder="Username" name="username"  class="form-control" required/>
+                                                <?php } ?>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Business Name <span class="asterisk">*</span></label>
+                                            <div class="col-sm-7">
+                                                <?php if (isset($vendordata->name)) { ?>
+                                                    <input type="text" placeholder="Business Name" name="businessname" class="form-control" value="<?php if (!empty($vendordata->name)) echo $vendordata->name; ?>">
+                                                <?php } else { ?>    
+                                                    <input type="text" placeholder="Business Name" name="businessname"  class="form-control" required/>
                                                 <?php } ?>
                                             </div>
                                         </div>
@@ -83,18 +93,19 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Nature of Business </label>
                                             <div class="col-sm-7">
-                                               <select class="form-control" name="business_nature" title="Select an account type...">
-                                                    <?php foreach ($businessdatalist as $businessdata) { ?>
-                                                        <option value="<?php echo $businessdata->title; ?>" > <?php echo $businessdata->title; ?> </option>
-                                                    <?php } ?>      
-                                                </select>
+                                                 <?php if (isset($vendordata->mobile)) { ?>
+                                                <input type="text"  class="form-control" name="business_nature" value="<?php if (!empty($vendordata->business_nature)) echo $vendordata->business_nature; ?>"  placeholder="Nature of Business" required/>
+                                                <?php } else { ?> 
+                                                 <input type="text"  class="form-control" name="business_nature"  placeholder="Nature of Business" required/>
+                                                <?php } ?>
+                                        
                                             </div>
                                         </div>    
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Address</label>
                                             <div class="col-sm-7">
-                                                <?php if (isset($vendoraddressdata->address_line_1)) { ?>
-                                                    <textarea rows="4" class="form-control" name="address" placeholder="Address"><?php if (!empty($vendoraddressdata->address_line_1)) echo $vendoraddressdata->address_line_1; ?></textarea>
+                                                <?php if (isset($vendordata->address)) { ?>
+                                                    <textarea rows="4" class="form-control" name="address" placeholder="Address"><?php if (!empty($vendordata->address)) echo $vendordata->address; ?></textarea>
                                                 <?php } else { ?>  
                                                     <textarea rows="4" class="form-control" name="address" placeholder="Address" required></textarea>
                                                 <?php } ?>
@@ -139,4 +150,4 @@
 </div>
 <!-- END MAIN CONTENT -->
 </div>
-<!-- END WRAPPER -->
+<!-- END WRAPPER

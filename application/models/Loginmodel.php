@@ -12,7 +12,7 @@ Class Loginmodel extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('users');
-        $this->db->where('user_type_id', 'vendor');
+        $this->db->where('user_type', 'vendor');
         $this->db->where('username', $username);
         $result = $this->db->get();
 

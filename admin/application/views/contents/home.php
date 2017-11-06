@@ -1,36 +1,11 @@
-<div id="main-content" class="dashboard">
-    <div class="panel panel-default ">
-        <div class="panel-heading" style="background:#F7AE07">
-            <h4>
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwoo" style="color: #fff;font-weight: 600;">
-                    Filter
-                </a>
-            </h4>
-        </div>
-        <div id="collapseTwoo" class="panel-collapse collapse in">
-            <div class="panel-body">
-                <div class="col-md-12" style="background:#fff;">
-                    <form>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label class="checkbox-inline"><input type="checkbox">Online Rider</label>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="checkbox-inline"><input type="checkbox">Offline Rider</label>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="checkbox-inline"><input type="checkbox">On Task Rider</label>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="checkbox-inline"><input type="checkbox">Available Rider</label>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+<style type="text/css">
+  #demo ul li {
+    margin-bottom: 18px;
+  }
+</style>
 
+<div id="main-content" class="dashboard">
+    
     <section class="cs-favorite-jobs">
         <div class="scetion-title">
             <h3>Map</h3>
@@ -38,18 +13,59 @@
         <div class="row">
             <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12" >
                 <div id="map" style="width: 100%; height:650px;"></div>
+                <br>
+                <div class="panel panel-default ">
+                  <div id="collapseTwoo" class="panel-collapse collapse in">
+                      <div class="panel-body">
+                          <div class="col-md-12" style="background:#fff;">
+                              <form>
+                                  <div class="row">
+                                      <div class="col-md-2">
+                                          <label class="radio-inline status_action" data-val="all">
+                                            <input type="radio" name="status" <?php if($status == "all") echo "checked"; ?> >All Rider
+                                          </label>
+                                      </div>
+                                      <div class="col-md-2">
+                                          <label class="radio-inline status_action" data-val="online">
+                                            <input type="radio" name="status" <?php if($status == "online") echo "checked"; ?> >Online Rider
+                                          </label>
+                                      </div>
+                                      <div class="col-md-2">
+                                          <label class="radio-inline status_action" data-val="offline">
+                                            <input type="radio" name="status" <?php if($status == "offline") echo "checked"; ?> >Offline Rider
+                                          </label>
+                                      </div>
+                                      <div class="col-md-3">
+                                          <label class="radio-inline status_action" data-val="ontask">
+                                            <input type="radio" name="status" <?php if($status == "ontask") echo "checked"; ?> >On Task Rider
+                                          </label>
+                                      </div>
+                                      <div class="col-md-3">
+                                          <label class="radio-inline status_action" data-val="available">
+                                            <input type="radio" name="status" <?php if($status == "available") echo "checked"; ?> >Available Rider
+                                          </label>
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
             </div>
 
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-                        <img src="<?php echo base_url();?>assets/img/mydelivery2u.png"  style="background: #FCDD11 ; padding: 2% 3%; margin-bottom:2%;" class="center-block img-responsive">
+                        <img src="<?php echo base_url();?>assets/img/mydelivery2u.png"  style="background: #FCDD11 ; padding: 4% 5%; margin-bottom:15px; width: 100%;" class="center-block img-responsive">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <img id="riderImg" src="<?php echo base_url();?>assets/img/home_img.jpg" style="border:2px solid black;" class="center-block  img-responsive">
-
+                      <?php if(!empty($riderData->image_url)) { ?>
+                        <img id="riderImg" src="<?php echo base_url();?>images/vendor/<?php echo $riderData->image_url; ?>" style="border:2px solid black;width: 100%;height: 250px;" class="center-block  img-responsive">
+                      <?php } else { ?>
+                        <img id="riderImg" src="<?php echo base_url();?>assets/img/home_img.jpg" style="border:2px solid black;width: 100%;height: 250px;" class="center-block  img-responsive">
+                      <?php } ?>
                     </div>
                 </div>
                 <br>
@@ -58,11 +74,13 @@
                         <div class="row vender_info" >
                             <div class="col-md-12 col-lg-12 col-sm-12">
                                 <div class="dropdown" style="width: 100%;">
-                                    <button class="dropbtn" >Driver Name</button>
+                                    <button class="dropbtn" >Rider Name</button>
                                     <div class="dropdown-content">
-                                        <a href="#">Demo</a>
-                                        <a href="#">Demo</a>
-                                        <a href="#">Demo</a>
+                                      <?php foreach ($riderlist as $rider) { ?>
+                                          <a href="<?php echo site_url(); ?>/admin/home/all/<?php echo $rider->user_id ?>" class="rider_action">
+                                            <?php echo $rider->name ?>
+                                          </a>
+                                      <?php } ?>
                                     </div>
                                 </div>
                             </div>
@@ -71,49 +89,37 @@
                 </div>
                 <div class="row vender_info" >
                     <div class="col-md-12 col-lg-12 col-sm-12">
-                     <!-- <button class="collapsible" data-toggle="collapse" data-target="#demo">Rider Name <i class="icon-arrow-down"></i> </button>-->
-                        <div id="demo" class="" style="background-color: #fff;padding: 5%;"><!--class="collapse"-->
-                            <ul>
-                                <li> 
-                                  <a href="javascript:voic(0);"><b> Rider Id </b></a>
-                                  <span id="rider_id"></span>
-                                </li>
+                        <div id="demo" class="" style="background-color: #fff;padding: 5%; min-height: 310px;">
+                        <br>
+                            <ul>  
                                 <li> 
                                   <a href="javascript:voic(0);"><b> Name :</b> </a>
-                                  <span id="rider_name"></span>
+                                  <span id="rider_name"><?php if(!empty($riderData->name)) echo $riderData->name; ?></span>
+                                </li>
+                                <li> 
+                                  <a href="javascript:voic(0);"><b> Rider Id </b></a>
+                                  <span id="rider_id"><?php if(!empty($riderData->user_id)) echo $riderData->user_id; ?></span>
+                                </li>
+                                <li> 
+                                  <a href="javascript:voic(0);"><b> Contact Email : </b></a> 
+                                  <span id="rider_email"><?php if(!empty($riderData->email)) echo $riderData->email; ?></span>
+                                </li>
+                                <li> 
+                                  <a href="javascript:voic(0);"><b> Contact Number : </b></a> 
+                                  <span id="rider_number"><?php if(!empty($riderData->mobile)) echo $riderData->mobile; ?></span>
+                                </li>
+                                <li> 
+                                  <a href="javascript:voic(0);"><b>Emergency Contact Number : </b></a> 
+                                  <span id="e_rider_number"><?php if(!empty($riderData->emergency_contact_no)) echo $riderData->emergency_contact_no; ?></span>
                                 </li>
                                 <li> 
                                   <a href="javascript:voic(0);"><b> Current Locations :</b></a> 
-                                  <span id="current_location"></span>
+                                  <span id="current_location"><?php if(!empty($address)) echo $address; ?></span>
                                 </li>
-                                <li> 
-                                  <a href="javascript:voic(0);"><b> ETA :</b> </a>
-                                  <span id="eta"></span> 
-                                </li>
-                                <li> 
-                                  <a href="javascript:voic(0);"><b> Customer Name :</b></a> 
-                                  <span id="customer_name"></span>
-                                </li>
-                                <li> 
-                                  <a href="javascript:voic(0);"><b> Customer Contact : </b></a> 
-                                  <span id="customer_contact"></span>
-                                </li>
-                                <li> 
-                                  <a href="javascript:voic(0);"><b> Drop OFF Loc. </b></a> 
-                                  <span id="drop_off_loc"></span>
-                                </li>
-                                <li> 
-                                  <a href="javascript:voic(0);"><b> Order Id : </b></a> 
-                                  <span id="order_id"></span>
-                                </li>
-                                <li> 
+                                <!-- <li> 
                                   <a href="javascript:voic(0);"><b> Group Id : </b></a> 
                                   <span id="group_id"></span>
-                                </li>
-                                <li> 
-                                  <a href="javascript:voic(0);"><b> Rider Nunber : </b></a> 
-                                  <span id="rider_number"></span>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -144,12 +150,16 @@
         });
         var infoWindow = new google.maps.InfoWindow;
 
+        var rider_id = '<?php echo $rider_id ;?>';
+        var status = '<?php echo $status ;?>';
+
           // Change this depending on the name of your PHP or XML file
-          downloadUrl('<?php echo base_url(); ?>/index.php/admin/maplocation', function(data) {
+          downloadUrl('<?php echo base_url(); ?>/index.php/admin/maplocation/'+status, function(data) {
             var xml = data.responseXML;
             var markers = xml.documentElement.getElementsByTagName('marker');
             Array.prototype.forEach.call(markers, function(markerElem) {
               var id = markerElem.getAttribute('id');
+              var status = markerElem.getAttribute('status');
               var name = markerElem.getAttribute('name');
               var address = markerElem.getAttribute('address');
               var type = markerElem.getAttribute('type');
@@ -167,13 +177,35 @@
               text.textContent = address
               infowincontent.appendChild(text);
               var icon = customLabel[type] || {};
-              var marker = new google.maps.Marker({
-                id: id,
-                text: text,
-                map: map,
-                position: point,
-                label: icon.label
-              });
+              if(status != "ontask") {
+                var marker = new google.maps.Marker({
+                  id: id,
+                  text: text,
+                  map: map,
+                  icon: normalIcon(),
+                  position: point,
+                  label: icon.label
+                });
+              } else {
+                var marker = new google.maps.Marker({
+                  id: id,
+                  text: text,
+                  map: map,
+                  icon: highlightedIcon(),
+                  position: point,
+                  label: icon.label
+                });
+              }
+
+              if(marker.id == rider_id) {
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+                setTimeout(function() {
+                    marker.setAnimation(null)
+                }, 3000);
+                map.setZoom(4);
+                map.setCenter(marker.getPosition());
+              }
+
               marker.addListener('click', function() {
                 data = {};
                 data['id'] = marker.id;
@@ -181,34 +213,39 @@
                 $.ajax({   
 
                     type: "POST",  
-                    url: "<?php echo base_url(); ?>index.php/admin/getRiderCustomerData",  
+                    url: "<?php echo base_url(); ?>index.php/admin/getMapRiderData",  
                     cache:false,  
                     data: data,
                     dataType: "json",       
                     success: function(response)  
-                    {  
-                      $('#rider_id').text(response.location.rider_id);
+                    {                      
+                      map.setZoom(4);
+                      map.setCenter(marker.getPosition());
+                      $('#rider_id').text(response.location.user_id);
                       $('#rider_name').text(response.location.name);
                       $('#current_location').text(response.address);
-                      $('#eta').text(response.location.eta);
-                      $('#customer_name').text(response.location.customer_name);
-                      $('#customer_contact').text(response.location.customer_contact);
-                      $('#drop_off_loc').text(response.location.dropoff_address_line_1);
-                      $('#order_id').text(response.location.order_id);
-                      $('#group_id').text(response.location.group_id);
+                      $('#group_id').text(response.location.group_order_id);
                       $('#rider_number').text(response.location.mobile);
+                      $('#e_rider_number').text(response.location.emergency_contact_no);
+                      $('#rider_email').text(response.location.email);
                       $("#riderImg").attr('src',"<?php echo base_url();?>images/vendor/"+response.location.image_url) 
                     } 
-
                 });
-
-
               });
             });
           });
         }
 
-
+        function normalIcon() {
+          return {
+            url: 'http://maps.google.com/mapfiles/marker.png'
+          };
+        }
+        function highlightedIcon() {
+          return {
+            url: 'http://maps.google.com/mapfiles/marker_green.png'
+          };
+        }
 
       function downloadUrl(url, callback) {
         var request = window.ActiveXObject ?
@@ -228,13 +265,17 @@
 
       function doNothing() {}
 
+      $(document).ready(function(){      
+        $(document).on('click','.status_action', function() {
+          
+          var val = $(this).attr('data-val');
 
+          location.href = "<?php echo base_url(); ?>/index.php/admin/home/"+val;
 
-   
+        });
+      });
 
+     
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnaHkFFR6tUuVZ-MjXB-0CjM9TieZiYnw&callback=initMap">
-    </script>
-
-
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnaHkFFR6tUuVZ-MjXB-0CjM9TieZiYnw&callback=initMap"></script>
 

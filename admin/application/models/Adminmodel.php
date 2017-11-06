@@ -14,8 +14,7 @@ Class Adminmodel extends CI_Model
     {  
         $this->db->select('*');
         $this->db->from('users');
-        $this->db->where('user_type_id', 'vendor');
-        $this->db->join('address', 'address.user_id = users.user_id');
+        $this->db->where('user_type', 'vendor');
         return $this->db->get()->result();
     }
 
@@ -29,18 +28,19 @@ Class Adminmodel extends CI_Model
         return $this->db->get()->row();
     } 
 
-    // Get Nature of Business List data
-    public function getbusinessdatalist()
-    {  
-        $this->db->select('*');
-        $this->db->from('business_type');
-        return $this->db->get()->result();
-    }
-
     // Get Rider data
     public function getriderdata($model_data)
     {   $id = $model_data['id'];
 
+        $this->db->select('*');
+        $this->db->where('user_id',$id);
+        $this->db->from('users');
+        return $this->db->get()->row();
+    } 
+
+    // Get Rider data
+    public function getriderdataById($id)
+    {   
         $this->db->select('*');
         $this->db->where('user_id',$id);
         $this->db->from('users');
@@ -52,30 +52,9 @@ Class Adminmodel extends CI_Model
     {  
         $this->db->select('*');
         $this->db->from('users');
-        $this->db->where('user_type_id', 'rider');
-        $this->db->join('address', 'address.user_id = users.user_id');
+        $this->db->where('user_type', 'rider');
         return $this->db->get()->result();
-    }
-
-    // Get Rider address data
-    public function getrideraddressdata($model_data)
-    {   $id = $model_data['id'];
-
-        $this->db->select('*');
-        $this->db->from('address');
-        $this->db->where('user_id',$id);
-        return $this->db->get()->row();
     }  
-
-    // Get vendor address data
-    public function getvendoraddressdata($model_data)
-    {   $id = $model_data['id'];
-
-        $this->db->select('*');
-        $this->db->from('address');
-        $this->db->where('user_id',$id);
-        return $this->db->get()->row();
-    }   
 
     // Get Order data list
     public function getmanageorderdatalist()
@@ -83,20 +62,11 @@ Class Adminmodel extends CI_Model
         $this->db->select('*');
         $this->db->from('order');
         $this->db->where('order_status_id',1);
+        $this->db->where('group_status','ungroup');
         $this->db->group_by('pickup_time');
         $this->db->join('users', 'users.user_id = order.vendor_id');
         return $this->db->get()->result();
     } 
-
-    // // Get Order data list
-    // public function getmanageorderdatalistcount()
-    // {   
-    //     $this->db->select('*');
-    //     $this->db->from('order');
-    //     $this->db->group_by('pickup_datetime','vendor_id');
-    //     // $this->db->join('vendor_id');
-    //     return $this->db->get()->num_rows();
-    // } 
 
     // Get Order data list
     public function getorderdatalist()
@@ -104,6 +74,8 @@ Class Adminmodel extends CI_Model
         $this->db->select('*');
         $this->db->from('order');
         $this->db->where('order_status_id',1);
+        $this->db->where('group_status','ungroup');
+        $this->db->group_by('vendor_id');
         $this->db->join('users', 'users.user_id = order.vendor_id');
         return $this->db->get()->result();
     } 
@@ -115,7 +87,8 @@ Class Adminmodel extends CI_Model
         $this->db->select('*');
         $this->db->from('order');
         $this->db->where('vendor_id',$id);
-        $this->db->where('group_status',0);
+        $this->db->where('order_status_id',1);
+        $this->db->where('group_status','ungroup');
         $this->db->join('users', 'users.user_id = order.vendor_id');
         return $this->db->get()->result();
     }   
@@ -126,8 +99,8 @@ Class Adminmodel extends CI_Model
         $this->db->select('*');
         $this->db->from('order');
         $this->db->where('order_status_id',1);
-        $this->db->group_by('group_id');
-        $this->db->join('user_order', 'user_order.order_id = order.order_id');
+        $this->db->group_by('group_order_id');
+        $this->db->join('group_order_conn', 'group_order_conn.order_id = order.order_id');
         return $this->db->get()->result();
     } 
 
@@ -137,8 +110,8 @@ Class Adminmodel extends CI_Model
         $this->db->select('*');
         $this->db->from('order');
         $this->db->where('order_status_id',2);
-        $this->db->group_by('group_id');
-        $this->db->join('user_order', 'user_order.order_id = order.order_id');
+        $this->db->group_by('group_order_id');
+        $this->db->join('group_order_conn', 'group_order_conn.order_id = order.order_id');
         $this->db->join('users', 'users.user_id = order.vendor_id');
         return $this->db->get()->result();
     } 
@@ -148,9 +121,10 @@ Class Adminmodel extends CI_Model
     {   
         $this->db->select('*');
         $this->db->from('order');
-        $this->db->where('order_status_id',5);
         $this->db->join('users', 'users.user_id = order.vendor_id');
-       // $this->db->join('order_driver', 'order_driver.driver_id = users.user_id');
+        $this->db->join('group_order_conn', 'group_order_conn.order_id = order.order_id');
+        $this->db->join('group_order', 'group_order.group_order_id = group_order_conn.group_order_id');
+        $this->db->where('order_status_id',4);
         return $this->db->get()->result();
     }
 
@@ -159,7 +133,8 @@ Class Adminmodel extends CI_Model
     {   
         $this->db->select('*');
         $this->db->from('order');
-        $this->db->where('order_status_id',5);
+        $this->db->where('order_status_id',4);
+        $this->db->group_by('vendor_id');
         $this->db->join('users', 'users.user_id = order.vendor_id');
         $this->db->limit(4);
         return $this->db->get()->result();
@@ -171,6 +146,7 @@ Class Adminmodel extends CI_Model
         $this->db->select('*');
         $this->db->from('order');
         $this->db->where('order_status_id',2);
+        $this->db->group_by('vendor_id');
         $this->db->join('users', 'users.user_id = order.vendor_id');
         $this->db->limit(4);
         return $this->db->get()->result();
@@ -182,6 +158,7 @@ Class Adminmodel extends CI_Model
         $this->db->select('*');
         $this->db->from('order');
         $this->db->where('order_status_id',1);
+        $this->db->group_by('vendor_id');
         $this->db->join('users', 'users.user_id = order.vendor_id');
         $this->db->limit(4);
         return $this->db->get()->result();
@@ -193,24 +170,26 @@ Class Adminmodel extends CI_Model
         $this->db->select('*');
         $this->db->from('order');
         $this->db->where('order_status_id',3);
+        $this->db->group_by('vendor_id');
         $this->db->join('users', 'users.user_id = order.vendor_id');
         $this->db->limit(4);
         return $this->db->get()->result();
     }     
 
-     // Get On Going Order List
-    public function getonlineriderlistondashborad()
+    public function getavaliableriderlistondashborad()
     {   
         $this->db->select('*');
-        $this->db->from('order_location');
+        $this->db->from('users');
+        $this->db->where('user_type','rider');
         $this->db->limit(4);
         return $this->db->get()->result();
-    }
+    }     
 
     public function getvendorandriderdatalist()
     {  
         $this->db->select('*');
         $this->db->from('users');
+        $this->db->where('user_type !=',"admin");
         return $this->db->get()->result();
     }  
 
@@ -219,7 +198,7 @@ Class Adminmodel extends CI_Model
         $this->db->select('*');
         $this->db->from('users');
         $this->db->where('user_id',$user_id);
-        return $this->db->get()->row()->user_type_id;
+        return $this->db->get()->row()->user_type;
     } 
 
 
@@ -230,8 +209,7 @@ Class Adminmodel extends CI_Model
 
 
 
-
-
+    // get report by date duration
     public function vendorandriderreport($model_data)
     {
         $vendorandriderid = $model_data['vendorandriderid'];
@@ -245,12 +223,12 @@ Class Adminmodel extends CI_Model
             $this->db->from('order');
             $this->db->where('order.vendor_id', $vendorandriderid);
         } else {
-            $this->db->from('order_driver');
-            $this->db->join('user_order', 'user_order.group_id = order_driver.group_order_id');
-            $this->db->join('order', 'order.order_id = user_order.order_id');
-            $this->db->where('order_driver.driver_id', $vendorandriderid);
+            $this->db->from('group_order');
+            $this->db->join('group_order_conn', 'group_order_conn.group_order_id = group_order.group_order_id');
+            $this->db->join('order', 'order.order_id = group_order_conn.order_id');
+            $this->db->where('group_order.rider_id', $vendorandriderid);
         }
-        $this->db->where('order.order_status_id',5);
+        $this->db->where('order.order_status_id',4);
         $this->db->where('pickup_date >=', $fromdate);
         $this->db->where('dropoff_date <=', $todate);
         return $this->db->get()->result();
@@ -259,15 +237,7 @@ Class Adminmodel extends CI_Model
 
 
 
-
-
-
-
-
-
-
-
-
+    // get report by period
     public function vendorandriderreportbyperiod($model_data)
     {
         $vendorandriderid = $model_data['vendorandriderid'];
@@ -307,12 +277,12 @@ Class Adminmodel extends CI_Model
             $this->db->from('order');
             $this->db->where('order.vendor_id', $vendorandriderid);
         } else {
-            $this->db->from('order_driver');
-            $this->db->join('user_order', 'user_order.group_id = order_driver.group_order_id');
-            $this->db->join('order', 'order.order_id = user_order.order_id');
-            $this->db->where('order_driver.driver_id', $vendorandriderid);
+            $this->db->from('group_order');
+            $this->db->join('group_order_conn', 'group_order_conn.group_order_id = group_order.group_order_id');
+            $this->db->join('order', 'order.order_id = group_order_conn.order_id');
+            $this->db->where('group_order.rider_id', $vendorandriderid);
         }
-        $this->db->where('order.order_status_id',5);
+        $this->db->where('order.order_status_id',4);
         if($period != "Daliy") {   
             $this->db->where('pickup_date >=', $fromdate);         
             $this->db->where('dropoff_date <=', $todate);
@@ -325,83 +295,37 @@ Class Adminmodel extends CI_Model
 
 
 
-
-
-
-
-
-
-
-
-    
-    public function getriderreportlist()
+     public function getriderreportlist()
     {
         $this->db->select('*');
-        $this->db->from('order');
-        $this->db->where('order_status_id',5);
-        $this->db->join('vendor_rider', 'vendor_rider.vendor_id = order.vendor_id');
+        $this->db->from('group_order');
+        $this->db->group_by('rider_id');
         return $this->db->get()->result();
     }
 
-    // public function getongoingorderlistsindividual($model_data)
-    // {   $id = $model_data['id'];
-
-    //     $this->db->select('*');
-    //     $this->db->from('order');
-    //     $this->db->where('order_status_id',2);
-    //     $this->db->where('order_id',$id);
-    //     $this->db->join('users', 'users.user_id = order.vendor_id');
-    //     return $this->db->get()->result();
-    // } 
 
     public function getongoingorderlistsindividual($model_data)
     {   $id = $model_data['id'];
 
-        $this->db->select('order.*,user_order.*');
-        $this->db->from('user_order');
-        $this->db->where('user_order.group_id',$id);
-        $this->db->join('order', 'order.order_id = user_order.order_id');
-        $this->db->where('order.order_status_id',2);
+        $this->db->select('order.*,group_order_conn.*');
+        $this->db->from('group_order_conn');
+        $this->db->where('group_order_conn.group_order_id',$id);
+        $this->db->join('order', 'order.order_id = group_order_conn.order_id');
+        $this->db->where('order.order_status_id !=',1);
         return $this->db->get()->result();
+ 
     }
 
     public function gettaskorderlistsindividual($model_data)
     {   $id = $model_data['id'];
 
-        $this->db->select('order.*,user_order.*');
-        $this->db->from('user_order');
-        $this->db->where('user_order.group_id',$id);
-        $this->db->join('order', 'order.order_id = user_order.order_id');
+        $this->db->select('order.*,group_order_conn.*');
+        $this->db->from('group_order_conn');
+        $this->db->where('group_order_conn.group_order_id',$id);
+    //    $this->db->where('order.order_status_id',3);
+        $this->db->join('order', 'order.order_id = group_order_conn.order_id');
         return $this->db->get()->result();
-    }
-
-    public function getriderlocationlist()
-    {  
-        $this->db->select('*');
-        $this->db->from('order_location');
-        $rows = $this->db->get()->result();
-
-        $dom = new DOMDocument("1.0");
-        $node = $dom->createElement("markers");
-        $parnode = $dom->appendChild($node);
-
-        foreach ($rows as $row) {
-
-            // Add to XML document node
-            $node = $dom->createElement("marker");
-            $newnode = $parnode->appendChild($node);
-
-            // $newnode->setAttribute("id",$row['id']);
-            // $newnode->setAttribute("name",$row['name']);
-            // $newnode->setAttribute("address", $row['address']);
-            $newnode->setAttribute("lat", $row->latitude);
-            $newnode->setAttribute("lng", $row->longitude);
-            // $newnode->setAttribute("type", $row['type']);
-        }
-
-        return $dom->saveXML();
-
-    }  
+    } 
 
 
 
@@ -416,13 +340,14 @@ Class Adminmodel extends CI_Model
         $username = $model_data['username'];
         $email = $model_data['email'];
         $address = $model_data['address']; 
+        $businessname = $model_data['businessname']; 
         $temppassword = $model_data['password']; 
         $password = password_hash($temppassword, PASSWORD_BCRYPT);
 
 
-        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type_id`,`business_nature`)  VALUES('$username','$email','$password','$number','$user_type_id','$business_nature')";
+        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type`,`business_nature`,`name`,`address`)  VALUES('$username','$email','$password','$number','$user_type_id','$business_nature','$businessname','$address')";
         $result = $this->db->query($sql);
-        return $this->db->insert_id();
+        return true;
     }
 
      //  Add vendor Image And data 
@@ -435,22 +360,12 @@ Class Adminmodel extends CI_Model
         $username = $model_data['username'];
         $email = $model_data['email'];
         $address = $model_data['address'];
+        $businessname = $model_data['businessname'];
         $temppassword = $model_data['password'];
         $password = password_hash($temppassword, PASSWORD_BCRYPT);
         $image = $model_data['image'];
 
-        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type_id`,`business_nature`,`image_url`)  VALUES('$username','$email','$password','$number','$user_type_id','$business_nature','$image')";
-        $result = $this->db->query($sql);
-        return $this->db->insert_id();
-    }
-
-     //   vendor address 
-    public function addvendoraddress($model_data) 
-    {
-        $insert_id = $model_data['insert_id'];
-        $address = $model_data['address'];
-
-        $sql = "INSERT INTO address(`user_id`,`address_line_1`)  VALUES('$insert_id','$address')";
+        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type`,`business_nature`,`image_url`,`name`,`address`)  VALUES('$username','$email','$password','$number','$user_type_id','$business_nature','$image','$businessname','$address')";
         $result = $this->db->query($sql);
         return true;
     }
@@ -466,14 +381,14 @@ Class Adminmodel extends CI_Model
         $license_no = $model_data['license_no'];
         $number = $model_data['number'];
         $emergency_contact_no = $model_data['emergency_contact_no'];
-        $vendor = $model_data['vendor'];
+        $name = $model_data['name'];
         $address = $model_data['address'];
         $temppassword = $model_data['password']; 
         $password = password_hash($temppassword, PASSWORD_BCRYPT);
 
-        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type_id`,`id_proof`,`license_no`,`emergency_contact_no`)  VALUES('$username','$email','$password','$number','$user_type_id','$id_proof','$license_no','$emergency_contact_no')";
+        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type`,`id_proof`,`license_no`,`emergency_contact_no`,`name`,`address`)  VALUES('$username','$email','$password','$number','$user_type_id','$id_proof','$license_no','$emergency_contact_no','$name','$address')";
         $result = $this->db->query($sql);
-        return $this->db->insert_id();
+        return true;
 
     }
 
@@ -488,39 +403,17 @@ Class Adminmodel extends CI_Model
         $license_no = $model_data['license_no'];
         $number = $model_data['number'];
         $emergency_contact_no = $model_data['emergency_contact_no'];
-        $vendor = $model_data['vendor'];
+        $name = $model_data['name'];
         $address = $model_data['address'];
         $temppassword = $model_data['password']; 
         $password = password_hash($temppassword, PASSWORD_BCRYPT);
         $image = $model_data['image'];
 
-        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type_id`,`id_proof`,`license_no`,`emergency_contact_no`,`image_url`)  VALUES('$username','$email','$password','$number','$user_type_id','$id_proof','$license_no','$emergency_contact_no','$image')";
-        $result = $this->db->query($sql);
-        return $this->db->insert_id();
-    }
-
-
-     //   Add Rider Address
-    public function addrideraddress($model_data) 
-    {
-        $insert_id = $model_data['insert_id'];
-        $address = $model_data['address'];
-
-        $sql = "INSERT INTO address(`user_id`,`address_line_1`)  VALUES('$insert_id','$address')";
+        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type`,`id_proof`,`license_no`,`emergency_contact_no`,`image_url`,`address`,`name`)  VALUES('$username','$email','$password','$number','$user_type_id','$id_proof','$license_no','$emergency_contact_no','$image','$address','$name')";
         $result = $this->db->query($sql);
         return true;
     }
 
-    // Add Rider To vendor 
-    public function addridertovendor($model_data) 
-    {
-        $insert_id = $model_data['insert_id'];
-        $vendor = $model_data['vendor'];
-
-        $sql = "INSERT INTO vendor_rider(`vendor_id`,`rider_id`)  VALUES('$vendor','$insert_id')";
-        $result = $this->db->query($sql);
-        return true;
-    } 
 
     //  Assign  Order To Rider 
     public function assigngroupordertorider($model_data) 
@@ -529,12 +422,11 @@ Class Adminmodel extends CI_Model
         $rider_id = $model_data['rider_id'];
 
         $this->db->select('order_id');
-        $this->db->from('user_order');
-        $this->db->where('group_id',$group_id);
+        $this->db->from('group_order_conn');
+        $this->db->where('group_order_id',$group_id);
         $order_id = $this->db->get()->result();
 
-
-        $sql = "INSERT INTO order_driver(`group_order_id`,`driver_id`)  VALUES('$group_id','$rider_id')";
+        $sql = "UPDATE `group_order` SET `rider_id` = '$rider_id' WHERE group_order_id = '$group_id'";
         $result = $this->db->query($sql);
 
         foreach ($order_id as $id) {
@@ -547,7 +439,7 @@ Class Adminmodel extends CI_Model
         return true;
     } 
 
-     //   Assign Back Date Order To Rider 
+    //   Assign Back Date Order To Rider 
     public function assignbackdateordertorider($model_data) 
     {
         $group_id = $model_data['group_id'];
@@ -555,55 +447,74 @@ Class Adminmodel extends CI_Model
         $date = $model_data['date'];
 
         $this->db->select('order_id');
-        $this->db->from('user_order');
-        $this->db->where('group_id',$group_id);
+        $this->db->from('group_order_conn');
+        $this->db->where('group_order_id',$group_id);
         $order_id = $this->db->get()->result();
 
-        $sql = "INSERT INTO order_driver(`group_order_id`,`driver_id`)  VALUES('$group_id','$rider_id')";
+        $sql = "UPDATE `group_order` SET `rider_id` = '$rider_id' WHERE group_order_id = '$group_id'";
         $this->db->query($sql);
 
         foreach ($order_id as $id) {
             $id = $id->order_id;
 
-            $sql = "UPDATE `order` SET `order_status_id` = '5', `dropoff_date` = '$date' WHERE order_id = '$id'";
+            $sql = "UPDATE `order` SET `order_status_id` = '4', `dropoff_date` = '$date' WHERE order_id = '$id'";
             $this->db->query($sql);
         }    
         return true;
     } 
 
-     //   Assign Back Date Order To Rider 
+    //  Create Group Id
     public function create_group($model_data) 
     {   
         $order_id = $model_data['order_id'];
-        $group_id = rand(1,50000);
-        foreach ($order_id as $id) {
-            $sql = "INSERT INTO user_order(`order_id`,`group_id`)  VALUES('$id','$group_id')";
-            $this->db->query($sql);
+        $rider_id = "00000";
 
-            $sql = "UPDATE `order` SET `group_status` = '1' WHERE order_id = '$id'";
+        $sql = "INSERT INTO group_order(`rider_id`)  VALUES('$rider_id')";
+        $result = $this->db->query($sql);
+        return $this->db->insert_id();
+
+    } 
+
+    //  Insert Group Id and Order Id   
+    public function create_group_data($model_data) 
+    {   
+        $order_id = $model_data['order_id'];
+        $group_id = $model_data['group_id'];
+
+        foreach ($order_id as $id) {
+
+            $sql = "INSERT INTO group_order_conn(`order_id`,`group_order_id`)  VALUES('$id','$group_id')";
+            $result = $this->db->query($sql);
+
+            $sql = "UPDATE `order` SET `group_status` = 'group' WHERE order_id = '$id'";
             $this->db->query($sql);
         }
         return true;
     } 
 
-     //   Assign Back Date Order To Rider 
+
+
+    //  Group Change to ungroup 
     public function ungroup($model_data) 
     {   
         $group_id = $model_data['group_id'];
 
         $this->db->select('order_id');
-        $this->db->from('user_order');
-        $this->db->where('group_id',$group_id);
+        $this->db->from('group_order_conn');
+        $this->db->where('group_order_id',$group_id);
         $order_id = $this->db->get()->result();
 
 
         foreach ($order_id as $id) {
             $id = $id->order_id;
-            $sql = "UPDATE `order` SET `group_status` = '0' WHERE order_id = '$id'";
+            $sql = "UPDATE `order` SET `group_status` = 'ungroup' WHERE order_id = '$id'";
             $this->db->query($sql);
         }
 
-        $sql = "DELETE FROM user_order WHERE group_id = '$group_id'";
+        $sql = "DELETE FROM group_order_conn WHERE group_order_id = '$group_id'";
+        $this->db->query($sql);
+
+        $sql = "DELETE FROM group_order WHERE group_order_id = '$group_id'";
         $this->db->query($sql);
         return true;
     } 
@@ -614,7 +525,7 @@ Class Adminmodel extends CI_Model
         $group_id = $model_data['group_id'];
         $rider_id = $model_data['rider_id'];
 
-        $sql = "UPDATE `order_driver` SET `driver_id` = '$rider_id' WHERE group_order_id = '$group_id'";
+        $sql = "UPDATE `group_order` SET `rider_id` = '$rider_id' WHERE group_order_id = '$group_id'";
         $this->db->query($sql);
 
         return true;
@@ -636,15 +547,13 @@ Class Adminmodel extends CI_Model
         $username = $model_data['username'];
         $email = $model_data['email'];
         $address = $model_data['address']; 
+        $businessname = $model_data['businessname']; 
         $temppassword = $model_data['password']; 
         $password = password_hash($temppassword, PASSWORD_BCRYPT);
         $image = $model_data['image'];
 
 
-        $sql = "UPDATE `users` SET `username` = '$username', `email` = '$email',`password` = '$password',`mobile` = '$number',`user_type_id` = '$user_type_id',`business_nature` = '$business_nature',`image_url` = '$image' WHERE user_id = '$id'";
-        $this->db->query($sql);
-
-        $sql = "UPDATE `address` SET `address_line_1` = '$address' WHERE user_id = '$id'";
+        $sql = "UPDATE `users` SET `username` = '$username', `email` = '$email',`password` = '$password',`mobile` = '$number',`user_type` = '$user_type_id',`business_nature` = '$business_nature',`image_url` = '$image' ,`name` = '$businessname',`address` = '$address' WHERE user_id = '$id'";
         $this->db->query($sql);
     }
 
@@ -659,13 +568,11 @@ Class Adminmodel extends CI_Model
         $username = $model_data['username'];
         $email = $model_data['email'];
         $address = $model_data['address']; 
+        $businessname = $model_data['businessname'];
         $temppassword = $model_data['password']; 
         $password = password_hash($temppassword, PASSWORD_BCRYPT);
 
-        $sql = "UPDATE `users` SET `username` = '$username', `email` = '$email',`password` = '$password',`mobile` = '$number',`user_type_id` = '$user_type_id',`business_nature` = '$business_nature' WHERE user_id = '$id'";
-        $this->db->query($sql);
-
-        $sql = "UPDATE `address` SET `address_line_1` = '$address' WHERE user_id = '$id'";
+        $sql = "UPDATE `users` SET `username` = '$username', `email` = '$email',`password` = '$password',`mobile` = '$number',`user_type` = '$user_type_id',`business_nature` = '$business_nature' ,`name` = '$businessname',`address` = '$address' WHERE user_id = '$id'";
         $this->db->query($sql);
     }
 
@@ -681,19 +588,13 @@ Class Adminmodel extends CI_Model
         $license_no = $model_data['license_no'];
         $number = $model_data['number'];
         $emergency_contact_no = $model_data['emergency_contact_no'];
-        $vendor = $model_data['vendor'];
+        $name = $model_data['name'];
         $address = $model_data['address'];
         $temppassword = $model_data['password']; 
         $password = password_hash($temppassword, PASSWORD_BCRYPT);
         $image = $model_data['image'];
 
-        $sql = "UPDATE `users` SET `username` = '$username', `email` = '$email',`password` = '$password',`mobile` = '$number',`user_type_id` = '$user_type_id',`id_proof` = '$id_proof',`license_no` = '$license_no',`image_url` = '$image',`emergency_contact_no` = '$emergency_contact_no' WHERE user_id = '$id'";
-        $this->db->query($sql);
-
-        $sql = "UPDATE `address` SET `address_line_1` = '$address' WHERE user_id = '$id'";
-        $this->db->query($sql);
-
-        $sql = "UPDATE `vendor_rider` SET `vendor_id` = '$vendor' WHERE rider_id = '$id'";
+        $sql = "UPDATE `users` SET `username` = '$username', `email` = '$email',`password` = '$password',`mobile` = '$number',`user_type` = '$user_type_id',`id_proof` = '$id_proof',`license_no` = '$license_no',`image_url` = '$image',`emergency_contact_no` = '$emergency_contact_no',`name`= '$name',`address` = '$address' WHERE user_id = '$id'";
         $this->db->query($sql);
 
     }
@@ -710,20 +611,13 @@ Class Adminmodel extends CI_Model
         $license_no = $model_data['license_no'];
         $number = $model_data['number'];
         $emergency_contact_no = $model_data['emergency_contact_no'];
-        $vendor = $model_data['vendor'];
+        $name = $model_data['name'];
         $address = $model_data['address'];
         $temppassword = $model_data['password']; 
         $password = password_hash($temppassword, PASSWORD_BCRYPT);
 
-        $sql = "UPDATE `users` SET `username` = '$username', `email` = '$email',`password` = '$password',`mobile` = '$number',`user_type_id` = '$user_type_id',`id_proof` = '$id_proof',`license_no` = '$license_no',`emergency_contact_no` = '$emergency_contact_no' WHERE user_id = '$id'";
+        $sql = "UPDATE `users` SET `username` = '$username', `email` = '$email',`password` = '$password',`mobile` = '$number',`user_type` = '$user_type_id',`id_proof` = '$id_proof',`license_no` = '$license_no',`emergency_contact_no` = '$emergency_contact_no',`name`= '$name',`address` = '$address' WHERE user_id = '$id'";
         $this->db->query($sql);
-
-        $sql = "UPDATE `address` SET `address_line_1` = '$address' WHERE user_id = '$id'";
-        $this->db->query($sql);
-
-        $sql = "UPDATE `vendor_rider` SET `vendor_id` = '$vendor' WHERE rider_id = '$id'";
-        $this->db->query($sql);
-
     }
 
     //  Canecl Order
@@ -741,10 +635,10 @@ Class Adminmodel extends CI_Model
     {
         $order_id = $model_data['order_id'];
 
-        $sql = "UPDATE `order` SET `order_status_id` = '1',`group_status` = '0' WHERE order_id = '$order_id'";
+        $sql = "UPDATE `order` SET `order_status_id` = '1',`group_status` = 'ungroup' WHERE order_id = '$order_id'";
         $this->db->query($sql);
 
-        $sql = "DELETE FROM user_order WHERE order_id = '$order_id'";
+        $sql = "DELETE FROM group_order_conn WHERE order_id = '$order_id'";
         $this->db->query($sql);
 
         return true;
@@ -828,7 +722,8 @@ Class Adminmodel extends CI_Model
     public function getAddress($latitude,$longitude){
         if(!empty($latitude) && !empty($longitude)){
             //Send request and receive json data by address
-            $geocodeFromLatLong = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?latlng='.trim($latitude).','.trim($longitude).'&sensor=false'); 
+            //&sensor=false
+            $geocodeFromLatLong = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?latlng='.trim($latitude).','.trim($longitude)); 
             $output = json_decode($geocodeFromLatLong);
             $status = $output->status;
             //Get address from json data
@@ -848,20 +743,18 @@ Class Adminmodel extends CI_Model
 
 
     // update rder data
-    public function getRiderCustomerData($model_data)
+    public function getMapRiderData($model_data)
     {
         $this->db->select('*');
-        $this->db->from('order_location');
-        $this->db->join('order', 'order.order_id = order_location.order_id');
-        $this->db->join('users', 'users.user_id = order_location.rider_id');
-        $this->db->join('user_order', 'user_order.order_id = order_location.order_id');
-        $this->db->where('order_location.order_location_id',$model_data['order_location_id']);
-        $location_data = $this->db->get()->row();
-        //$address = $this->getAddress($location_data->latitude,$location_data->longitude);
+        $this->db->from('users');
+        $this->db->join('group_order', 'group_order.rider_id = users.user_id','left');
+        $this->db->where('users.user_id',$model_data['user_id']);
+        $rider_data = $this->db->get()->row();
+        $address = $this->getAddress($rider_data->latitude,$rider_data->longitude);
 
         $riderInfo = array(
-            'location' => $location_data,
-            'address' => "null",
+            'location' => $rider_data,
+            'address' => $address,
         );
 
         echo json_encode($riderInfo);

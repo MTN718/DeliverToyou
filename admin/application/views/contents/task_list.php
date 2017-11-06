@@ -38,23 +38,28 @@
                                         $this->db->join('users', 'users.user_id = order.vendor_id');
                                         $vendorid = $this->db->get()->row(); 
 
+                                        $this->db->select('*');
+                                        $this->db->from('group_order_conn');                                      
+                                        $this->db->where('group_order_id',$taskorder->group_order_id);
+                                        $orderquantity = $this->db->get()->num_rows();
+
 
                                         ?>
                                         <tr> 
-                                            <!-- <td><a href="javascript:void(0);" data-toggle="modal" data-target="#task-info"> <?php if (!empty($taskorder->group_id)) echo $taskorder->group_id; ?> </a></td> -->
-                                            <td><a href="<?php echo base_url(); ?>index.php/admin/edit_task_list?group_id=<?php echo $taskorder->group_id ?>"> <?php if (!empty($taskorder->group_id)) echo $taskorder->group_id; ?> </a></td>
+                                            <!-- <td><a href="javascript:void(0);" data-toggle="modal" data-target="#task-info"> <?php if (!empty($taskorder->group_order_id)) echo $taskorder->group_order_id; ?> </a></td> -->
+                                            <td><a href="<?php echo base_url(); ?>index.php/admin/edit_task_list?group_order_id=<?php echo $taskorder->group_order_id ?>"> <?php if (!empty($taskorder->group_order_id)) echo $taskorder->group_order_id; ?> </a></td>
                                             <td> <?php if (!empty($vendorid->username)) echo $vendorid->username; ?> </td>
                                             <td> <?php if (!empty($taskorder->pickup_address_1)) echo $taskorder->pickup_address_1; ?> </td>
                                             <td> <?php if (!empty($taskorder->customer_name)) echo $taskorder->customer_name; ?> </td>
                                             <td> <?php if (!empty($taskorder->dropoff_address_line_1)) echo $taskorder->dropoff_address_line_1; ?> </td>
                                             <td> <?php if (!empty($taskorder->detail)) echo $taskorder->detail; ?> </td>
-                                            <td> <?php if (!empty($taskorder->pickup_datetime)) echo $taskorder->pickup_datetime; ?> </td>
+                                            <td> <?php if (!empty($taskorder->pickup_time)) echo $taskorder->pickup_time; ?> </td>
                                             <td> <?php if (!empty($taskorder->instruction)) echo $taskorder->instruction; ?> </td>
-                                            <td> <?php if (!empty($taskorder->quantity)) echo $taskorder->quantity; ?> </td>
+                                            <td> <?php if (!empty($orderquantity)) echo $orderquantity; ?> </td>
                                             <td> R1 </td>
-                                            <td><a href="javascript:void(0)" class="btn btn-primary open-assigntorider" data-id="<?php echo $taskorder->group_id;?>" data-toggle="modal" data-target="#assign-to-rider"><i class="fa fa-user" aria-hidden="true"></i></a></td>
-                                            <td><a href="<?php echo base_url(); ?>index.php/admin/ungroup?group_id=<?php echo $taskorder->group_id ?>" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></a></td>
-                                            <td><a href="javascript:void(0)" class="btn btn-primary open-assignbackdated" data-id="<?php echo $taskorder->group_id;?>" data-toggle="modal" data-target="#assign-backdated"><i class="fa fa-check" aria-hidden="true"></i></a></td>
+                                            <td><a href="javascript:void(0)" class="btn btn-primary open-assigntorider" data-id="<?php echo $taskorder->group_order_id;?>" data-toggle="modal" data-target="#assign-to-rider"><i class="fa fa-user" aria-hidden="true"></i></a></td>
+                                            <td><a href="<?php echo base_url(); ?>index.php/admin/ungroup?group_order_id=<?php echo $taskorder->group_order_id ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to Ungroup this Group?');"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                                            <td><a href="javascript:void(0)" class="btn btn-primary open-assignbackdated" data-id="<?php echo $taskorder->group_order_id;?>" data-toggle="modal" data-target="#assign-backdated"><i class="fa fa-check" aria-hidden="true"></i></a></td>
 
                                         </tr>
                                     <?php } ?>  
@@ -117,7 +122,7 @@
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #FCDD11;">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                    <h4 class="modal-title" id="exampleModalLabel"><strong> Assign </strong> to rider</h4>
+                    <h4 class="modal-title" id="exampleModalLabel"><strong> Assign </strong> to Rider</h4>
                 </div>
                 <form  method="post" action="<?php echo site_url();?>/admin/assigngroupordertorider">
                     <div class="modal-body">
@@ -145,7 +150,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="exampleModalLabel"><strong> Assign Backdated </strong> to rider </h4>
+                    <h4 class="modal-title" id="exampleModalLabel"><strong> Assign Backdated </strong> to Rider </h4>
                 </div>
                 <form  method="post" action="<?php echo site_url();?>/admin/assignbackdateordertorider">
                     <div class="modal-body">
@@ -161,7 +166,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 m-b-20">
-                                <input class="form-control input-sm" type="text" name="date" placeholder="Select Date" style="width: 100%;">
+                                <input class="form-control input-sm" data-lang="en" id="backdatedrider" data-large-mode="true" data-min-year="1800" data-max-year="2020" type="text" name="date" placeholder="mm-dd-yyyy" style="width: 100%;">
                             </div>
                         </div>
                     </div>
