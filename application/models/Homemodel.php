@@ -154,7 +154,7 @@ Class Homemodel extends CI_Model
         $this->db->from('users');
         $this->db->where('user_id',$model_data['user_id']);
         $rider_data = $this->db->get()->row();
-        //$address = $this->getAddress($rider_data->latitude,$rider_data->longitude);
+        $address = $this->getAddress($rider_data->latitude,$rider_data->longitude);
 
 
         $this->db->select('*');
@@ -168,7 +168,7 @@ Class Homemodel extends CI_Model
         $riderInfo = array(
             'rider' => $rider_data,
             'order' => $order_data,
-            'address' => "null",
+            'address' => $address,
         );
 
         echo json_encode($riderInfo);

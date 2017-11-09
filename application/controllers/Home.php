@@ -32,11 +32,13 @@ class Home extends MY_Controller
         );
 
         if(!empty($rider_id)) {  
+            $riderData = $this->homemodel->getRiderOrderDataById($rider_id);
             $this->mViewData['data'] = array(
                 'profile_tab' => $profile_tab,
                 'rider_id' => $rider_id,
                 'ongoingRiderList' => $this->homemodel->getongoingRiderList($model_data),
-                'riderData' => $this->homemodel->getRiderOrderDataById($rider_id),
+                'riderData' => $riderData,
+                'riderLocation' => $this->homemodel->getAddress($riderData->latitude,$riderData->longitude),
                 'orderData' => $this->homemodel->getOrderData($rider_id),
                 'orderdatalist' => $this->homemodel->getorderdatalist($model_data),
                 'vendordatainfo' => $this->homemodel->getvendordatainfo($model_data),
@@ -49,7 +51,8 @@ class Home extends MY_Controller
                 'profile_tab' => $profile_tab,
                 'rider_id' => $rider_id,
                 'ongoingRiderList' => $this->homemodel->getongoingRiderList($model_data),
-                'riderData' => "",
+                'riderData' => "",                
+                'riderLocation' => "",
                 'orderData' => array(),
                 'orderdatalist' => $this->homemodel->getorderdatalist($model_data),
                 'vendordatainfo' => $this->homemodel->getvendordatainfo($model_data),

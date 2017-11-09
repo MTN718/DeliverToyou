@@ -113,7 +113,7 @@
                   </li>
                   <li style="padding: 0px;"> 
                     <a style="color: black;" href="javascript:voic(0);"><b> Current Locations :</b></a> 
-                    <span id="current_location">null</span>
+                    <span id="current_location"><?php if(!empty($data['riderLocation'])) echo $data['riderLocation']; ?></span>
                   </li>
                   <!-- <li style="padding: 0px;"> 
                     <a style="color: black;" href="javascript:voic(0);"><b> ETA :</b> </a>
