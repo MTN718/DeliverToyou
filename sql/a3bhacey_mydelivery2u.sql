@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 06, 2017 at 01:37 PM
+-- Generation Time: Nov 14, 2017 at 07:57 AM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -39,7 +39,8 @@ CREATE TABLE `group_order` (
 --
 
 INSERT INTO `group_order` (`group_order_id`, `rider_id`, `group_order_status`) VALUES
-(2, 10, '');
+(2, 10, ''),
+(3, 10, '');
 
 -- --------------------------------------------------------
 
@@ -60,7 +61,9 @@ CREATE TABLE `group_order_conn` (
 INSERT INTO `group_order_conn` (`group_order_conn_id`, `order_id`, `group_order_id`) VALUES
 (1, 2, 2),
 (2, 3, 2),
-(3, 5, 2);
+(3, 5, 2),
+(4, 1, 3),
+(5, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -104,10 +107,10 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`order_id`, `order_no`, `order_name`, `vendor_id`, `order_type`, `contact`, `pickup_address_1`, `pickup_address_2`, `pickup_city`, `pickup_state`, `pickup_zip`, `pickup_date`, `pickup_time`, `dropoff_address_line_1`, `dropoff_address_line_2`, `dropoff_city`, `dropoff_state`, `dropoff_zip`, `dropoff_date`, `dropoff_time`, `detail`, `instruction`, `distance`, `order_status_id`, `amount`, `customer_name`, `customer_contact`, `group_status`) VALUES
-(1, '1001', 'Abc', 4, 'Current', '98410', 'Satation', 'Vijay nagar', 'ratlam', 'Gj', 457993, '0000-00-00', '10:00:00', 'MIg', 'Mig', 'Nagpur', 'Gj', 457993, '0000-00-00', '00:00:00', 'heads', 'Glass', '32', 1, 0, 'demo', '235687', 'ungroup'),
+(1, '1001', 'Abc', 4, 'Current', '98410', 'Satation', 'Vijay nagar', 'ratlam', 'Gj', 457993, '0000-00-00', '10:00:00', 'MIg', 'Mig', 'Nagpur', 'Gj', 457993, '0000-00-00', '00:00:00', 'heads', 'Glass', '32', 2, 0, 'demo', '235687', 'group'),
 (2, '1002', 'abc', 3, 'Current', '32109', 'Gangwal Station', 'geeta bhavan', 'dhar', 'Mp', 452002, '2017-10-12', '11:30:00', 'Lig', 'Lig', 'Bhopal', 'Gj', 489332, '2017-11-02', '00:00:00', 'toys', 'Nothing', '25', 3, 0, 'abc', '326596', 'group'),
 (3, '1003', 'abc', 3, 'Current', '568796', 'Mig', 'Lig', 'Indore', 'Mp', 452001, '2017-10-11', '11:30:00', 'Geeta', 'Stal pual', 'indoer', 'Mp', 452001, '2017-11-02', '00:00:00', 'Caps', 'Take Care', '', 3, 0, 'demo', '355874', 'group'),
-(4, '1004', 'abc', 4, 'Current', '124568125', 'Mig', 'Lig', 'Indore', 'Mp', 452001, '0000-00-00', '10:00:00', 'Geeta', 'Stal pual', 'indoer', 'Mp', 452001, '0000-00-00', '00:00:00', 'Caps', 'Take Care', '45', 1, 0, 'abc', '125878', 'ungroup'),
+(4, '1004', 'abc', 4, 'Current', '124568125', 'Mig', 'Lig', 'Indore', 'Mp', 452001, '0000-00-00', '10:00:00', 'Geeta', 'Stal pual', 'indoer', 'Mp', 452001, '0000-00-00', '00:00:00', 'Caps', 'Take Care', '45', 2, 0, 'abc', '125878', 'group'),
 (5, '1005', 'abc', 3, 'Current', '245355', 'mig', 'mir', 'indore', 'mp', 452001, '0000-00-00', '11:30:00', 'lig', 'lig', 'indore', 'mp', 456987, '0000-00-00', '00:00:00', 'toys', 'Nothing', '23', 4, 20, 'demo', '235687', 'group'),
 (6, '1006', 'abc', 13, 'current', '5586', 'lig', 'lig', 'indore', 'mp', 55862, '0000-00-00', '12:00:00', 'mig', 'mig', 'indore', 'mp', 281247, '0000-00-00', '00:00:00', 'pack', 'no', '20', 1, 0, 'demo', '458791', 'ungroup'),
 (7, '1007', 'abc', 11, 'current', '2385', 'lig', 'lig', 'indore', 'mp', 5865325, '0000-00-00', '01:00:00', 'mig', 'mig', 'ingor', 'mp', 525825, '0000-00-00', '00:00:00', 'Glass', 'Take Care', '10', 1, 0, 'demo', '215487', 'ungroup'),
@@ -257,13 +260,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `group_order`
 --
 ALTER TABLE `group_order`
-  MODIFY `group_order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `group_order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `group_order_conn`
 --
 ALTER TABLE `group_order_conn`
-  MODIFY `group_order_conn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `group_order_conn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `order`
