@@ -4,7 +4,7 @@
         <div class="col-md-6 col-lg-6 coll-sm-6 padding4"></div>
     </div>
     <div class="col-md-12 table-responsive" style="padding:0px;">
-        <table class="table">
+        <table class="table" id="dataexample1">
             <thead>
                 <th>Order id</th>
                 <th>Group id</th>

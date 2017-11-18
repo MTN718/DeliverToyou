@@ -45,9 +45,10 @@
 
 
                                         ?>
-                                        <tr> 
+                                        <tr data-row-id="<?php echo $taskorder->group_order_id;?>"> 
+                                            <td>  <a href="javascript:void(0);" class="task_list_popup" col-index='1' data="0" > <?php if (!empty($taskorder->group_order_id)) echo $taskorder->group_order_id; ?> </a></td> 
                                             <!-- <td><a href="javascript:void(0);" data-toggle="modal" data-target="#task-info"> <?php if (!empty($taskorder->group_order_id)) echo $taskorder->group_order_id; ?> </a></td> -->
-                                            <td><a href="<?php echo base_url(); ?>index.php/admin/edit_task_list?group_order_id=<?php echo $taskorder->group_order_id ?>"> <?php if (!empty($taskorder->group_order_id)) echo $taskorder->group_order_id; ?> </a></td>
+                                           <!-- <td><a href="<?php echo base_url(); ?>index.php/admin/edit_task_list?group_order_id=<?php echo $taskorder->group_order_id ?>"> <?php if (!empty($taskorder->group_order_id)) echo $taskorder->group_order_id; ?> </a></td> -->
                                             <td> <?php if (!empty($vendorid->username)) echo $vendorid->username; ?> </td>
                                             <td> <?php if (!empty($taskorder->pickup_address_1)) echo $taskorder->pickup_address_1; ?> </td>
                                             <td> <?php if (!empty($taskorder->customer_name)) echo $taskorder->customer_name; ?> </td>
@@ -72,50 +73,7 @@
         </div>
     </div>
 
-   <!--  <div class="modal fade" id="task-info" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #FCDD1;">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title"><strong>Order</strong> List</h4>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-striped table-hover table-dynamic">
-                        <thead>
-                            <tr>
-                                <th>Order Id</th>
-                                <th>Order No.</th>
-                                <th>Vendor Name</th>
-                                <th>Vendor Contact</th>
-                                <th>Customer Name</th>
-                                <th>Drop Off Location</th>
-                                <th>Details</th>
-                                <th>Pick Up Time</th>
-                                <th>Instructions</th>
-                                <th>Cancel Order</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr>
-                                <td>  </td>
-                                <td>  </td>
-                                <td>  </td>
-                                <td>  </td>
-                                <td>  </td>
-                                <td>  </td>
-                                <td>  </td>
-                                <td>  </td>
-                                <td>  </td>
-                                <td><button class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button></td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div> -->
+  
 
     <div class="modal fade" id="assigntorider" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog modal-lg">
@@ -181,4 +139,70 @@
 
 
 
-    
+
+<div class="modal fade" id="tasklistinfomodel" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #F7AE07;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><strong> Order </strong> List </h4>
+            </div>
+            <div class="modal-body table-responsive">
+                <table class="table table-responsive table-striped table-hover table-dynamic">
+                    <thead>
+                        <tr>
+                            <th>Order Id</th>
+                            <th>Order No</th>
+                            <th>Vendor Name</th>
+                            <th>Vendor Contact</th>
+                            <th>Customer Name</th>
+                            <th>Customer Contact</th>
+                            <th>Drop Off Location</th>
+                            <th>Details</th>
+                            <th>Pick Up Time</th>
+                            <th>Instructions</th>
+                            <th>Cancel Order</th>
+                        </tr>
+                    </thead>
+                    <tbody id="taskorderdata">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> 
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function(){      
+        $(document).on('click','.task_list_popup', function() {
+            data = {};
+            data['val'] = $(this).attr('data');
+            data['id'] = $(this).parent('td').parent('tr').attr('data-row-id');
+            data['index'] = $(this).attr('col-index');
+            
+            $.ajax({   
+
+                type: "POST",  
+                url: "<?php echo base_url(); ?>/index.php/admin/edit_task_list",  
+                cache:false,  
+                data: data,
+                success: function(data1)  
+                {   
+
+                    console.log(data1);
+
+                    $('#taskorderdata').html(data1);
+                    $('#tasklistinfomodel').modal('show');
+                    
+                }   
+            
+            });
+        });
+    });
+</script> 

@@ -119,7 +119,7 @@
                                                 <aside class="section-sidebar col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                                     <ul class="account-menu">
                                                         <li class="<?php if($data['profile_tab'] == "home") echo "active"; ?>">
-                                                            <a href="#home" data-toggle="tab" >
+                                                            <a href="<?php echo site_url();?>/home/vendorDashboard">
                                                                 <i class="icon-home"></i>Home
                                                             </a>
                                                         </li>
@@ -201,6 +201,12 @@
 
                                             </div>
 
+                                            <div class="tab-pane fade1 tabs-container custom-width-style <?php if($data['profile_tab'] == "add_order") echo "active"; ?>" id="add_order">
+
+                                                <?php include('vendor_tabs/vendor_add_order_tab.php'); ?>
+
+                                            </div>
+
                                             <div class="tab-pane fade1 tabs-container custom-width-style <?php if($data['profile_tab'] == "ongoing_order") echo "active"; ?>" id="ongoing_order">
 
                                                 <?php include('vendor_tabs/vendor_ongoing_order_tab.php'); ?>
@@ -243,3 +249,4 @@
 
 <?php include('vendor_tabs/vendor_modal.php'); ?>
 
+    

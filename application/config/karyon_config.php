@@ -31,7 +31,7 @@ $config['karyon_config'] = array(
 	// Default scripts to embed at page head or end
 	'scripts' => array(
 		'head'	=> array(
-			'assets/js/jquery/jqueryb8ff.js?ver=1.12.4',
+			// 'assets/js/jquery/jqueryb8ff.js?ver=1.12.4',
 			'assets/js/jquery/jquery-migrate.min330a.js?ver=1.4.1',
 			'assets/js/apply-fb-stylea288.js?ver=4.8.1',
 			'assets/js/jquery-te-1.4.0.mina288.js?ver=4.8.1',

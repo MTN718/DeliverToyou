@@ -79,23 +79,13 @@
             });
         });
     </script>
-
-    <div class="row">
-        <div class="col-md-12 col-lg-12 coll-sm-12 padding19" style="margin-top: 10px;">
-            <div class="col-md-3">
-                <button type="submit" class="btn btn-default"><i class="icon-arrow-circle-left"></i> Preveous Date </button>
-            </div>
-            <div class="col-md-6 text-center text-margin">
-                <span> Current Date </span>
-            </div>
-            <div class="col-md-3">
-                <button type="submit" class="btn btn-default" style="float:right;">Next Date <i class="icon-arrow-circle-right"></i></button>
-            </div>
-        </div>
-    </div>
 </section>
 <script>
     jQuery(document).ready(function () {
         jQuery('[data-toggle="tooltip"]').tooltip();
     });
 </script>
+
+
+
+

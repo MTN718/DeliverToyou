@@ -1,0 +1,93 @@
+body {
+  color: #333;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+}
+
+h1 {
+  text-align: center;
+  font-weight:normal;
+}
+
+h2 {
+  font-weight:normal;
+  width:100%;
+  float:left;
+  margin: 20px 0  0px 0;
+}
+
+code {
+  background-color: ghostWhite;
+  border: 1px solid #DEDEDE;
+  color: #444;
+  padding: 0 3px;
+}
+
+
+label#geo_label
+{
+  width: auto;
+  float: none;
+}
+
+p {
+  float:left;
+  width: 100%;
+}
+.gist {
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+
+
+textarea
+{
+  border-color: lightgray; 
+  font-size: 14px;
+  width: 675px;
+  margin-bottom: 5px;
+  padding-top: 2px;
+}
+
+
+
+#map {
+  border: 1px solid #DDD; 
+  width: 650px;
+  height: 980px;
+}
+
+#legend {
+  font-size: 12px;
+  font-style: italic;
+}
+
+.ui-menu .ui-menu-item a {
+  font-size: 12px;
+}
+
+.input {
+  float:left;  
+}
+
+.input-positioned
+{
+  padding: 35px 0 0 0;
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+* html .clearfix {
+	height: 1%;
+}
+

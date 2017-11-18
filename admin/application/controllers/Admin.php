@@ -176,27 +176,27 @@ class Admin extends CI_Controller {
 	}
 
 
-	public function edit_ongoing_task()
-	{
-		$model_data = array(
-            'id'=> $this->input->get('group_order_id'),
-        );
-		$this->checklogin();
-		$data['ongoingorderlistsindividual'] = $this->adminmodel->getongoingorderlistsindividual($model_data);
-		$data['pageName'] = "EIDTONGOINGTASK";
-		$this->load->view('content_handler', $data);
-	}
+	// public function edit_ongoing_task()
+	// {
+	// 	$model_data = array(
+ //            'id'=> $this->input->get('group_order_id'),
+ //        );
+	// 	$this->checklogin();
+	// 	$data['ongoingorderlistsindividual'] = $this->adminmodel->getongoingorderlistsindividual($model_data);
+	// 	$data['pageName'] = "EIDTONGOINGTASK";
+	// 	$this->load->view('content_handler', $data);
+	// }
 
-	public function edit_task_list()
-	{
-		$model_data = array(
-            'id'=> $this->input->get('group_order_id'),
-        );
-		$this->checklogin();
-		$data['taskorderlistsindividual'] = $this->adminmodel->gettaskorderlistsindividual($model_data);
-		$data['pageName'] = "EIDTTASKLIST";
-		$this->load->view('content_handler', $data);
-	}
+	// public function edit_task_list()
+	// {
+	// 	$model_data = array(
+ //            'id'=> $this->input->get('group_order_id'),
+ //        );
+	// 	$this->checklogin();
+	// 	$data['taskorderlistsindividual'] = $this->adminmodel->gettaskorderlistsindividual($model_data);
+	// 	$data['pageName'] = "EIDTTASKLIST";
+	// 	$this->load->view('content_handler', $data);
+	// }
 
 	public function getMapRiderData()
 	{
@@ -275,14 +275,16 @@ class Admin extends CI_Controller {
 	            'address' => $this->input->post('address'),
 	            'businessname' => $this->input->post('businessname'),
             );
+
+ 
             $this->adminmodel->addvendorwithoutimgInfo($model_data);
             $this->session->set_flashdata('success_msg', 'Vendor Added Successfully...');
-            redirect('admin/edit_vendor');
+            redirect('admin/vendors');
         } else {
             $data1 = array('upload_data' => $this->upload->data());
             $model_data = array(
             	'id' => $this->input->post('id'),
-	            'user_type_id' => $this->input->post('user_type_id'),
+	            'user_type' => $this->input->post('user_type_id'),
 	            'username' => $this->input->post('username'),
 	            'email' => $this->input->post('email'),
 	            'password' => $this->input->post('password'),
@@ -294,7 +296,7 @@ class Admin extends CI_Controller {
             );
             $this->adminmodel->addvendorimage($model_data);
             $this->session->set_flashdata('success_msg', 'Vendor Added Successfully...');
-            redirect('admin/edit_vendor');
+            redirect('admin/vendors');
         }
     }
 
@@ -325,7 +327,7 @@ class Admin extends CI_Controller {
             );
             $this->adminmodel->addriderwithoutimgInfo($model_data);
             $this->session->set_flashdata('success_msg', 'Rider Added Successfully...');
-            redirect('admin/edit_riders');
+            redirect('admin/riders');
         } else {
             $data1 = array('upload_data' => $this->upload->data());
             $model_data = array(
@@ -344,7 +346,7 @@ class Admin extends CI_Controller {
             );
             $this->adminmodel->addriderimage($model_data);
             $this->session->set_flashdata('success_msg', 'Rider Added Successfully...');
-            redirect('admin/edit_riders');
+            redirect('admin/riders');
         }
     }
 
@@ -480,28 +482,58 @@ class Admin extends CI_Controller {
         }
     }
 
-    public function cancelongoingtaskorder()
+
+
+    // public function cancelongoingtaskorder()
+    // {
+    // 	$model_data = array(
+    //     	'order_id' => $this->input->get('order_id'),
+    //     	'group_order_id' => $this->input->get('group_order_id'),
+    //     );
+    // 	$this->adminmodel->cancelongoingtaskorder($model_data);
+    // 	redirect('admin/edit_ongoing_task?group_order_id=' . $model_data['group_order_id'], 'refresh'); 
+    // }
+
+
+     public function cancelongoingtaskorder()
     {
     	$model_data = array(
         	'order_id' => $this->input->get('order_id'),
-        	'group_order_id' => $this->input->get('group_order_id'),
         );
     	$this->adminmodel->cancelongoingtaskorder($model_data);
-    	redirect('admin/edit_ongoing_task?group_order_id=' . $model_data['group_order_id'], 'refresh'); 
+    	redirect('admin/ongoing_tasks'); 
     }
+
+
+
+    // public function reassignorder()
+    // {
+    // 	$model_data = array(
+    //     	'order_id' => $this->input->get('order_id'),
+    //     	'group_order_id' => $this->input->get('group_order_id'),
+    //     );
+    //     print_r($model_data);
+    //     exit();
+
+    // 	$this->adminmodel->reassignorder($model_data);
+    // 	redirect('admin/edit_ongoing_task?group_order_id=' . $model_data['group_order_id'], 'refresh'); 
+    // }
+
 
     public function reassignorder()
     {
     	$model_data = array(
         	'order_id' => $this->input->get('order_id'),
-        	'group_order_id' => $this->input->get('group_order_id'),
         );
         print_r($model_data);
         exit();
 
     	$this->adminmodel->reassignorder($model_data);
-    	redirect('admin/edit_ongoing_task?group_order_id=' . $model_data['group_order_id'], 'refresh'); 
+    	redirect('admin/ongoing_tasks'); 
     }
+
+
+
 
     public function create_group()
     {
@@ -532,12 +564,10 @@ class Admin extends CI_Controller {
     {
     	$model_data = array(
         	'order_id' => $this->input->get('order_id'),
-        	'group_order_id' => $this->input->get('group_order_id'),
-        	'id'=> $this->input->get('group_order_id'),
         );
         $data['taskorderlistsindividual'] = $this->adminmodel->gettaskorderlistsindividual($model_data);
     	$this->adminmodel->canceltaskorder($model_data);
-    	redirect('admin/edit_task_list?group_order_id=' . $model_data['group_order_id'], 'refresh'); 
+    	redirect('admin/task_list'); 
     }
 
 
@@ -618,6 +648,195 @@ class Admin extends CI_Controller {
         }
         echo json_encode($msg);
     }
+
+    public function edit_ongoing_task_list()
+    {
+        $model_data = array(
+            'val' => $_POST['val'],
+            'index' => $_POST['index'],
+            'id' => $_POST['id'],
+        );
+
+        $ongoingorderlistsindividual22 = $this->adminmodel->getongoingorderlistsindividual($model_data);
+
+        $ongoingorderlistsindividualorder = "";
+
+     
+    	foreach ($ongoingorderlistsindividual22 as $ongoingorderlists) { 
+
+    		if ($ongoingorderlists->order_status_id == 3) { 
+            	$ongoingorderlistsindividualorder .= '<tr style="background-color: #993333;">';
+            } else if ($ongoingorderlists->order_status_id == 4) { 
+                $ongoingorderlistsindividualorder .= '<tr style="background-color: #FCDD11;">';
+            } else { 
+                $ongoingorderlistsindividualorder .= '<tr>';
+            } 
+
+            $ongoingorderlistsindividualorder .= '<td>'.
+            		$ongoingorderlists->order_id.
+            	'</td>';
+
+            $ongoingorderlistsindividualorder .='<td>'.
+            		$ongoingorderlists->order_no. 
+            	'</td>';
+
+            $ongoingorderlistsindividualorder .='<td>'.
+            		$ongoingorderlists->username. 
+            	'</td>';
+
+            $ongoingorderlistsindividualorder .='<td>'. 
+            		$ongoingorderlists->mobile.
+            	'</td>';
+
+            $ongoingorderlistsindividualorder .='<td>'. 
+            	 	$ongoingorderlists->customer_name. 
+            	 '</td>';
+
+            $ongoingorderlistsindividualorder .='<td>'. 
+                	$ongoingorderlists->customer_contact. 
+                '</td>';
+
+            $ongoingorderlistsindividualorder .='<td>'.
+                	$ongoingorderlists->dropoff_address_line_1. 
+                '</td>';
+
+            $ongoingorderlistsindividualorder .='<td>'. 
+                	$ongoingorderlists->detail. 
+                '</td>';
+
+            $ongoingorderlistsindividualorder .='<td>'. 
+                	$ongoingorderlists->pickup_time. 
+                '</td>';
+
+            $ongoingorderlistsindividualorder .='<td>'. 
+                	$ongoingorderlists->instruction. 
+                '</td>';
+
+            if ($ongoingorderlists->order_status_id == 3 || $ongoingorderlists->order_status_id == 4 ) {
+
+                $ongoingorderlistsindividualorder .='<td>'. 
+                	'<a href="#" class="btn btn-danger disabled">'.
+                        '<i class="fa fa-times" aria-hidden="true"></i></a>'.
+                    '</td>'.
+                    '<td>'.
+                    	'<a href="#" class="btn btn-primary disabled">'.
+                        	'<i class="fa fa-user" aria-hidden="true"></i></a>'.
+                    '</td>';
+            } else {
+
+            	$ongoingorderlistsindividualorder .='<td>'.
+            		'<a href="'.base_url().'index.php/admin/cancelongoingtaskorder?order_id= '.$ongoingorderlists->order_id.'" class="btn btn-danger" >'.
+            		'<i class="fa fa-times" aria-hidden="true"></i></a></td>'.
+                '<td><a href="'.base_url().'index.php/admin/reassignorder?order_id= '.$ongoingorderlists->order_id.'" class="btn btn-primary">'. 
+                	'<i class="fa fa-user" aria-hidden="true"></i></a></td>';
+            }    	
+
+        	$ongoingorderlistsindividualorder .='</tr>';
+    	}
+
+		echo $ongoingorderlistsindividualorder;	
+	}
+
+
+
+	public function edit_task_list()
+    {
+        $model_data = array(
+            'val' => $_POST['val'],
+            'index' => $_POST['index'],
+            'id' => $_POST['id'],
+        );
+
+        $taskorderlistsindividual = $this->adminmodel->gettaskorderlistsindividual($model_data);
+
+        $taskorderlistsindividualorder = "";
+
+
+        	foreach ($taskorderlistsindividual as $taskorderlists) { 
+
+    		if ($taskorderlists->order_status_id == 3) { 
+            	$taskorderlistsindividualorder .= '<tr style="background-color: #993333;">';
+            }  else { 
+                $taskorderlistsindividualorder .= '<tr>';
+            } 
+
+            $taskorderlistsindividualorder .= '<td>'.
+            		$taskorderlists->order_id.
+            	'</td>';
+
+            $taskorderlistsindividualorder .='<td>'.
+            		$taskorderlists->order_no. 
+            	'</td>';
+
+            $taskorderlistsindividualorder .='<td>'.
+            		$taskorderlists->username. 
+            	'</td>';
+
+            $taskorderlistsindividualorder .='<td>'. 
+            		$taskorderlists->mobile.
+            	'</td>';
+
+            $taskorderlistsindividualorder .='<td>'. 
+            	 	$taskorderlists->customer_name. 
+            	 '</td>';
+
+            $taskorderlistsindividualorder .='<td>'. 
+                	$taskorderlists->customer_contact. 
+                '</td>';
+
+            $taskorderlistsindividualorder .='<td>'.
+                	$taskorderlists->dropoff_address_line_1. 
+                '</td>';
+
+            $taskorderlistsindividualorder .='<td>'. 
+                	$taskorderlists->detail. 
+                '</td>';
+
+            $taskorderlistsindividualorder .='<td>'. 
+                	$taskorderlists->pickup_time. 
+                '</td>';
+
+            $taskorderlistsindividualorder .='<td>'. 
+                	$taskorderlists->instruction. 
+                '</td>';
+
+            if ($taskorderlists->order_status_id == 3) {
+
+                $taskorderlistsindividualorder .='<td>'. 
+                	'<a href="#" class="btn btn-danger disabled">'.
+                        '<i class="fa fa-times" aria-hidden="true"></i></a>'.
+                    '</td>';
+            } else {
+
+            	$taskorderlistsindividualorder .='<td>'.
+            		'<a href="'.base_url().'index.php/admin/canceltaskorder?order_id= '.$taskorderlists->order_id.'" class="btn btn-danger" >'.
+            		'<i class="fa fa-times" aria-hidden="true"></i></a></td>';
+            }    	
+
+        	$taskorderlistsindividualorder .='</tr>';
+    	}
+
+
+    	echo $taskorderlistsindividualorder;
+
+
+
+    }    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

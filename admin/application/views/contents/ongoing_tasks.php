@@ -44,9 +44,9 @@
 
 
                                         ?>
-                                        <tr>
-                                           <!--  <td>  <a href="javascript:void(0);" class="open-ongoingtaskinfo" data-id="<?php echo $ongoingorder->order_id;?>" data-toggle="modal" data-target="#ongoing-task-info"> xxxx</a></td> -->
-                                            <td><a href="<?php echo base_url(); ?>index.php/admin/edit_ongoing_task?group_order_id=<?php echo $ongoingorder->group_order_id ?>" class="btn" > <?php if (!empty($ongoingorder->group_order_id)) echo $ongoingorder->group_order_id; ?> </a></td>
+                                        <tr data-row-id="<?php echo $ongoingorder->group_order_id;?>">
+                                            <td>  <a href="javascript:void(0);" class="ongoing_task_popup" col-index='1' data="0" > <?php if (!empty($ongoingorder->group_order_id)) echo $ongoingorder->group_order_id; ?> </a></td> 
+                                            <!-- <td><a href="<?php echo base_url(); ?>index.php/admin/edit_ongoing_task?group_order_id=<?php echo $ongoingorder->group_order_id ?>" class="btn" > <?php if (!empty($ongoingorder->group_order_id)) echo $ongoingorder->group_order_id; ?> </a></td> -->
                                             <td> <?php if (!empty($riderid->rider_id)) echo $riderid->rider_id; ?> </td>
                                             <td> <?php if (!empty($ongoingorder->username)) echo $ongoingorder->username; ?> </td>
                                             <td> <?php if (!empty($ongoingorder->customer_name)) echo $ongoingorder->customer_name; ?> </td>
@@ -101,25 +101,15 @@
     </div>
 
 
- <!--  <div class="modal fade" id="ongoingtaskinfo" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal fade" id="ongoingtaskinfo" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #F7AE07;">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><strong>Order</strong> List</h4>
+                <h4 class="modal-title"><strong> Order </strong> List </h4>
             </div>
-            <div class="modal-body">
-                <input type="hidden" name="order_id" id="order_id" value=""/>
-
-                <script language="javascript" >
-                  var id = $('#order_id').val();
-                </script>
-
-                <?php
-                   $order_id = 'id';
-                 ?>
-
-                <table class="table table-striped table-hover table-dynamic">
+            <div class="modal-body table-responsive">
+                <table class="table table-responsive table-striped table-hover table-dynamic">
                     <thead>
                         <tr>
                             <th>Order Id</th>
@@ -127,6 +117,7 @@
                             <th>Vendor Name</th>
                             <th>Vendor Contact</th>
                             <th>Customer Name</th>
+                            <th> Customer Contact </th>
                             <th>Drop Off Location</th>
                             <th>Details</th>
                             <th>Pick Up Time</th>
@@ -135,34 +126,45 @@
                             <th>Reassign Order</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="ongoingorderdata">
 
-                    <?php 
-                        $this->db->select('*');
-                        $this->db->from('order');
-                        $this->db->where('order_status_id',2);
-                        $this->db->where('order_id',$order_id);
-                        $this->db->join('users', 'users.user_id = order.vendor_id');
-                        $ongoingorderlistsindividual = $this->db->get()->result();
-                    ?>
-                        <?php foreach ($ongoingorderlistsindividual as $ongoingorderlists) { ?>
-                            <tr>
-                                <td> <?php if (!empty($ongoingorderlists->username)) echo $ongoingorderlists->username; ?> </td>
-                                <td> <?php if (!empty($ongoingorderlists->username)) echo $ongoingorderlists->username; ?> </td>
-                                <td> <?php if (!empty($ongoingorderlists->username)) echo $ongoingorderlists->username; ?> </td>
-                                <td> <?php if (!empty($ongoingorderlists->username)) echo $ongoingorderlists->username; ?> </td>
-                                <td> <?php if (!empty($ongoingorderlists->username)) echo $ongoingorderlists->username; ?> </td>
-                                <td> <?php if (!empty($ongoingorderlists->username)) echo $ongoingorderlists->username; ?> </td>
-                                <td> <?php if (!empty($ongoingorderlists->username)) echo $ongoingorderlists->username; ?> </td>
-                                <td> <?php if (!empty($ongoingorderlists->username)) echo $ongoingorderlists->username; ?> </td>
-                                <td> <?php if (!empty($ongoingorderlists->username)) echo $ongoingorderlists->username; ?> </td>
-                                <td><button class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button></td>
-                                <td><button class="btn btn-primary"><i class="fa fa-user" aria-hidden="true"></i></button></td>
-                            </tr>
-                        <?php } ?>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-</div>  -->
+</div> 
+
+    
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function(){      
+        $(document).on('click','.ongoing_task_popup', function() {
+            data = {};
+            data['val'] = $(this).attr('data');
+            data['id'] = $(this).parent('td').parent('tr').attr('data-row-id');
+            data['index'] = $(this).attr('col-index');
+            
+            $.ajax({   
+
+                type: "POST",  
+                url: "<?php echo base_url(); ?>/index.php/admin/edit_ongoing_task_list",  
+                cache:false,  
+                data: data,
+                success: function(data1)  
+                {   
+
+                    console.log(data1);
+
+                    $('#ongoingorderdata').html(data1);
+                    $('#ongoingtaskinfo').modal('show');
+                    
+                }   
+            
+            });
+        });
+    });
+</script> 

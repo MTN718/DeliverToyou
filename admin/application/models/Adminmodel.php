@@ -304,26 +304,46 @@ Class Adminmodel extends CI_Model
     }
 
 
+    // public function getongoingorderlistsindividual($model_data)
+    // {   $id = $model_data['id'];
+
+    //     $this->db->select('order.*,group_order_conn.*');
+    //     $this->db->from('group_order_conn');
+    //     $this->db->where('group_order_conn.group_order_id',$id);
+    //     $this->db->join('order', 'order.order_id = group_order_conn.order_id');
+    //     $this->db->where('order.order_status_id !=',1);
+    //     return $this->db->get()->result();
+ 
+    // }
+
     public function getongoingorderlistsindividual($model_data)
     {   $id = $model_data['id'];
 
-        $this->db->select('order.*,group_order_conn.*');
+        $this->db->select('*');
         $this->db->from('group_order_conn');
-        $this->db->where('group_order_conn.group_order_id',$id);
         $this->db->join('order', 'order.order_id = group_order_conn.order_id');
+        $this->db->join('users', 'users.user_id = order.vendor_id');
+        $this->db->where('group_order_conn.group_order_id',$id);
         $this->db->where('order.order_status_id !=',1);
         return $this->db->get()->result();
  
     }
 
+
+
+
+
+
     public function gettaskorderlistsindividual($model_data)
     {   $id = $model_data['id'];
 
-        $this->db->select('order.*,group_order_conn.*');
+        $this->db->select('*');
         $this->db->from('group_order_conn');
-        $this->db->where('group_order_conn.group_order_id',$id);
-    //    $this->db->where('order.order_status_id',3);
         $this->db->join('order', 'order.order_id = group_order_conn.order_id');
+        $this->db->join('users', 'users.user_id = order.vendor_id');
+        $this->db->where('group_order_conn.group_order_id',$id);
+        $this->db->where('order.order_status_id !=',4);
+        $this->db->where('order.order_status_id !=',2);
         return $this->db->get()->result();
     } 
 
@@ -334,7 +354,7 @@ Class Adminmodel extends CI_Model
     //   Add vendor Data with out  Image  
     public function addvendorwithoutimgInfo($model_data) 
     {
-        $user_type_id = $model_data['user_type_id'];
+        $user_type_id = $model_data['user_type'];
         $number = $model_data['number'];
         $business_nature = $model_data['business_nature'];
         $username = $model_data['username'];
@@ -343,7 +363,6 @@ Class Adminmodel extends CI_Model
         $businessname = $model_data['businessname']; 
         $temppassword = $model_data['password']; 
         $password = password_hash($temppassword, PASSWORD_BCRYPT);
-
 
         $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type`,`business_nature`,`name`,`address`)  VALUES('$username','$email','$password','$number','$user_type_id','$business_nature','$businessname','$address')";
         $result = $this->db->query($sql);
@@ -354,7 +373,7 @@ Class Adminmodel extends CI_Model
     public function addvendorimage($model_data) 
     {
         $id = $model_data['id'];
-        $user_type_id = $model_data['user_type_id'];
+        $user_type_id = $model_data['user_type'];
         $number = $model_data['number'];
         $business_nature = $model_data['business_nature'];
         $username = $model_data['username'];

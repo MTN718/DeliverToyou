@@ -34,11 +34,11 @@
                                 <tbody>
                                     <?php foreach ($taskorderlistsindividual as $taskorderlists) { 
 
-                                        $this->db->select('*');
-                                        $this->db->from('order');                                      
-                                        $this->db->where('order_id',$taskorderlists->order_id);
-                                        $this->db->join('users', 'users.user_id = order.vendor_id');
-                                        $vendorid = $this->db->get()->row();
+                                        // $this->db->select('*');
+                                        // $this->db->from('order');                                      
+                                        // $this->db->where('order_id',$taskorderlists->order_id);
+                                        // $this->db->join('users', 'users.user_id = order.vendor_id');
+                                        // $vendorid = $this->db->get()->row();
                                         ?>  
 
                                         <?php if ($taskorderlists->order_status_id == 3) {  ?>
@@ -49,8 +49,8 @@
 
                                             <td> <?php if (!empty($taskorderlists->order_id)) echo $taskorderlists->order_id; ?> </td>
                                             <td> <?php if (!empty($taskorderlists->order_no)) echo $taskorderlists->order_no; ?> </td>
-                                            <td> <?php if (!empty($vendorid->username)) echo $vendorid->username; ?> </td>
-                                            <td> <?php if (!empty($vendorid->mobile)) echo $vendorid->mobile; ?> </td>
+                                            <td> <?php if (!empty($taskorderlists->username)) echo $taskorderlists->username; ?> </td>
+                                            <td> <?php if (!empty($taskorderlists->mobile)) echo $taskorderlists->mobile; ?> </td>
                                             <td> <?php if (!empty($taskorderlists->customer_name)) echo $taskorderlists->customer_name; ?> </td>
                                             <td> <?php if (!empty($taskorderlists->customer_contact)) echo $taskorderlists->customer_contact; ?> </td>
                                             <td> <?php if (!empty($taskorderlists->dropoff_address_line_1)) echo $taskorderlists->dropoff_address_line_1; ?> </td>

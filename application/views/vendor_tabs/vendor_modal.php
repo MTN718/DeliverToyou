@@ -52,9 +52,10 @@
                                 <input type="text" class="form-control" placeholder="Amount" name="amount" required="required">
                             </div>
                         </div> 
-                        <div class="form-group col-sm-6 col-md-6">
+                    <br>
+                        <div id="locationField" class="form-group col-sm-6 col-md-6">
                             <div class="col-md-12">
-                                <input type="text" class="form-control" placeholder="Pickup Address Line 1" name="pickupaddline1" required="required">
+                                <input type="text"  id="autocomplete" onFocus="geolocate()" class="form-control" placeholder="Pickup Address Line 1" name="pickupaddline1" required="required">
                             </div>
                         </div>
                         <div class="form-group col-sm-6 col-md-6">

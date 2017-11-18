@@ -43,7 +43,6 @@
                                         $vendorid = $this->db->get()->row();
 
                                         
-
                                         ?>
 
                                         <?php if ($ongoingorderlists->order_status_id == 3) {  ?>

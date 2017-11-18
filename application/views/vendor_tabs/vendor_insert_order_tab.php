@@ -10,7 +10,7 @@
                     <span class="btn btn-default">Order import&hellip;</span>
                 </label>
             </form>
-            <a data-toggle="modal" data-target="#addorderDialog"  class="btn btn-primary" style="margin-right:2%;float:right;"> <i class="icon-plus" aria-hidden="true"></i> </a>
+            <a href="#add_order" data-toggle="tab"  class="btn btn-primary" style="margin-right:2%;float:right;"> <i class="icon-plus" aria-hidden="true"></i> </a>
         </div>
     </div>
     <div class="col-md-12 table-responsive" style="padding:0px;">

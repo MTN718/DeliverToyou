@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 14, 2017 at 07:57 AM
+-- Generation Time: Nov 18, 2017 at 03:22 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -83,6 +83,8 @@ CREATE TABLE `order` (
   `pickup_city` varchar(25) NOT NULL,
   `pickup_state` varchar(45) NOT NULL,
   `pickup_zip` int(10) NOT NULL,
+  `pickup_lat` varchar(200) NOT NULL,
+  `pickup_lng` varchar(200) NOT NULL,
   `pickup_date` date NOT NULL,
   `pickup_time` time NOT NULL,
   `dropoff_address_line_1` varchar(85) NOT NULL,
@@ -90,6 +92,8 @@ CREATE TABLE `order` (
   `dropoff_city` varchar(45) NOT NULL,
   `dropoff_state` varchar(45) NOT NULL,
   `dropoff_zip` int(10) NOT NULL,
+  `dropoff_lat` varchar(200) NOT NULL,
+  `dropoff_lng` varchar(200) NOT NULL,
   `dropoff_date` date NOT NULL,
   `dropoff_time` time NOT NULL,
   `detail` text NOT NULL,
@@ -106,19 +110,20 @@ CREATE TABLE `order` (
 -- Dumping data for table `order`
 --
 
-INSERT INTO `order` (`order_id`, `order_no`, `order_name`, `vendor_id`, `order_type`, `contact`, `pickup_address_1`, `pickup_address_2`, `pickup_city`, `pickup_state`, `pickup_zip`, `pickup_date`, `pickup_time`, `dropoff_address_line_1`, `dropoff_address_line_2`, `dropoff_city`, `dropoff_state`, `dropoff_zip`, `dropoff_date`, `dropoff_time`, `detail`, `instruction`, `distance`, `order_status_id`, `amount`, `customer_name`, `customer_contact`, `group_status`) VALUES
-(1, '1001', 'Abc', 4, 'Current', '98410', 'Satation', 'Vijay nagar', 'ratlam', 'Gj', 457993, '0000-00-00', '10:00:00', 'MIg', 'Mig', 'Nagpur', 'Gj', 457993, '0000-00-00', '00:00:00', 'heads', 'Glass', '32', 2, 0, 'demo', '235687', 'group'),
-(2, '1002', 'abc', 3, 'Current', '32109', 'Gangwal Station', 'geeta bhavan', 'dhar', 'Mp', 452002, '2017-10-12', '11:30:00', 'Lig', 'Lig', 'Bhopal', 'Gj', 489332, '2017-11-02', '00:00:00', 'toys', 'Nothing', '25', 3, 0, 'abc', '326596', 'group'),
-(3, '1003', 'abc', 3, 'Current', '568796', 'Mig', 'Lig', 'Indore', 'Mp', 452001, '2017-10-11', '11:30:00', 'Geeta', 'Stal pual', 'indoer', 'Mp', 452001, '2017-11-02', '00:00:00', 'Caps', 'Take Care', '', 3, 0, 'demo', '355874', 'group'),
-(4, '1004', 'abc', 4, 'Current', '124568125', 'Mig', 'Lig', 'Indore', 'Mp', 452001, '0000-00-00', '10:00:00', 'Geeta', 'Stal pual', 'indoer', 'Mp', 452001, '0000-00-00', '00:00:00', 'Caps', 'Take Care', '45', 2, 0, 'abc', '125878', 'group'),
-(5, '1005', 'abc', 3, 'Current', '245355', 'mig', 'mir', 'indore', 'mp', 452001, '0000-00-00', '11:30:00', 'lig', 'lig', 'indore', 'mp', 456987, '0000-00-00', '00:00:00', 'toys', 'Nothing', '23', 4, 20, 'demo', '235687', 'group'),
-(6, '1006', 'abc', 13, 'current', '5586', 'lig', 'lig', 'indore', 'mp', 55862, '0000-00-00', '12:00:00', 'mig', 'mig', 'indore', 'mp', 281247, '0000-00-00', '00:00:00', 'pack', 'no', '20', 1, 0, 'demo', '458791', 'ungroup'),
-(7, '1007', 'abc', 11, 'current', '2385', 'lig', 'lig', 'indore', 'mp', 5865325, '0000-00-00', '01:00:00', 'mig', 'mig', 'ingor', 'mp', 525825, '0000-00-00', '00:00:00', 'Glass', 'Take Care', '10', 1, 0, 'demo', '215487', 'ungroup'),
-(8, '1008', 'cfds', 11, 'current', '23568', 'lig', 'lig', 'indore', 'mp', 2548532, '2017-10-05', '01:00:00', 'hjnh', 'nhjnmihjk', 'jkm,hjun', 'mp', 2532, '2017-10-10', '00:00:00', 'Bottle', 'Take Care', '60', 1, 0, 'abc', '15487', 'ungroup'),
-(9, '1009', 'abc', 11, 'current', '2385', 'lig', 'lig', 'indore', 'mp', 5865325, '2017-10-05', '01:00:00', 'mig', 'mig', 'ingor', 'mp', 525825, '2017-10-10', '00:00:00', 'Steel', 'Its Iron', '10', 1, 0, 'demo', '325984', 'ungroup'),
-(10, '1010', 'cfds', 11, 'current', '23568', 'lig', 'lig', 'indore', 'mp', 2548532, '2017-10-05', '01:00:00', 'hjnh', 'nhjnmihjk', 'jkm,hjun', 'mp', 2532, '2017-10-10', '00:00:00', 'Plastic', 'Any Ways', '60', 1, 0, 'abc', '587412', 'ungroup'),
-(11, '1023', 'Abc', 4, 'Backdated', '124568125', 'Mig', 'Mig', 'Indore', 'Mp', 452001, '2017-11-03', '09:00:00', 'Geeta', 'Stal pual', 'indoer', 'Mp', 452002, '0000-00-00', '10:00:00', 'Caps', 'Take Care', '28', 1, NULL, 'demo', '235687', 'ungroup'),
-(12, '2546', '', 15, 'Current', '546345', 'dfs', 'dfgg', 'vsfdv', 'sad', 543254, '2017-11-03', '04:00:00', 'sdasd', 'sda', 'asdas', 'asdas', 0, '2017-11-06', '09:00:00', 'sdaasd', 'drfg', '', 1, NULL, 'dsaasd', '12546', 'ungroup');
+INSERT INTO `order` (`order_id`, `order_no`, `order_name`, `vendor_id`, `order_type`, `contact`, `pickup_address_1`, `pickup_address_2`, `pickup_city`, `pickup_state`, `pickup_zip`, `pickup_lat`, `pickup_lng`, `pickup_date`, `pickup_time`, `dropoff_address_line_1`, `dropoff_address_line_2`, `dropoff_city`, `dropoff_state`, `dropoff_zip`, `dropoff_lat`, `dropoff_lng`, `dropoff_date`, `dropoff_time`, `detail`, `instruction`, `distance`, `order_status_id`, `amount`, `customer_name`, `customer_contact`, `group_status`) VALUES
+(1, '1001', 'Abc', 4, 'Current', '98410', 'Satation', 'Vijay nagar', 'ratlam', 'Gj', 457993, '', '', '2017-11-01', '10:00:00', 'MIg', 'Mig', 'Nagpur', 'Gj', 457993, '', '', '2017-10-02', '00:00:00', 'heads', 'Glass', '32', 2, 0, 'demo', '235687', 'group'),
+(2, '1002', 'abc', 3, 'Current', '32109', 'Gangwal Station', 'geeta bhavan', 'dhar', 'Mp', 452002, '', '', '2017-10-12', '11:30:00', 'Lig', 'Lig', 'Bhopal', 'Gj', 489332, '', '', '2017-11-02', '00:00:00', 'toys', 'Nothing', '25', 3, 0, 'abc', '326596', 'group'),
+(3, '1003', 'abc', 3, 'Current', '568796', 'Mig', 'Lig', 'Indore', 'Mp', 452001, '', '', '2017-10-11', '11:30:00', 'Geeta', 'Stal pual', 'indoer', 'Mp', 452001, '', '', '2017-11-02', '00:00:00', 'Caps', 'Take Care', '', 3, 0, 'demo', '355874', 'group'),
+(4, '1004', 'abc', 4, 'Current', '124568125', 'Mig', 'Lig', 'Indore', 'Mp', 452001, '', '', '2017-11-01', '10:00:00', 'Geeta', 'Stal pual', 'indoer', 'Mp', 452001, '', '', '2017-11-04', '00:00:00', 'Caps', 'Take Care', '45', 2, 0, 'abc', '125878', 'group'),
+(5, '1005', 'abc', 3, 'Current', '245355', 'mig', 'mir', 'indore', 'mp', 452001, '', '', '2017-11-12', '11:30:00', 'lig', 'lig', 'indore', 'mp', 456987, '', '', '2017-11-13', '00:00:00', 'toys', 'Nothing', '23', 4, 20, 'demo', '235687', 'group'),
+(6, '1006', 'abc', 13, 'current', '5586', 'lig', 'lig', 'indore', 'mp', 55862, '', '', '2017-11-18', '12:00:00', 'mig', 'mig', 'indore', 'mp', 281247, '', '', '2017-11-18', '00:00:00', 'pack', 'no', '20', 1, 0, 'demo', '458791', 'ungroup'),
+(7, '1007', 'abc', 11, 'current', '2385', 'lig', 'lig', 'indore', 'mp', 5865325, '', '', '2017-09-11', '01:00:00', 'mig', 'mig', 'ingor', 'mp', 525825, '', '', '2017-11-18', '00:00:00', 'Glass', 'Take Care', '10', 1, 0, 'demo', '215487', 'ungroup'),
+(8, '1008', 'cfds', 11, 'current', '23568', 'lig', 'lig', 'indore', 'mp', 2548532, '', '', '2017-10-05', '01:00:00', 'hjnh', 'nhjnmihjk', 'jkm,hjun', 'mp', 2532, '', '', '2017-10-10', '00:00:00', 'Bottle', 'Take Care', '60', 1, 0, 'abc', '15487', 'ungroup'),
+(9, '1009', 'abc', 11, 'current', '2385', 'lig', 'lig', 'indore', 'mp', 5865325, '', '', '2017-10-05', '01:00:00', 'mig', 'mig', 'ingor', 'mp', 525825, '', '', '2017-10-10', '00:00:00', 'Steel', 'Its Iron', '10', 1, 0, 'demo', '325984', 'ungroup'),
+(10, '1010', 'cfds', 11, 'current', '23568', 'lig', 'lig', 'indore', 'mp', 2548532, '', '', '2017-10-05', '01:00:00', 'hjnh', 'nhjnmihjk', 'jkm,hjun', 'mp', 2532, '', '', '2017-10-10', '00:00:00', 'Plastic', 'Any Ways', '60', 1, 0, 'abc', '587412', 'ungroup'),
+(11, '1023', 'Abc', 4, 'Backdated', '124568125', 'Mig', 'Mig', 'Indore', 'Mp', 452001, '', '', '2017-11-03', '09:00:00', 'Geeta', 'Stal pual', 'indoer', 'Mp', 452002, '', '', '2017-11-03', '10:00:00', 'Caps', 'Take Care', '28', 1, NULL, 'demo', '235687', 'ungroup'),
+(12, '2546', '', 15, 'Current', '546345', 'dfs', 'dfgg', 'vsfdv', 'sad', 543254, '', '', '2017-11-03', '04:00:00', 'sdasd', 'sda', 'asdas', 'asdas', 0, '', '', '2017-11-06', '09:00:00', 'sdaasd', 'drfg', '', 1, NULL, 'dsaasd', '12546', 'ungroup'),
+(13, '1212121212', 'sudeep_data', 3, 'Backdated', '123', '30', 'Pipliyahana', 'Indore', 'Madhya Pradesh', 452001, '22.7062975', '75.90411100000006', '2017-11-18', '12:22:00', '20', 'Stuttgart Ost', 'Stuttgart', 'Baden-Württemberg', 70188, '48.7842794', '9.19670259999998', '2017-11-18', '10:22:00', 'demo', 'demo', '', 1, 12121, 'sudeep', '123456', 'ungroup');
 
 -- --------------------------------------------------------
 
@@ -272,7 +277,7 @@ ALTER TABLE `group_order_conn`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `order_proof`

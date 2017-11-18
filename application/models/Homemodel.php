@@ -251,7 +251,7 @@ Class Homemodel extends CI_Model
         }
 
 
-        $this->db->select_sum('quantity');
+        $this->db->select('*');
         $this->db->from('order');
         $this->db->where('order_status_id',4);
         $this->db->where('vendor_id', $vendorid);
@@ -261,7 +261,7 @@ Class Homemodel extends CI_Model
         } else {
             $this->db->where('dropoff_date', $currentdate);             
         }
-        $totalquatity = $this->db->get()->row()->quantity;
+        $totalquatity = $this->db->get()->num_rows();
         return $totalquatity;
     }
 
@@ -448,40 +448,51 @@ Class Homemodel extends CI_Model
     //   vendor registration 
     public function addorder($model_data) 
     {
-        $orderno = $model_data['orderno'];
-        $customername = $model_data['customername'];
-        $customercontact = $model_data['customercontact'];
-        $details = $model_data['details'];
-        $instruction = $model_data['instruction'];
-        $contact = $model_data['contact']; 
-        $pickupaddline1 = $model_data['pickupaddline1'];
-        $pickupaddline2 = $model_data['pickupaddline2'];
-        $pickuppostcode = $model_data['pickuppostcode'];
-        $pickupstate = $model_data['pickupstate'];
-        $dropofaddline1 = $model_data['dropofaddline1'];
-        $dropofaddline2 = $model_data['dropofaddline2']; 
-        $dropofpostcode = $model_data['dropofpostcode'];
-        $dropofstate = $model_data['dropofstate'];
-        // $deliverytime = $model_data['deliverytime'];
-        $dropcity = $model_data['dropcity'];
-        // $quanity = $model_data['quanity'];
-        $ordertype = $model_data['ordertype']; 
-        $pickupcity = $model_data['pickupcity'];
-        $pickuptime = $model_data['pickuptime'];
-        $pickupdate = $model_data['pickupdate']; 
-        $dropoftime = $model_data['dropoftime'];
-        $dropofdate = $model_data['dropofdate'];
         $vendorid = $model_data['vendorid'];
-        $ordername = $model_data['ordername']; 
-        $amount = $model_data['amount']; 
+
+        $orderno        = $model_data['orderno'];
+        $ordername      = $model_data['ordername']; 
+        $customername   = $model_data['customername'];
+        $customercontact = $model_data['customercontact'];
+        $details        = $model_data['details'];
+        $instruction        = $model_data['instruction'];
+        $contact        = $model_data['contact'];
+        $amount         = $model_data['amount']; 
+        $ordertype      = $model_data['ordertype']; 
+
+        $pickup_lat         = $model_data['pickup_lat'];
+        $pickup_lng         = $model_data['pickup_lng'];
+        $pickup_street_number = $model_data['pickup_street_number'];
+        $pickup_route       = $model_data['pickup_route'];
+        $pickup_sublocality_level_1 = $model_data['pickup_sublocality_level_1'];
+        $pickup_locality    = $model_data['pickup_locality'];
+        $pickup_administrative_area_level_1 = $model_data['pickup_administrative_area_level_1'];
+        $pickup_country     = $model_data['pickup_country'];
+        $pickup_postal_code = $model_data['pickup_postal_code'];
+        $pickup_time        = $model_data['pickup_time'];
+        $pickup_date        = $model_data['pickup_date']; 
+
+        $dropoff_lat        = $model_data['dropoff_lat'];
+        $dropoff_lng        = $model_data['dropoff_lng'];
+        $dropoff_street_number = $model_data['dropoff_street_number'];
+        $dropoff_route      = $model_data['dropoff_route'];
+        $dropoff_sublocality_level_1 = $model_data['dropoff_sublocality_level_1'];
+        $dropoff_locality   = $model_data['dropoff_locality']; 
+        $dropoff_administrative_area_level_1 = $model_data['dropoff_administrative_area_level_1'];
+        $dropoff_country    = $model_data['dropoff_country'];
+        $dropoff_postal_code = $model_data['dropoff_postal_code'];
+        $dropoff_time       = $model_data['dropoff_time'];
+        $dropoff_date       = $model_data['dropoff_date'];
+
+
         $order_status_id = 1;
 
-        if ($ordertype == "Backdated") {
-            $order_status_id = 4;
-        }
+        // if ($ordertype == "Backdated") {
+        //     $order_status_id = 4;
+        // }
 
-        $sql = "INSERT INTO `order`(`order_no`,`pickup_address_1`,`pickup_address_2`,`pickup_city`,`pickup_state`,`pickup_zip`,`dropoff_address_line_1`,`dropoff_address_line_2`,`dropoff_city`,`dropoff_state`,`dropoff_zip`,`detail`,`instruction`,`order_type`,`pickup_time`,`contact`,`pickup_date`,`dropoff_date`,`dropoff_time`,`order_status_id`,`vendor_id`,`customer_name`,`customer_contact`,`order_name`,`amount`)  
-            VALUES('$orderno','$pickupaddline1','$pickupaddline2','$pickupcity','$pickupstate','$pickuppostcode','$dropofaddline1','$dropofaddline2','$dropcity','$dropofstate','$dropofpostcode','$details','$instruction','$ordertype','$pickuptime','$contact','$pickupdate','$dropofdate','$dropoftime','$order_status_id','$vendorid','$customername','$customercontact','$ordername','$amount')";
+        $sql = "INSERT INTO `order`(`order_no`,`order_name`,`vendor_id`,`order_type`,`contact`,`pickup_address_1`,`pickup_address_2`,`pickup_city`,`pickup_state`,`pickup_zip`,`pickup_lat`,`pickup_lng`,`pickup_date`,`pickup_time`,`dropoff_address_line_1`,`dropoff_address_line_2`,`dropoff_city`,`dropoff_state`,`dropoff_zip`,`dropoff_lat`,`dropoff_lng`,`dropoff_date`,`dropoff_time`,`detail`,`instruction`,`order_status_id`,`amount`,`customer_name`,`customer_contact`)  
+            VALUES('$orderno','$ordername','$vendorid','$ordertype','$contact','$pickup_street_number'+'$pickup_route','$pickup_sublocality_level_1','$pickup_locality','$pickup_administrative_area_level_1','$pickup_postal_code','$pickup_lat','$pickup_lng','$pickup_date','$pickup_time','$dropoff_street_number'+'$dropoff_route','$dropoff_sublocality_level_1','$dropoff_locality','$dropoff_administrative_area_level_1','$dropoff_postal_code','$dropoff_lat','$dropoff_lng','$dropoff_date','$dropoff_time','$details','$instruction','$order_status_id','$amount','$customername','$customercontact')";
         $result = $this->db->query($sql);
         return true;
 

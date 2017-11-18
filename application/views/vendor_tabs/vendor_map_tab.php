@@ -191,7 +191,28 @@
 
 
 
+
 <script>
+
+
+
+
+
+
+
+function initialize() {
+  initMap();
+  initAutocomplete();
+}
+
+
+
+
+
+
+
+
+
   var customLabel = {
     restaurant: {
       label: 'R'
@@ -335,10 +356,4 @@
 
         function doNothing() {}
 
-        
       </script>
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnaHkFFR6tUuVZ-MjXB-0CjM9TieZiYnw&callback=initMap">
-      </script>
-
-
-

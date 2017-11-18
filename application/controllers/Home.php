@@ -25,7 +25,7 @@ class Home extends MY_Controller
 
     public function vendorDashboard($profile_tab = "home",$rider_id="" )
     {   
-         $this->is_logged_in();
+        $this->is_logged_in();
         $userInfo = $this->session->userdata('login_data');
         $model_data = array(
             'id' => $userInfo->user_id
@@ -67,6 +67,68 @@ class Home extends MY_Controller
         $this->render('vendor_dashboard');
     }
 
+
+    public function vendorreportfororderquality($profile_tab = "report")
+    {
+        $userInfo = $this->session->userdata('login_data');
+        $model_data = array(
+            'vendorid' => $userInfo->user_id,
+            'period' => $this->input->post('period'),
+            'fromdate' => $this->input->post('fromdate'),
+            'todate' => $this->input->post('todate'),
+            'id' => $userInfo->user_id,
+        );
+   
+        $totalquatity = $this->homemodel->vendorreportfororderquality($model_data);
+        $totaldistance = $this->homemodel->vendorreportfordistance($model_data);
+        $totalcancelled = $this->homemodel->vendorreportforcancelledorder($model_data);
+        $totalamount = $this->homemodel->vendorreportforpriceorder($model_data);
+
+        if (!empty($model_data['period'])) {         
+            $date_date = $this->homemodel->getPeriodDetails($model_data);
+            $currentdate = $date_date['currentdate'];
+            $fromdate = date("m-d-Y",strtotime($date_date['fromdate']));
+            $todate = date("m-d-Y",strtotime($date_date['todate']));
+        } else {
+            $currentdate = "";
+            $fromdate = $model_data['fromdate'];
+            $todate = $model_data['todate'];
+        }
+      
+        $this->mViewData['data'] = array(            
+
+            // 'ordertypedatalist' => $this->homemodel->getordertypedatalist(),
+            'orderdatalist' => $this->homemodel->getorderdatalist($model_data),
+            'vendordatainfo' => $this->homemodel->getvendordatainfo($model_data),
+            'ongoingorderlist' => $this->homemodel->getongoingorderlist($model_data),
+            'completetaskorderlist' => $this->homemodel->getcompletetaskorderlist($model_data),
+            'ongoingRiderList' => $this->homemodel->getongoingRiderList($model_data),
+            // 'riderlocationlist' => $this->homemodel->getriderlocationlist(),
+            'rider_id' => "",
+            'riderData' => "",                
+            'riderLocation' => "",
+
+
+            'profile_tab' => $profile_tab,
+            'totalquatity' => $totalquatity,
+            'totaldistance' => $totaldistance,
+            'totalcancelled' => $totalcancelled,
+            'totalamount' => $totalamount,
+            'period' => $model_data['period'],
+            'currentdate' => $currentdate,
+            'fromdate' => $fromdate,
+            'todate' => $todate,
+        );
+
+        if (!empty($totalquatity) || !empty($totaldistance) || !empty($totalcancelled) || !empty($totalamount) ) {
+            $this->session->set_flashdata('report_msg', '');  
+        }
+        else {
+            $this->session->set_flashdata('report_msg', 'No Data Available');
+        } 
+        $this->mPageTitle = 'VENDORDASHBOARD';
+        $this->render('vendor_dashboard');       
+    } 
 
 // =============================  Forget Password Controller Request ====================================//    
 
@@ -201,32 +263,41 @@ class Home extends MY_Controller
     public function addorder()
     {
         $model_data = array(
-            'orderno' => $this->input->post('orderno'),
             'vendorid' => $this->input->post('vendorid'),
+
+            'orderno' => $this->input->post('orderno'),
+            'ordername' => $this->input->post('ordername'),
             'customername' => $this->input->post('customername'),
             'customercontact' => $this->input->post('customercontact'),
             'details' => $this->input->post('details'),
             'instruction' => $this->input->post('instruction'),
-            'contact' => $this->input->post('contact'),
-            'pickupaddline1' => $this->input->post('pickupaddline1'),
-            'pickupaddline2' => $this->input->post('pickupaddline2'),
-            'pickuppostcode' => $this->input->post('pickuppostcode'),
-            'pickupstate' => $this->input->post('pickupstate'),
-            'dropofaddline1' => $this->input->post('dropofaddline1'),
-            'dropofaddline2' => $this->input->post('dropofaddline2'),
-            'dropofpostcode' => $this->input->post('dropofpostcode'),
-            'dropofstate' => $this->input->post('dropofstate'),
-            // 'deliverytime' => $this->input->post('deliverytime'),
-            'pickupcity' => $this->input->post('pickupcity'), 
-            'dropcity' => $this->input->post('dropcity'),
-            // 'quanity' => $this->input->post('quanity'),
-            'ordertype' => $this->input->post('ordertype'), 
-            'pickuptime' => $this->input->post('pickuptime'), 
-            'pickupdate' => $this->input->post('pickupdate'),
-            'dropoftime' => $this->input->post('dropoftime'), 
-            'dropofdate' => $this->input->post('dropofdate'), 
-            'ordername' => $this->input->post('ordername'), 
+            'contact' => $this->input->post('contact'), 
             'amount' => $this->input->post('amount'), 
+            'ordertype' => $this->input->post('ordertype'), 
+
+            'pickup_lat' => $this->input->post('pickup_lat'),
+            'pickup_lng' => $this->input->post('pickup_lng'),
+            'pickup_street_number' => $this->input->post('pickup_street_number'),
+            'pickup_route' => $this->input->post('pickup_route'),
+            'pickup_sublocality_level_1' => $this->input->post('pickup_sublocality_level_1'),
+            'pickup_locality' => $this->input->post('pickup_locality'), 
+            'pickup_administrative_area_level_1' => $this->input->post('pickup_administrative_area_level_1'), 
+            'pickup_country' => $this->input->post('pickup_country'),
+            'pickup_postal_code' => $this->input->post('pickup_postal_code'), 
+            'pickup_time' => $this->input->post('pickup_time'), 
+            'pickup_date' => $this->input->post('pickup_date'),
+
+            'dropoff_lat' => $this->input->post('dropoff_lat'),
+            'dropoff_lng' => $this->input->post('dropoff_lng'),
+            'dropoff_street_number' => $this->input->post('dropoff_street_number'),
+            'dropoff_route' => $this->input->post('dropoff_route'),
+            'dropoff_sublocality_level_1' => $this->input->post('dropoff_sublocality_level_1'),
+            'dropoff_locality' => $this->input->post('dropoff_locality'), 
+            'dropoff_administrative_area_level_1' => $this->input->post('dropoff_administrative_area_level_1'), 
+            'dropoff_country' => $this->input->post('dropoff_country'),
+            'dropoff_postal_code' => $this->input->post('dropoff_postal_code'), 
+            'dropoff_time' => $this->input->post('dropoff_time'), 
+            'dropoff_date' => $this->input->post('dropoff_date')
         );
 
         $this->homemodel->addorder($model_data); 
@@ -311,64 +382,7 @@ class Home extends MY_Controller
     }
 
 
-
-    public function vendorreportfororderquality($profile_tab = "report")
-    {
-        $userInfo = $this->session->userdata('login_data');
-        $model_data = array(
-            'vendorid' => $userInfo->user_id,
-            'period' => $this->input->post('period'),
-            'fromdate' => $this->input->post('fromdate'),
-            'todate' => $this->input->post('todate'),
-            'id' => $userInfo->user_id,
-        );
    
-        $totalquatity = $this->homemodel->vendorreportfororderquality($model_data);
-        $totaldistance = $this->homemodel->vendorreportfordistance($model_data);
-        $totalcancelled = $this->homemodel->vendorreportforcancelledorder($model_data);
-        $totalamount = $this->homemodel->vendorreportforpriceorder($model_data);
-
-        if (!empty($model_data['period'])) {         
-            $date_date = $this->homemodel->getPeriodDetails($model_data);
-            $currentdate = $date_date['currentdate'];
-            $fromdate = date("m-d-Y",strtotime($date_date['fromdate']));
-            $todate = date("m-d-Y",strtotime($date_date['todate']));
-        } else {
-            $currentdate = "";
-            $fromdate = $model_data['fromdate'];
-            $todate = $model_data['todate'];
-        }
-      
-        $this->mViewData['data'] = array(            
-
-            // 'ordertypedatalist' => $this->homemodel->getordertypedatalist(),
-            'orderdatalist' => $this->homemodel->getorderdatalist($model_data),
-            'vendordatainfo' => $this->homemodel->getvendordatainfo($model_data),
-            'ongoingorderlist' => $this->homemodel->getongoingorderlist($model_data),
-            'completetaskorderlist' => $this->homemodel->getcompletetaskorderlist($model_data),
-            // 'riderlocationlist' => $this->homemodel->getriderlocationlist(),
-
-
-            'profile_tab' => $profile_tab,
-            'totalquatity' => $totalquatity,
-            'totaldistance' => $totaldistance,
-            'totalcancelled' => $totalcancelled,
-            'totalamount' => $totalamount,
-            'period' => $model_data['period'],
-            'currentdate' => $currentdate,
-            'fromdate' => $fromdate,
-            'todate' => $todate,
-        );
-
-        if (!empty($totalquatity) || !empty($totaldistance) || !empty($totalcancelled) || !empty($totalamount) ) {
-            $this->session->set_flashdata('report_msg', '');  
-        }
-        else {
-            $this->session->set_flashdata('report_msg', 'No Data Available');
-        } 
-        $this->mPageTitle = 'VENDORDASHBOARD';
-        $this->render('vendor_dashboard');       
-    }    
 
     public function getRiderOrderData()
     {
