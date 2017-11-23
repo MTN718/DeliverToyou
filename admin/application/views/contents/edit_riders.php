@@ -31,6 +31,7 @@
                                         <form id="form1" class="form-horizontal" action="<?php echo base_url(); ?>index.php/admin/addrider" method="post" enctype="multipart/form-data">
                                             <input type="hidden" name="id" value="<?php if (!empty($riderdata)) echo $riderdata->user_id; ?>">
                                             <input type="hidden" name="user_type_id" value="rider">
+                                            <input type="hidden" name="status" value="avaliable">
                                     <?php } ?>        
 
                                         <div class="form-group">

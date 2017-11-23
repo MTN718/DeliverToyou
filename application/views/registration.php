@@ -1,6 +1,7 @@
 <style type="text/css">
 	.logo{
 		margin-bottom: 20px;
+		margin-top: 40px;
 	}
 </style>
 

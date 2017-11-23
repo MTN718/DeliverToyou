@@ -59,7 +59,7 @@ class Admin extends CI_Controller {
 		$data['unassignorderlistondashborad'] = $this->adminmodel->getunassignorderlistondashborad();
 		$data['cancelorderlistondashborad'] = $this->adminmodel->getcancelorderlistondashborad();
 		$data['avaliableriderlistondashborad'] = $this->adminmodel->getavaliableriderlistondashborad();
-	//	$data['onlineriderlistondashborad'] = $this->adminmodel->getonlineriderlistondashborad();
+		$data['onlineriderlistondashborad'] = $this->adminmodel->getonlineriderlistondashborad();
 		$this->load->view('content_handler', $data);
 	}
 
@@ -94,6 +94,7 @@ class Admin extends CI_Controller {
 	{
 		$this->checklogin();
 		$data['taskorderlist'] = $this->adminmodel->gettaskorderlist();
+		$data['allriderdatalist'] = $this->adminmodel->getallriderdatalist();
 		$data['riderdatalist'] = $this->adminmodel->getriderdatalist();
 		$data['pageName'] = "TASKLIST";
 		$this->load->view('content_handler', $data);
@@ -144,7 +145,7 @@ class Admin extends CI_Controller {
 	public function riders()
 	{
 		$this->checklogin();
-		$data['riderdatalist'] = $this->adminmodel->getriderdatalist();
+		$data['allriderdatalist'] = $this->adminmodel->getallriderdatalist();
 		$data['pageName'] = "RIDERS";
 		$this->load->view('content_handler', $data);
 	}
@@ -324,6 +325,7 @@ class Admin extends CI_Controller {
 	            'password' => $this->input->post('password'),
 	            'address' => $this->input->post('address'),
 	            'name' => $this->input->post('name'),
+	            'status' => $this->input->post('status'),
             );
             $this->adminmodel->addriderwithoutimgInfo($model_data);
             $this->session->set_flashdata('success_msg', 'Rider Added Successfully...');
@@ -341,6 +343,7 @@ class Admin extends CI_Controller {
 	            'emergency_contact_no' => $this->input->post('emergency_contact_no'),
 	            'password' => $this->input->post('password'),
 	            'name' => $this->input->post('name'),
+	            'status' => $this->input->post('status'),
 	            'address' => $this->input->post('address'),
                 'image' => $data1['upload_data']['file_name'],
             );

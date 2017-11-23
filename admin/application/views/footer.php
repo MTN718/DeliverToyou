@@ -127,10 +127,15 @@
             dataType: "json",       
             success: function(response)  
             {   
-              if(data['index'] == 2)
-                  location.reload();
-              else
-                  $("#riderAction"+data['id']).load(location.href + " #riderAction"+data['id']);   
+              if(response.msg == "success") {
+
+                if (data['index'] == 1) {
+                    location.reload();
+                    $("#div1").fadeIn();
+              }
+                } else {
+                    $("#div2").fadeIn();
+                    }   
             }   
         });
       });
@@ -153,10 +158,15 @@
             dataType: "json",       
             success: function(response)  
             {   
-              if(data['index'] == 2)
-                  location.reload();
-              else
-                  $("#vendorAction"+data['id']).load(location.href + " #vendorAction"+data['id']);
+              if(response.msg == "success") {
+
+                if (data['index'] == 1) {
+                    location.reload();
+                    $("#div1").fadeIn();
+              }
+                } else {
+                    $("#div2").fadeIn();
+                    }
             }   
         });
       });

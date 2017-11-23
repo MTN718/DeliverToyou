@@ -116,7 +116,7 @@
                         <div class="row">
                             <div class="col-md-12 m-b-20">
                                 <select class="form-control" name="rider_id" data-style="input-sm btn-default">
-                                    <?php foreach ($riderdatalist as $riderdata) { ?>
+                                    <?php foreach ($allriderdatalist as $riderdata) { ?>
                                         <option value="<?php if (!empty($riderdata->user_id)) echo $riderdata->user_id; ?>"> <?php if (!empty($riderdata->username)) echo $riderdata->username; ?> </option>
                                     <?php } ?>
                                 </select>

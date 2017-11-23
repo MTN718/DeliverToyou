@@ -15,6 +15,7 @@ Class Adminmodel extends CI_Model
         $this->db->select('*');
         $this->db->from('users');
         $this->db->where('user_type', 'vendor');
+        $this->db->where('status !=', 'deleted');
         return $this->db->get()->result();
     }
 
@@ -47,12 +48,23 @@ Class Adminmodel extends CI_Model
         return $this->db->get()->row();
     } 
 
-    // Get Rider List data
+    // Get Avaliable Rider List data
     public function getriderdatalist()
     {  
         $this->db->select('*');
         $this->db->from('users');
         $this->db->where('user_type', 'rider');
+        $this->db->where('status', 'avaliable');
+        return $this->db->get()->result();
+    }  
+
+     // Get All Rider List data
+    public function getallriderdatalist()
+    {  
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('user_type', 'rider');
+        $this->db->where('status !=', 'deleted');
         return $this->db->get()->result();
     }  
 
@@ -181,6 +193,17 @@ Class Adminmodel extends CI_Model
         $this->db->select('*');
         $this->db->from('users');
         $this->db->where('user_type','rider');
+        $this->db->where('status', 'avaliable');
+        $this->db->limit(4);
+        return $this->db->get()->result();
+    }     
+
+    public function getonlineriderlistondashborad()
+    {   
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('user_type','rider');
+        $this->db->where('login_status', 1);
         $this->db->limit(4);
         return $this->db->get()->result();
     }     
@@ -329,11 +352,6 @@ Class Adminmodel extends CI_Model
  
     }
 
-
-
-
-
-
     public function gettaskorderlistsindividual($model_data)
     {   $id = $model_data['id'];
 
@@ -345,7 +363,51 @@ Class Adminmodel extends CI_Model
         $this->db->where('order.order_status_id !=',4);
         $this->db->where('order.order_status_id !=',2);
         return $this->db->get()->result();
-    } 
+    }  
+
+
+    public function checkridertask($model_data)
+    {
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('user_id',$model_data['id']);
+        $this->db->where('status','ontask');
+        return $this->db->get()->result();
+    }
+
+    public function checkvendororder($model_data)
+    {
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->join('order', 'order.vendor_id = users.user_id');
+        $this->db->where('users.user_id',$model_data['id']);
+        $this->db->where('order.order_status_id !=',4);
+        return $this->db->get()->result();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -402,10 +464,11 @@ Class Adminmodel extends CI_Model
         $emergency_contact_no = $model_data['emergency_contact_no'];
         $name = $model_data['name'];
         $address = $model_data['address'];
+        $status = $model_data['status']; 
         $temppassword = $model_data['password']; 
         $password = password_hash($temppassword, PASSWORD_BCRYPT);
 
-        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type`,`id_proof`,`license_no`,`emergency_contact_no`,`name`,`address`)  VALUES('$username','$email','$password','$number','$user_type_id','$id_proof','$license_no','$emergency_contact_no','$name','$address')";
+        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type`,`id_proof`,`license_no`,`emergency_contact_no`,`name`,`address`,`status`)  VALUES('$username','$email','$password','$number','$user_type_id','$id_proof','$license_no','$emergency_contact_no','$name','$address','$status')";
         $result = $this->db->query($sql);
         return true;
 
@@ -424,11 +487,12 @@ Class Adminmodel extends CI_Model
         $emergency_contact_no = $model_data['emergency_contact_no'];
         $name = $model_data['name'];
         $address = $model_data['address'];
+        $status = $model_data['status']; 
         $temppassword = $model_data['password']; 
         $password = password_hash($temppassword, PASSWORD_BCRYPT);
         $image = $model_data['image'];
 
-        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type`,`id_proof`,`license_no`,`emergency_contact_no`,`image_url`,`address`,`name`)  VALUES('$username','$email','$password','$number','$user_type_id','$id_proof','$license_no','$emergency_contact_no','$image','$address','$name')";
+        $sql = "INSERT INTO users(`username`,`email`,`password`,`mobile`,`user_type`,`id_proof`,`license_no`,`emergency_contact_no`,`image_url`,`address`,`name`,`status`)  VALUES('$username','$email','$password','$number','$user_type_id','$id_proof','$license_no','$emergency_contact_no','$image','$address','$name','$status')";
         $result = $this->db->query($sql);
         return true;
     }
@@ -446,6 +510,9 @@ Class Adminmodel extends CI_Model
         $order_id = $this->db->get()->result();
 
         $sql = "UPDATE `group_order` SET `rider_id` = '$rider_id' WHERE group_order_id = '$group_id'";
+        $result = $this->db->query($sql);
+
+        $sql = "UPDATE `users` SET `status` = 'ontask' WHERE user_id = '$rider_id'";
         $result = $this->db->query($sql);
 
         foreach ($order_id as $id) {
@@ -546,6 +613,9 @@ Class Adminmodel extends CI_Model
 
         $sql = "UPDATE `group_order` SET `rider_id` = '$rider_id' WHERE group_order_id = '$group_id'";
         $this->db->query($sql);
+
+        $sql = "UPDATE `users` SET `status` = 'ontask' WHERE user_id = '$rider_id'";
+        $result = $this->db->query($sql);
 
         return true;
     } 
@@ -684,8 +754,10 @@ Class Adminmodel extends CI_Model
         );
         $colVal = '';
         $colIndex = $rowid = 0;
+
+        $riderresult = $this->checkridertask($model_data);
          
-        if(isset($model_data)){
+        if(empty($riderresult)){
             if(isset($model_data['val']) && !empty($model_data['val'])) {
                 $colVal =  preg_replace('/\s+/S', " ", $model_data['val']);
             }
@@ -697,8 +769,8 @@ Class Adminmodel extends CI_Model
             if(isset($model_data['id']) && $model_data['id'] != NULL) {
               $rowid = $model_data['id'];
             }
-                $sql = "DELETE FROM users WHERE user_id='".$rowid."'";
-
+            //    $sql = "DELETE FROM users WHERE user_id='".$rowid."'";
+                $sql = "UPDATE `users` SET `status` = 'deleted' WHERE user_id = '".$rowid."'";
 
             $this->db->query($sql);
             return true;
@@ -714,8 +786,11 @@ Class Adminmodel extends CI_Model
         );
         $colVal = '';
         $colIndex = $rowid = 0;
+
+
+        $vendorresult = $this->checkvendororder($model_data);
          
-        if(isset($model_data)){
+        if(empty($vendorresult)){
             if(isset($model_data['val']) && !empty($model_data['val'])) {
                 $colVal =  preg_replace('/\s+/S', " ", $model_data['val']);
             }
@@ -727,8 +802,8 @@ Class Adminmodel extends CI_Model
             if(isset($model_data['id']) && $model_data['id'] != NULL) {
               $rowid = $model_data['id'];
             }
-                $sql = "DELETE FROM users WHERE user_id='".$rowid."'";
-
+            //  $sql = "DELETE FROM users WHERE user_id='".$rowid."'";
+                $sql = "UPDATE `users` SET `status` = 'deleted' WHERE user_id = '".$rowid."'"; 
 
             $this->db->query($sql);
             return true;

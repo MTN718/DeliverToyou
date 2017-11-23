@@ -127,8 +127,8 @@
                                 <tbody>   
                                     <?php if(isset($onlineriderlistondashborad) and !empty($onlineriderlistondashborad)) foreach ($onlineriderlistondashborad as $onlineriderlist) { ?>
                                         <tr>
-                                            <td> <?php if (!empty($onlineriderlist->username)) echo $onlineriderlist->username; ?> </td>
-                                            <td> <?php if (!empty($onlineriderlist->username)) echo $onlineriderlist->username; ?> </td>
+                                            <td> <?php if (!empty($onlineriderlist->user_id)) echo $onlineriderlist->user_id; ?> </td>
+                                            <td> <?php if (!empty($onlineriderlist->address)) echo $onlineriderlist->address; ?> </td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
@@ -155,18 +155,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($avaliableriderlistondashborad as $avaliableriderlist) { 
-                                        $this->db->select('*');
-                                        $this->db->from('group_order');
-                                        $this->db->where('group_order.rider_id',$avaliableriderlist->user_id);
-                                        $this->db->join('group_order_conn', 'group_order_conn.group_order_id = group_order.group_order_id');
-                                        $this->db->join('order', 'order.order_id = group_order_conn.order_id');
-                                        $this->db->where('order_status_id',1);
-                                        $avaliableridername = $this->db->get()->row();
-                                        ?> 
+                                    <?php foreach ($avaliableriderlistondashborad as $avaliableriderlist) { ?> 
                                         <tr>
-                                            <td> <?php if (!empty($avaliableridername->user_id)) echo $avaliableridername->user_id; ?> </td>
-                                            <td> <?php if (!empty($avaliableridername->username)) echo $avaliableridername->username; ?> </td>
+                                            <td> <?php if (!empty($avaliableriderlist->user_id)) echo $avaliableriderlist->user_id; ?> </td>
+                                            <td> <?php if (!empty($avaliableriderlist->address)) echo $avaliableriderlist->address; ?> </td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
